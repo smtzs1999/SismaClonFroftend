@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './App.css';
+import { OurDoctors } from './components/OurDoctors';
 
 function App() {
   const images = [
@@ -19,6 +20,7 @@ function App() {
                                                                                                                                                                                                                                                                               
 
   return (
+    <>
     <div className="app">
       <header className="app-header">
         <div className="logo">Centro de Salud</div>
@@ -45,6 +47,9 @@ function App() {
         </div>
       </main>
     </div>
+
+        <OurDoctors/>
+    </>
   );
 }
 
