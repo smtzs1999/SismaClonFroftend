@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const images = [
+    '/src/assets/sistema/carrusel/foto1.jpg',
+    '/src/assets/sistema/carrusel/foto2.jpg',
+    '/src/assets/sistema/carrusel/foto3.jpg'
+  ];
+
+  const [colors, setColors] = useState({
+    primary: '#7cc576',
+    button: '#8ac53f',
+    buttonText: '#fff',
+    text: '#000'
+  });
+                                                                                                                                                                                                                                                                              
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <header className="app-header">
+        <div className="logo">Centro de Salud</div>
+        <nav className="nav">
+          <a href="#">Inicio</a>
+          <a href="#">Quienes Somos</a>
+          <a href="#">planes de salud</a>
+          <a href="#">Contacto</a>
+        </nav>
+        <button className="cta-button">Acceder a mi cuenta</button>
+      </header>
+
+      <main className="hero-section">
+        <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
+          {images.map((img, idx) => (
+            <div key={idx}>
+              <img src={img} alt={`slide-${idx}`} className="hero-image" />
+            </div>
+          ))}
+        </Carousel>
+        <div className="overlay">
+          <h1>Sus Beneficios Para la Salud</h1>
+          <button className="read-button">Ver Más</button>
+        </div>
+      </main>
+    </div>
+  );
 }
 
-export default App
+export default App;
