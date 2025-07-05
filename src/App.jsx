@@ -1,23 +1,53 @@
-import { useState } from 'react'
-import ReactDOM from 'react-dom/client';
-import CardsApp from './components/Cards'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect, useState } from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import './App.css';
+import CardsApp from './Cards';
+
 function App() {
+  const images = [
+    '/src/assets/sistema/carrusel/foto1.jpg',
+    '/src/assets/sistema/carrusel/foto2.jpg',
+    '/src/assets/sistema/carrusel/foto3.jpg'
+  ];
+
+  const [colors, setColors] = useState({
+    primary: '#7cc576',
+    button: '#8ac53f',
+    buttonText: '#fff',
+    text: '#000'
+  });
+                                                                                                                                                                                                                                                                              
 
   return (
-    <>
-      <div className="container">
-      <div className="row">
-        <div className="col-12">
-          <h1 className="mt-2 text-center alert alert-success text-lg-center" >
-            Healthy Center
-          </h1>
+    <div className="app">
+      <header className="app-header">
+        <div className="logo">Centro de Salud</div>
+        <nav className="nav">
+          <a href="#">Inicio</a>
+          <a href="#">Quienes Somos</a>
+          <a href="#">planes de salud</a>
+          <a href="#">Contacto</a>
+        </nav>
+        <button className="cta-button">Acceder a mi cuenta</button>
+      </header>
+
+      <main className="hero-section">
+        <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
+          {images.map((img, idx) => (
+            <div key={idx}>
+              <img src={img} alt={`slide-${idx}`} className="hero-image" />
+            </div>
+          ))}
+        </Carousel>
+        <div className="overlay">
+          <h1>Sus Beneficios Para la Salud</h1>
+          <button className="read-button">Ver Más</button>
         </div>
-      </div>
-    </div>  
-    <CardsApp/>
-    </>
-  )
+      </main>
+      <CardsApp/>
+    </div>    
+  );
 }
 
-export default App
+export default App;
