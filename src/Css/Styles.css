@@ -1,0 +1,20 @@
+.mi-input-telefono {
+  color: black !important;
+  background: #fff !important;
+}
+.topbar-container {
+  display: flex;
+  align-items: center;         /* Centra verticalmente todos los items */
+  justify-content: space-between; /* Espacia los items en toda la línea */
+  background: #fafafd;
+  padding: 12px 32px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.topbar-item {
+  display: flex;
+  align-items: center;         /* Centra verticalmente icono y texto */
+  gap: 8px;                    /* Espacio entre icono y texto */
+  font-size: 12px;
+  color: #333;
+}
