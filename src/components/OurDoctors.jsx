@@ -11,7 +11,6 @@ import doctor7 from "../assets/sistema/doctores/doctor7.jpg";
 import doctor8 from "../assets/sistema/doctores/doctor8.jpg";
 import doctor9 from "../assets/sistema/doctores/doctor9.jpg";
 
-
 const doctorsData = [
   { id: 1, name: "Ana López", area: "Cardiología", phone: "+52 123 456 7890", email: "ana.lopez@hospital.com", image: doctor1 },
   { id: 2, name: "Juana Pérez", area: "Dermatología", phone: "+52 987 654 3210", email: "juana.perez@hospital.com", image: doctor2 },
@@ -26,9 +25,28 @@ const doctorsData = [
 
 export const OurDoctors = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsPerView, setCardsPerView] = useState(3); // número de cards visibles
   const containerRef = useRef(null);
 
-  const allDoctors = [...doctorsData, ...doctorsData];
+  const allDoctors = [...doctorsData, ...doctorsData]; // para el loop infinito
+
+  // Función para actualizar cardsPerView según ancho de ventana
+  const updateCardsPerView = () => {
+    const width = window.innerWidth;
+    if (width < 600) {
+      setCardsPerView(1);
+    } else if (width < 900) {
+      setCardsPerView(2);
+    } else {
+      setCardsPerView(3);
+    }
+  };
+
+  useEffect(() => {
+    updateCardsPerView();
+    window.addEventListener("resize", updateCardsPerView);
+    return () => window.removeEventListener("resize", updateCardsPerView);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,10 +58,13 @@ export const OurDoctors = () => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const cardWidth = container.offsetWidth / 3;
+
+    // Ancho de cada card depende del container y cardsPerView
+    const cardWidth = container.offsetWidth / cardsPerView;
     container.style.transition = "transform 0.5s ease";
     container.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
 
+    // Reseteamos el carrusel si se pasa del total (loop infinito)
     if (currentIndex >= doctorsData.length) {
       setTimeout(() => {
         container.style.transition = "none";
@@ -51,12 +72,11 @@ export const OurDoctors = () => {
         setCurrentIndex(0);
       }, 500);
     }
-  }, [currentIndex]);
+  }, [currentIndex, cardsPerView]);
 
   return (
-    <div style={{ maxWidth: "960px", margin: "0 auto" }}>
-      
-      <Separador title="Our Doctors"/>
+    <div style={{ maxWidth: "960px", margin: "0 auto", padding: "0 10px" }}>
+      <Separador title="Our Doctors" />
 
       {/* Carrusel */}
       <div
@@ -75,7 +95,7 @@ export const OurDoctors = () => {
             <div
               key={index}
               style={{
-                flex: "0 0 33.33%",
+                flex: `0 0 ${100 / cardsPerView}%`, // ancho responsivo
                 boxSizing: "border-box",
                 padding: "0 12px",
               }}
