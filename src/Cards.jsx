@@ -137,6 +137,23 @@ function Carrusel() {
           font-size: 0.9rem;
           color: #555;
         }
+        .img-fija {
+          height: 200px;
+          width: 100%;
+          object-fit: cover;
+          object-position: center;
+          display: block;
+          border-top-left-radius: 0.25rem;
+          border-top-right-radius: 0.25rem;
+        }
+        .img-perfil {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+          object-position: top;
+          display: block;
+        }
       `}</style>
       <h2 className="text-center mb-5">Latest News</h2>
       <div className="position-relative">
@@ -160,24 +177,15 @@ function Carrusel() {
               }}
               onClick={() => navegar(`/details/${item.id}`)}
             >
-              <img
-                src={item.imagen}
-                className="card-img-top"
-                alt={item.titulo}
-                style={{ height: '200px', objectFit: 'cover', objectPosition: 'center'}}
-              />
-              <div className="card-body d-flex flex-column justify-content-between" style={{ flexGrow: 1, minHeight: '200px' }}>
+              <img src={item.imagen} className="img-fija" alt={item.titulo} />
+              <div className="card-body d-flex flex-column justify-content-between" style={{ flexGrow: 1 }}>
                 <div>
-                  <p className="text-muted small">{item.fecha}</p>
+                  <p className="text-muted small"><strong>{item.fecha}</strong></p>
                   <h5 className="card-title texto-corto">{item.titulo}</h5>
                   <p className="card-descripcion">{item.descripcion}</p>
                 </div>
                 <div className="d-flex align-items-center gap-2 mt-2">
-                  <img
-                    src={item.fotoPerfil}
-                    alt={item.nombreExtra}
-                    style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'top' }}
-                  />
+                  <img src={item.fotoPerfil} alt={item.nombreExtra} className="img-perfil" />
                   <div className="d-flex flex-column">
                     <small className="text-muted"><strong>{item.nombreExtra}</strong></small>
                     <small className="text-muted">{item.autor}</small>
@@ -207,12 +215,29 @@ function DetalleNoticia() {
 
   return (
     <div className="container py-4 text-center">
+      <style>{`
+        .detalle-img {
+          width: 100%;
+          max-width: 600px;
+          height: 300px;
+          object-fit: contain;
+          object-position: center;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+        }
+        .card-descripcion {
+          text-align: justify;
+          margin-top: 0.5rem;
+          font-size: 0.95rem;
+          color: #444;
+        }
+      `}</style>
       <Link to="/" className="btn btn-outline-success mb-3">← Atrás</Link>
       <h2>{noticia.titulo}</h2>
       <p className="card-descripcion">{noticia.descripcion}</p>
       <p><strong>{noticia.fecha}</strong></p>
       <p>{noticia.autor}</p>
-      <img src={noticia.imagen} alt={noticia.titulo} className="img-fluid my-2" />
+      <img src={noticia.imagen} alt={noticia.titulo} className="detalle-img" />
       <p><strong>{noticia.contenido}</strong></p>
     </div>
   );
