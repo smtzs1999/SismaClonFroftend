@@ -130,11 +130,14 @@ function Carrusel() {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+          font-weight: 600;
+          font-size: 1rem;
+          color: #212529;
         }
         .card-descripcion {
           text-align: justify;
-          margin-top: 0.5rem;
-          font-size: 0.9rem;
+          margin-top: 0.4rem;
+          font-size: 0.92rem;
           color: #555;
         }
         .img-fija {
@@ -143,18 +146,34 @@ function Carrusel() {
           object-fit: cover;
           object-position: center;
           display: block;
-          border-top-left-radius: 0.25rem;
-          border-top-right-radius: 0.25rem;
+          border-top-left-radius: 0.5rem;
+          border-top-right-radius: 0.5rem;
         }
         .img-perfil {
-          width: 40px;
-          height: 40px;
+          width: 44px;
+          height: 44px;
           border-radius: 50%;
           object-fit: cover;
           object-position: top;
           display: block;
+          border: 2px solid #e0e0e0;
+        }
+        .autor-detalle {
+          display: flex;
+          flex-direction: column;
+          line-height: 1.1;
+        }
+        .autor-nombre {
+          font-weight: 600;
+          font-size: 0.88rem;
+          color: #333;
+        }
+        .autor-rol {
+          font-size: 0.76rem;
+          color: #888;
         }
       `}</style>
+
       <h2 className="text-center mb-5">Latest News</h2>
       <div className="position-relative">
         <button
@@ -180,15 +199,15 @@ function Carrusel() {
               <img src={item.imagen} className="img-fija" alt={item.titulo} />
               <div className="card-body d-flex flex-column justify-content-between" style={{ flexGrow: 1 }}>
                 <div>
-                  <p className="text-muted small"><strong>{item.fecha}</strong></p>
+                  <p className="text-muted small mb-2"><strong>{item.fecha}</strong></p>
                   <h5 className="card-title texto-corto">{item.titulo}</h5>
                   <p className="card-descripcion">{item.descripcion}</p>
                 </div>
-                <div className="d-flex align-items-center gap-2 mt-2">
+                <div className="d-flex align-items-center gap-2 mt-3">
                   <img src={item.fotoPerfil} alt={item.nombreExtra} className="img-perfil" />
-                  <div className="d-flex flex-column">
-                    <small className="text-muted"><strong>{item.nombreExtra}</strong></small>
-                    <small className="text-muted">{item.autor}</small>
+                  <div className="autor-detalle">
+                    <span className="autor-nombre">{item.nombreExtra}</span>
+                    <span className="autor-rol">{item.autor}</span>
                   </div>
                 </div>
               </div>
@@ -214,20 +233,26 @@ function DetalleNoticia() {
   if (!noticia) return <div className="container mt-5"><p className="text-danger">No encontrado</p></div>;
 
   return (
-    <div className="container py-4 text-center" style={{ maxWidth: '700px' }}>
+    <div className="container py-5 d-flex justify-content-center align-items-center">
       <style>{`
+        .detalle-card {
+          max-width: 700px;
+          width: 100%;
+          background: #fff;
+          border-radius: 10px;
+          padding: 2rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
         .detalle-img {
           width: 100%;
           height: 300px;
           object-fit: cover;
           object-position: center;
           border-radius: 10px;
-          margin-bottom: 1rem;
-          display: block;
+          margin-bottom: 1.5rem;
         }
         .card-descripcion {
-          text-align: justify;
-          margin-top: 0.5rem;
+          text-align: center;
           font-size: 1rem;
           color: #444;
         }
@@ -235,13 +260,16 @@ function DetalleNoticia() {
           margin-bottom: 1rem;
         }
       `}</style>
-      <Link to="/" className="btn btn-outline-success btn-back">← Atrás</Link>
-      <h2>{noticia.titulo}</h2>
-      <p className="card-descripcion">{noticia.descripcion}</p>
-      <p><strong>{noticia.fecha}</strong></p>
-      <p>{noticia.autor}</p>
-      <img src={noticia.imagen} alt={noticia.titulo} className="detalle-img" />
-      <p><strong>{noticia.contenido}</strong></p>
+
+      <div className="detalle-card text-center">
+        <Link to="/" className="btn btn-outline-success btn-back">← Atrás</Link>
+        <h2 className="mb-3">{noticia.titulo}</h2>
+        <p className="card-descripcion">{noticia.descripcion}</p>
+        <p><strong>{noticia.fecha}</strong></p>
+        <p>{noticia.autor}</p>
+        <img src={noticia.imagen} alt={noticia.titulo} className="detalle-img" />
+        <p><strong>{noticia.contenido}</strong></p>
+      </div>
     </div>
   );
 }
