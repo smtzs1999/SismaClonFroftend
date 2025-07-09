@@ -4,7 +4,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './App.css';
 import CardsApp from './Cards'
 import { OurDoctors } from './components/OurDoctors';
-
+import {HealthCenter} from './components/welcome';
 
 function App() {
   const images = [
@@ -48,6 +48,7 @@ function App() {
           <button className="read-button">Ver Más</button>
         </div>
       </main>
+      <HealthCenter/>
        <OurDoctors/>
       <CardsApp/>
     </div>    
