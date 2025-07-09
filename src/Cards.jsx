@@ -214,25 +214,28 @@ function DetalleNoticia() {
   if (!noticia) return <div className="container mt-5"><p className="text-danger">No encontrado</p></div>;
 
   return (
-    <div className="container py-4 text-center">
+    <div className="container py-4 text-center" style={{ maxWidth: '700px' }}>
       <style>{`
         .detalle-img {
           width: 100%;
-          max-width: 600px;
           height: 300px;
-          object-fit: contain;
+          object-fit: cover;
           object-position: center;
           border-radius: 10px;
           margin-bottom: 1rem;
+          display: block;
         }
         .card-descripcion {
           text-align: justify;
           margin-top: 0.5rem;
-          font-size: 0.95rem;
+          font-size: 1rem;
           color: #444;
         }
+        .btn-back {
+          margin-bottom: 1rem;
+        }
       `}</style>
-      <Link to="/" className="btn btn-outline-success mb-3">← Atrás</Link>
+      <Link to="/" className="btn btn-outline-success btn-back">← Atrás</Link>
       <h2>{noticia.titulo}</h2>
       <p className="card-descripcion">{noticia.descripcion}</p>
       <p><strong>{noticia.fecha}</strong></p>
