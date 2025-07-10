@@ -66,12 +66,12 @@ button:focus-visible {
   }
   .contenedor {
   display: flex;
-  align-items: flex-start; /* Alinea arriba ambos elementos */
+  align-items: flex-start; 
 }
 
 .imagen-izquierda {
-  width: 200px; /* Ajusta el tamaño según lo necesites */
-  margin-right: 20px; /* Espacio entre la imagen y el formulario */
+  width: 200px; 
+  margin-right: 20px; 
 }
 
 }

@@ -11,7 +11,7 @@ const Footer = () => {
          background: '#fafafd',
          padding: '48px 0',
          boxSizing: 'border-box',
-         fontFamily: 'Arial, sans-serif',
+         fontFamily: 'sans-serif',
          borderTop: '3px solid #eee'
     }}>
     <div style={{
@@ -23,16 +23,16 @@ const Footer = () => {
         <div>
           <h2 style={{ fontWeight: 'bold' }}>Contact Info</h2>
 
-          <p style={{ color: '#666', maxWidth: '350px', textAlign:'left'}}>
+          <p style={{ color: '#666', maxWidth: '350px', textAlign:'left', fontFamily: 'sans-serif',}}>
             Fusce at libero iaculis, venenatis augue quis, 
             pharetra lorem. Curabitur ut dolor eu elit 
             consequat ultricies.
           </p>
-          <div style={{ margin: '10px 0', alignItems:'center', gap:'8px', display:'flex' }}>
+          <div style={{ margin: '10px 0', alignItems:'center', gap:'8px', display:'flex', fontFamily: 'sans-serif', }}>
             <img width="25" height="25" src={icoPhone} alt="phone"/>
             010-070-0170
           </div>
-          <div style={{ margin: '10px 0', alignItems:'center', gap:'8px', display:'flex' }}>
+          <div style={{ margin: '10px 0', alignItems:'center', gap:'8px', display:'flex', fontFamily: 'sans-serif', }}>
             <img width="25" height="25" src={icoEmail} alt="phone"/>
             info@company.com
           </div>
@@ -41,15 +41,15 @@ const Footer = () => {
         {/* Latest News */}
         <div >
           <h2 style={{ fontWeight: 'bold' }}>Latest News</h2>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '45px' }}>
-            <img width="60" height="60" src={imgDoc} alt="news" style={{ borderRadius: '60%', marginRight: '20px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '45px', fontFamily: 'sans-serif',}}>
+            <img width="45" height="45" src={imgDoc} alt="news" style={{ borderRadius: '55%', marginRight: '20px' }} />
             <div>
               <div style={{ fontWeight: 'bold' }}>Amazing Technology</div>
-              <div style={{ color: '#888', fontSize: '24px' }}>March 08, 2018</div>
+              <div style={{ color: '#888', fontSize: '14px' }}>March 08, 2018</div>
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img width="60" height="60" src={imgDoc} alt="news" style={{ borderRadius: '60%', marginRight: '10px' }} />
+            <img width="45" height="45" src={imgDoc} alt="news" style={{ borderRadius: '55%', marginRight: '20px' }} />
             <div>
               <div style={{ fontWeight: 'bold' }}>New Healing Process</div>
               <div style={{ color: '#888', fontSize: '14px' }}>February 20, 2018</div>
@@ -75,6 +75,7 @@ const Footer = () => {
         </div>
       </div>
       </div>
+      
     </footer>
   );
 };

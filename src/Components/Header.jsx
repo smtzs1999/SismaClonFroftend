@@ -17,7 +17,7 @@ const Referencias = () => {
             rel="noopener noreferrer"
         >
         <img width="30" height="30" src={icoWhats} alt="WhatsApp"/>
-        </a>WhatSapp
+        </a>WhatsApp
       </div>
       <div className="topbar-item">
         <img width="25" height="25" src="https://img.icons8.com/color/48/phone.png" alt="phone"/>

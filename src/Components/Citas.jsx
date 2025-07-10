@@ -22,7 +22,6 @@ function ViewVista() {
   const [form, setForm] = useState({
       name: "",
       email: "",
-      date: "",
       department: "General Health",
       phone: "",
       message: ""
@@ -42,7 +41,7 @@ function ViewVista() {
     // Actualizar el estado general del formulario
     setForm({
       ...form,
-      phone: value,
+      phone:value,
     });
 
     const onlyNumbers = typeof value === "string" ? value.replace(/\D/g, "") : "";
@@ -66,7 +65,7 @@ function ViewVista() {
 
     setError("");
     alert("Formulario enviado con éxito:\n" + JSON.stringify(form, null, 2));
-    // Aquí puedes hacer el envío a tu backend o API
+    
   };
 
     
@@ -92,14 +91,15 @@ function ViewVista() {
                 padding: 32,
                 borderRadius: 12,
                 boxShadow: "0 2px 12px rgb(0,0,0,0.07)",
-                marginLeft: 100
+                marginLeft: 100,
+                fontFamily: 'sans-serif',
               }}>
                   
               <h1 style={{ fontWeight: 700, fontSize: 36, marginBottom: 30 }}>
               Make an appointment </h1>    
                 <form onSubmit={handleSubmit}>
                   <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
-                    <div style={{ flex: 1 }}>
+                    <div>
                       <label style={{ fontWeight: 600 }}>Name</label>
                       <input
                         type="text"
@@ -111,7 +111,7 @@ function ViewVista() {
                         required
                       />
                     </div>
-                    <div style={{ flex: 1 }}>
+                    <div>
                       <label style={{ fontWeight: 600 }}>Email</label>
                       <input
                         type="email"
@@ -125,18 +125,7 @@ function ViewVista() {
                     </div>
                   </div>
                   <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
-                    <div style={{ flex: 1 }}>
-                      <label style={{ fontWeight: 600 }}>Select Date</label>
-                      <input
-                        type="date"
-                        name="date"
-                        value={form.date}
-                        onChange={handleChange}
-                        style={inputStyle}
-                        required
-                      />
-                    </div>
-                    <div style={{ flex: 1 }}>
+                    <div >
                       <label style={{ fontWeight: 600 }}>Select Department</label>
                       <select
                         name="department"
@@ -152,12 +141,22 @@ function ViewVista() {
                     </div>
                   </div>
                   <div style={{ marginBottom: 18 }}>
-                    <label style={{ fontWeight: 600 }}>Phone Number</label>
+                    <label style={{ fontWeight:900}}>Phone Number</label>
                     <PhoneInput
+                      country={'mx'}
                       placeholder="Phone"
                       value={form.phone}
                       onChange={handlePhoneChange}
                       inputClass="mi-input-telefono"
+                      inputStyle={{ 
+                      width: '70%',
+                      padding: '10px',
+                      borderRadius: '1px',
+                      border: '1px solid #ccc'
+                    }}
+                    containerStyle={{
+                      marginTop: '15px'
+                    }}
                       required
                     />
                     {error && <p style={{ color: "red" }}>{error}</p>}
@@ -179,10 +178,9 @@ function ViewVista() {
                       text="Submit and Schedule"
                       prefill={{name: form.name, email: form.email,
                         customAnswers:{
-                          a1: form.date,
-                          a2: form.department,
-                          a3: form.phone,
-                          a4: form.message
+                          a1: form.department,
+                          a2: form.phone,
+                          a3: form.message
                         }
                       }}
                       styles={{
@@ -199,16 +197,28 @@ function ViewVista() {
                         display: "block"
                       }}
                       onClick={() => {
-                        if (form.name && form.email && form.date && form.department && form.phone && form.message ) {
+                        if (form.name && form.email && form.department && form.phone && form.message ) {
                         } else {
                           alert("Por favor llena todos los campos requeridos antes de agendar.");
                           return false;
-                        }
+                        }                        
                       }}
                   />
                 </form>
             </div>
           </div>
+      <div style={{ width: "100%", height: "400px" }}>
+      <iframe
+        title="Ubicación en Google Maps"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10829.496609864684!2d-98.67107105000001!3d20.670868199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2smx!4v1752025683683!5m2!1ses!2smx"
+        width="100%"
+        height="100%"
+        style={{ border: 0 }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
+      </div>
           <Footer/>
     </div>
 
@@ -217,13 +227,14 @@ function ViewVista() {
 
 const inputStyle = {
   width: "100%",
-  padding: "12px 10px",
+  padding: "5px ",
   marginTop: 6,
   border: "1px solid #e0e0e0",
   borderRadius: 6,
   fontSize: 16,
   background: "#fff",
-  color: "black"
+  color: "black",
 };
+
 
 export default ViewVista
