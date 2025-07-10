@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, useParams, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  useParams,
+  Link
+} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import img1 from './assets/sistema/LasNews/img1.png';
 import img2 from './assets/sistema/LasNews/img2.png';
@@ -97,6 +106,7 @@ function Carrusel() {
       else if (ancho < 992) setNumVisibles(2);
       else setNumVisibles(3);
     }
+
     actualizarVisibles();
     window.addEventListener('resize', actualizarVisibles);
     return () => window.removeEventListener('resize', actualizarVisibles);
@@ -123,7 +133,7 @@ function Carrusel() {
   }
 
   return (
-    <div className="container py-2">
+    <div className="container py-3">
       <style>{`
         .texto-corto {
           display: -webkit-box;
@@ -172,32 +182,43 @@ function Carrusel() {
           font-size: 0.76rem;
           color: #888;
         }
+        @media (max-width: 576px) {
+          .img-fija { height: 160px; }
+          .texto-corto { font-size: 0.95rem; }
+          .card-descripcion { font-size: 0.85rem; }
+        }
       `}</style>
 
-      <h2 className="text-center mb-5">Latest News</h2>
+      <h2 className="text-center mb-5">Últimas Noticias</h2>
       <div className="position-relative">
-        <button
-          className="btn btn-white position-absolute top-50 translate-middle-y"
-          style={{ left: 0, zIndex: 10 }}
-          onClick={anterior}
-        >
-          &#10094;
-        </button>
-        <div className="d-flex overflow-hidden gap-3" style={{ minHeight: '420px', paddingLeft: '3rem', paddingRight: '3rem' }}>
+        {numVisibles > 1 && (
+          <button
+            className="btn btn-white position-absolute top-50 translate-middle-y"
+            style={{ left: 0, zIndex: 10 }}
+            onClick={anterior}
+          >
+            &#10094;
+          </button>
+        )}
+        <div className="d-flex flex-wrap justify-content-center gap-3 px-3">
           {visibles.map(item => (
             <div
               key={item.id}
-              className="card shadow-sm flex-shrink-0 d-flex flex-column"
+              className="card shadow-sm"
               style={{
-                width: numVisibles === 1 ? '100%' : numVisibles === 2 ? '48%' : '32%',
-                minHeight: '400px',
+                width:
+                  numVisibles === 1
+                    ? '100%'
+                    : numVisibles === 2
+                    ? '47%'
+                    : '30%',
                 cursor: 'pointer',
                 transition: 'transform 0.5s ease-in-out'
               }}
               onClick={() => navegar(`/details/${item.id}`)}
             >
               <img src={item.imagen} className="img-fija" alt={item.titulo} />
-              <div className="card-body d-flex flex-column justify-content-between" style={{ flexGrow: 1 }}>
+              <div className="card-body d-flex flex-column justify-content-between">
                 <div>
                   <p className="text-muted small mb-2"><strong>{item.fecha}</strong></p>
                   <h5 className="card-title texto-corto">{item.titulo}</h5>
@@ -214,13 +235,15 @@ function Carrusel() {
             </div>
           ))}
         </div>
-        <button
-          className="btn btn-white position-absolute top-50 translate-middle-y"
-          style={{ right: 0, zIndex: 10 }}
-          onClick={siguiente}
-        >
-          &#10095;
-        </button>
+        {numVisibles > 1 && (
+          <button
+            className="btn btn-white position-absolute top-50 translate-middle-y"
+            style={{ right: 0, zIndex: 10 }}
+            onClick={siguiente}
+          >
+            &#10095;
+          </button>
+        )}
       </div>
     </div>
   );
@@ -230,7 +253,12 @@ function DetalleNoticia() {
   const { id } = useParams();
   const noticia = noticias.find(n => n.id === parseInt(id));
 
-  if (!noticia) return <div className="container mt-5"><p className="text-danger">No encontrado</p></div>;
+  if (!noticia)
+    return (
+      <div className="container mt-5">
+        <p className="text-danger">No encontrado</p>
+      </div>
+    );
 
   return (
     <div className="container py-5 d-flex justify-content-center align-items-center">
