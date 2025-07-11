@@ -1,0 +1,21 @@
+.mi-input-telefono {
+  color: black !important;
+  background: #fff !important;
+}
+.topbar-container {
+  display: flex;
+  align-items: center;         
+  justify-content: space-between;
+  background: #fafafd;
+  padding: 12px 32px;
+  font-family: sans-serif;
+}
+
+.topbar-item {
+  display: flex;
+  align-items: center;         
+  gap: 8px;                   
+  font-size: 12px;
+  color: #333;
+  font-family: sans-serif;
+}

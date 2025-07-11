@@ -5,6 +5,7 @@ import './App.css';
 import CardsApp from './Cards'
 import { OurDoctors } from './components/OurDoctors';
 import {HealthCenter} from './components/welcome';
+import ViewVista from './Components/Citas';
 
 function App() {
   const images = [
@@ -51,6 +52,8 @@ function App() {
       <HealthCenter/>
        <OurDoctors/>
       <CardsApp/>
+      <ViewVista/>
+      
     </div>    
     </>
   );
