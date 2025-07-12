@@ -11,13 +11,14 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.7",
+    "emailjs-com": "^3.2.0",
     "react": "^19.1.0",
+    "react-calendly": "^4.4.0",
     "react-dom": "^19.1.0",
+    "react-phone-input-2": "^2.15.1",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.6.3",
-    "react-calendly": "^4.4.0",
-    "react-phone-input-2": "^2.15.1"
-
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

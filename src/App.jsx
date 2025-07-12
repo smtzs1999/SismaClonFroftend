@@ -1,61 +1,40 @@
-import { useEffect, useState } from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import './App.css';
-import CardsApp from './Cards'
-import { OurDoctors } from './components/OurDoctors';
-import {HealthCenter} from './components/welcome';
-import ViewVista from './Components/Citas';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Home from "./components/Home";  
+// import NotFound from "./components/NotFound";
 
 function App() {
-  const images = [
-    '/src/assets/sistema/carrusel/foto1.jpg',
-    '/src/assets/sistema/carrusel/foto2.jpg',
-    '/src/assets/sistema/carrusel/foto3.jpg'
-  ];
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const [colors, setColors] = useState({
-    primary: '#7cc576',
-    button: '#8ac53f',
-    buttonText: '#fff',
-    text: '#000'
-  });
-                                                                                                                                                                                                                                                                              
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
 
   return (
-    <>
-    <div className="app">
-      <header className="app-header">
-        <div className="logo">Centro de Salud</div>
-        <nav className="nav">
-          <a href="#">Inicio</a>
-          <a href="#">Quienes Somos</a>
-          <a href="#">planes de salud</a>
-          <a href="#">Contacto</a>
-        </nav>
-        <button className="cta-button">Acceder a mi cuenta</button>
-      </header>
-
-      <main className="hero-section">
-        <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
-          {images.map((img, idx) => (
-            <div key={idx}>
-              <img src={img} alt={`slide-${idx}`} className="hero-image" />
-            </div>
-          ))}
-        </Carousel>
-        <div className="overlay">
-          <h1>Sus Beneficios Para la Salud</h1>
-          <button className="read-button">Ver Más</button>
-        </div>
-      </main>
-      <HealthCenter/>
-       <OurDoctors/>
-      <CardsApp/>
-      <ViewVista/>
-      
-    </div>    
-    </>
+    <Router>
+      <Routes>
+        {!isAuthenticated && (
+          <>
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </>
+        )}
+        {isAuthenticated && (
+          <>
+            <Route path="/" element={<Home onLogout={handleLogout} />} />
+            {/* <Route path="*" element={<NotFound />} /> */}
+          </>
+        )}
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  useParams,
-  Link
-} from 'react-router-dom';
+import { Routes, Route, useNavigate, useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -215,7 +208,7 @@ function Carrusel() {
                 cursor: 'pointer',
                 transition: 'transform 0.5s ease-in-out'
               }}
-              onClick={() => navegar(`/details/${item.id}`)}
+              onClick={() => navegar(`/noticias/details/${item.id}`)}
             >
               <img src={item.imagen} className="img-fija" alt={item.titulo} />
               <div className="card-body d-flex flex-column justify-content-between">
@@ -290,7 +283,7 @@ function DetalleNoticia() {
       `}</style>
 
       <div className="detalle-card text-center">
-        <Link to="/" className="btn btn-outline-success btn-back">← Atrás</Link>
+        <Link to="/noticias" className="btn btn-outline-success btn-back">← Atrás</Link>
         <h2 className="mb-3">{noticia.titulo}</h2>
         <p className="card-descripcion">{noticia.descripcion}</p>
         <p><strong>{noticia.fecha}</strong></p>
@@ -304,12 +297,10 @@ function DetalleNoticia() {
 
 function AppNoticias() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Carrusel />} />
-        <Route path="/details/:id" element={<DetalleNoticia />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Carrusel />} />
+      <Route path="/details/:id" element={<DetalleNoticia />} />
+    </Routes>
   );
 }
 
