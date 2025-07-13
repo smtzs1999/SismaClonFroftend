@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import fondoLogin from '../assets/fondo/fondo.png';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -8,132 +9,164 @@ const Login = ({ onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const users = JSON.parse(localStorage.getItem('users')) || [];
-
     const userFound = users.find(user => user.correo === email && user.password === password);
 
     if (userFound) {
       alert(`Inicio de sesión exitoso. Bienvenido, ${email}`);
-      onLogin();          
-      navigate('/');      
+      onLogin();
+      navigate('/');
     } else {
       alert('Usuario o contraseña incorrectos');
     }
   };
 
   return (
-    <div 
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        width: '100vw',
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      }}
-    >
-      <div 
+    <>
+      <div
         style={{
-          backgroundColor: 'white',
-          padding: '2.5rem 2rem',
-          borderRadius: '1rem',
-          boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-          width: '100%',
-          maxWidth: '400px',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundImage: `url(${fondoLogin})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          zIndex: -1,
+        }}
+      ></div>
+
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          fontFamily: "'Segoe UI', sans-serif",
+          position: 'relative',
+          zIndex: 1,
         }}
       >
-        <h3 
-          style={{ 
-            textAlign: 'center', 
-            color: '#27ae60', 
-            marginBottom: '2rem', 
-            fontWeight: '700',
-            fontSize: '1.8rem',
-            letterSpacing: '1px'
+        <div
+          style={{
+            color: 'black',
+            padding: '1.5rem',
+            textAlign: 'center',
+            fontSize: '2.5rem',
+            fontWeight: 'bold',
           }}
         >
-          Iniciar Sesión
-        </h3>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1.5rem' }}>
-            <label 
-              style={{ 
-                display: 'block', 
-                marginBottom: '.5rem', 
-                fontWeight: '600', 
-                color: '#333' 
-              }}
-            >
-              Correo electrónico
-            </label>
-            <input
-              type="email"
-              placeholder="usuario@correo.com"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              style={{
-                width: '100%',
-                padding: '0.75rem 1rem',
-                borderRadius: '0.5rem',
-                border: '1.5px solid #ddd',
-                fontSize: '1rem',
-              }}
-            />
-          </div>
-          <div style={{ marginBottom: '2rem' }}>
-            <label 
-              style={{ 
-                display: 'block', 
-                marginBottom: '.5rem', 
-                fontWeight: '600', 
-                color: '#333' 
-              }}
-            >
-              Contraseña
-            </label>
-            <input
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              style={{
-                width: '100%',
-                padding: '0.75rem 1rem',
-                borderRadius: '0.5rem',
-                border: '1.5px solid #ddd',
-                fontSize: '1rem',
-              }}
-            />
-          </div>
-          <button
-            type="submit"
+          BIENVENIDOS
+        </div>
+
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '2rem',
+          }}
+        >
+          <div
             style={{
-              width: '100%',
-              padding: '0.85rem',
-              borderRadius: '0.6rem',
-              border: 'none',
-              backgroundColor: '#27ae60',
-              color: 'white',
-              fontSize: '1.1rem',
-              fontWeight: '700',
-              cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(39, 174, 96, 0.4)',
+              display: 'flex',
+              width: '90%',
+              maxWidth: '900px',
+              height: '500px',
+              backgroundColor: 'rgba(248, 248, 248, 0.85)',
+              borderRadius: '2rem',
+              overflow: 'hidden',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
             }}
           >
-            Entrar
-          </button>
-          <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-            <span style={{ color: '#666' }}>¿No tienes cuenta? </span>
-            <Link to="/register" style={{ color: '#27ae60', fontWeight: '600', textDecoration: 'none' }}>
-              Regístrate
-            </Link>
+            <div
+              style={{
+                flex: 1,
+                padding: '2rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                alt="User Icon"
+                style={{ width: '80px', marginBottom: '1.5rem' }}
+              />
+              <h2 style={{ fontSize: '1.8rem', marginBottom: '1.5rem', fontWeight: 'bold' }}>
+                Iniciar Sesión
+              </h2>
+
+              <form onSubmit={handleSubmit} style={{ width: '80%' }}>
+                <label style={{ fontWeight: '600' }}>Correo electrónico</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    marginBottom: '1rem',
+                    border: '1px solid #ccc',
+                    borderRadius: '1rem',
+                  }}
+                />
+                <label style={{ fontWeight: '600' }}>Contraseña</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    marginBottom: '1.5rem',
+                    border: '1px solid #ccc',
+                    borderRadius: '1rem',
+                  }}
+                />
+                <button
+                  type="submit"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    backgroundColor: '#45B36B',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '1rem',
+                    fontWeight: 'bold',
+                    fontSize: '1rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Entrar
+                </button>
+                <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>
+                  ¿No tienes cuenta?{' '}
+                  <Link to="/register" style={{ color: '#45B36B', fontWeight: 'bold' }}>
+                    Registrarse
+                  </Link>
+                </div>
+              </form>
+            </div>
+
+            <div
+              style={{
+                flex: 1,
+                backgroundImage:
+                  'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSYWeuUBT2VZFnnxF8hhGLpj5bHVv-3S11Fw&s")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

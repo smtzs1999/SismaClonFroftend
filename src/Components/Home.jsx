@@ -6,8 +6,11 @@ import CardsApp from '../Cards';
 import { OurDoctors } from './OurDoctors';
 import { HealthCenter } from './welcome';
 import ViewVista from './Citas';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Home({ onLogout }) {
+  const navigate = useNavigate();
+
   const images = [
     '/src/assets/sistema/carrusel/foto1.jpg',
     '/src/assets/sistema/carrusel/foto2.jpg',
@@ -21,18 +24,23 @@ function Home({ onLogout }) {
     text: '#000'
   });
 
+  function handleLogout() {
+    onLogout();
+    navigate('/login');
+  }
+
   return (
     <div className="app">
       <header className="app-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <div className="logo">Centro de Salud</div>
         <nav className="nav">
-          <a href="#">Inicio</a>
-          <a href="#">Quienes Somos</a>
-          <a href="#">Planes de salud</a>
-          <a href="#">Contacto</a>
+          <Link to="/">Inicio</Link>
+          <Link to="/quienes-somos">Quienes Somos</Link>
+          <Link to="/planes-salud">Planes de salud</Link>
+          <Link to="/contacto">Contacto</Link>
         </nav>
         <button
-          onClick={onLogout}
+          onClick={handleLogout}
           style={{
             backgroundColor: '#e74c3c',
             color: 'white',
@@ -59,10 +67,9 @@ function Home({ onLogout }) {
           <button className="read-button">Ver Más</button>
         </div>
       </main>
-
       <HealthCenter />
       <OurDoctors />
-      <CardsApp />
+      <CardsApp/>
       <ViewVista />
     </div>
   );

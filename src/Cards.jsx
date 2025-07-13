@@ -283,7 +283,7 @@ function DetalleNoticia() {
       `}</style>
 
       <div className="detalle-card text-center">
-        <Link to="/noticias" className="btn btn-outline-success btn-back">← Atrás</Link>
+        <Link to="/" className="btn btn-outline-success btn-back">← Atrás</Link>
         <h2 className="mb-3">{noticia.titulo}</h2>
         <p className="card-descripcion">{noticia.descripcion}</p>
         <p><strong>{noticia.fecha}</strong></p>
