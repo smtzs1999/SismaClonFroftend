@@ -5,7 +5,6 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Footer from "./footer";
 import Referencias from "./Header";
-import { PopupButton } from "react-calendly";
 
 const departamentos = [
   "General Health",
@@ -16,7 +15,7 @@ const departamentos = [
 ];
 
 function ViewVista() {
-  const [telefono, setTelefono] = useState("");
+  
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
@@ -26,6 +25,16 @@ function ViewVista() {
       phone: "",
       message: ""
   });
+
+  const limpiarFormulario = () => {
+    setForm({
+      name: "",
+      email: "",
+      department: "General Health",
+      phone: "",
+      message: ""
+    });
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,37 +79,16 @@ function ViewVista() {
 
     
     return( //marginLeft ni margin
-      <div>
+      <div >
         <Referencias /> 
-          <div style={{display: "flex", padding: 32}}>
-            <img 
-              src={docImage} 
-              alt="Doctor" 
-              style={{
-                display:"flex",
-                width: 400,
-                height: "auto",
-                borderRadius: 12,
-                marginRight: 32,
-                objectFit: "cover"
-              }}
-            />
-            <div className="Container" style={{
-                maxWidth: 900,
-                background: "#fff",
-                padding: 32,
-                borderRadius: 12,
-                boxShadow: "0 2px 12px rgb(0,0,0,0.07)",
-                marginLeft: 100,
-                fontFamily: 'sans-serif',
-              }}>
-                  
-              <h1 style={{ fontWeight: 700, fontSize: 36, marginBottom: 30 }}>
-              Make an appointment </h1>    
+          <div className="Container-Principal">
+            <img src={docImage} alt="Doctor"/>
+            <div className="Formulario">  
+              <h1>Make an appointment</h1>    
                 <form onSubmit={handleSubmit}>
-                  <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
+                  <div className="Formulario-item">
                     <div>
-                      <label style={{ fontWeight: 600 }}>Name</label>
+                      <label>Name</label>
                       <input
                         type="text"
                         name="name"
@@ -112,7 +100,7 @@ function ViewVista() {
                       />
                     </div>
                     <div>
-                      <label style={{ fontWeight: 600 }}>Email</label>
+                      <label>Email</label>
                       <input
                         type="email"
                         name="email"
@@ -124,14 +112,21 @@ function ViewVista() {
                       />
                     </div>
                   </div>
-                  <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
-                    <div >
-                      <label style={{ fontWeight: 600 }}>Select Department</label>
+                  <div className="Formulario-item">
+                    <div>
+                      <label>Select Department</label>
                       <select
                         name="department"
                         value={form.department}
                         onChange={handleChange}
-                        style={inputStyle}
+                        style={{
+                          ...inputStyle,
+                          padding: "8px 15px",
+                          fontSize: 16,
+                          background: "#fff",
+                          color: "black", 
+                        }}
+
                         required
                       >
                         {departamentos.map((dep) => (
@@ -140,28 +135,25 @@ function ViewVista() {
                       </select>
                     </div>
                   </div>
-                  <div style={{ marginBottom: 18 }}>
-                    <label style={{ fontWeight:900}}>Phone Number</label>
+                  <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
+                    <div>
+                      <label style={{ fontWeight: 600}}>Phone Number</label>
                     <PhoneInput
                       country={'mx'}
                       placeholder="Phone"
                       value={form.phone}
                       onChange={handlePhoneChange}
-                      inputClass="mi-input-telefono"
-                      inputStyle={{ 
-                      width: '70%',
-                      padding: '10px',
-                      borderRadius: '1px',
-                      border: '1px solid #ccc'
-                    }}
-                    containerStyle={{
-                      marginTop: '15px'
-                    }}
+                      inputClass="mi-input-telefono" 
+                      style={{
+                        width: '100%',
+                        fontSize: '16px',
+                      }}
+                    
                       required
                     />
                     {error && <p style={{ color: "red" }}>{error}</p>}
-                  </div>
-                  
+                    </div>
+                  </div >
                   <div style={{ marginBottom: 24 }}>
                     <label style={{ fontWeight: 600 }}>Additional Message</label>
                     <textarea
@@ -172,60 +164,57 @@ function ViewVista() {
                       style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
                     />
                   </div>
-                  <PopupButton
-                      url="https://calendly.com/20191222-uthh/make-an-appointment"
-                      rootElement={document.getElementById("root")}
-                      text="Submit and Schedule"
-                      prefill={{name: form.name, email: form.email,
-                        customAnswers:{
-                          a1: form.department,
-                          a2: form.phone,
-                          a3: form.message
-                        }
-                      }}
-                      styles={{
-                        width: "100%",
-                        background: "#1eaa17",
-                        color: "#fff",
-                        fontWeight: 600,
-                        fontSize: 18,
-                        padding: "16px 0",
-                        border: "none",
-                        borderRadius: 6,
-                        cursor: "pointer",
-                        textAlign: "center",
-                        display: "block"
-                      }}
-                      onClick={() => {
-                        if (form.name && form.email && form.department && form.phone && form.message ) {
-                        } else {
-                          alert("Por favor llena todos los campos requeridos antes de agendar.");
-                          return false;
-                        }                        
-                      }}
-                  />
+                  <button
+                    style={{
+                    width: "100%",
+                    background: "#1eaa17",
+                    color: "#fff",
+                    fontWeight: 600,
+                    fontSize: 18,
+                    padding: "16px 0",
+                    border: "none",
+                    borderRadius: 6,
+                    cursor: "pointer",
+                    textAlign: "center",
+                    display: "block"
+                  }}
+                  onClick={() => {
+                    if (form.name && form.email && form.department && form.phone && form.message) {
+                      const baseUrl = "https://calendly.com/20191222-uthh/make-an-appointment";
+
+                      // Construir la URL con los datos del formulario
+                      const urlConDatos = `${baseUrl}?name=${encodeURIComponent(form.name)}&email=${encodeURIComponent(form.email)}&a1=${encodeURIComponent(form.department)}&a2=${encodeURIComponent(form.phone)}&a3=${encodeURIComponent(form.message)}`;
+
+                      window.open(urlConDatos, "_blank");
+                    } else {
+                      alert("Por favor llena todos los campos requeridos antes de agendar.");
+                    }
+                    // 🧼 Limpiar después de abrir Calendly
+                    limpiarFormulario();
+                  }}
+                >
+                  Submit and Schedule
+                </button>
                 </form>
             </div>
           </div>
-      <div style={{ width: "100%", height: "400px" }}>
+      <div className="mapa-responsive">
       <iframe
         title="Ubicación en Google Maps"
         src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10829.496609864684!2d-98.67107105000001!3d20.670868199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2smx!4v1752025683683!5m2!1ses!2smx"
-        width="100%"
-        height="100%"
-        style={{ border: 0 }}
         allowFullScreen
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
       ></iframe>
       </div>
-          <Footer/>
+        <Footer/>
     </div>
 
   );
 }
 
 const inputStyle = {
+
   width: "100%",
   padding: "5px ",
   marginTop: 6,
