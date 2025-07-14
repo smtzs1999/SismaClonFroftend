@@ -158,6 +158,7 @@ Emitido: ${fechaEmision}
                   borderRadius: '10px',
                   border: '1px solid #ccc',
                   backgroundColor: 'white',
+                  color: 'black',
                   fontSize: '1rem',
                   textTransform: ['curp', 'tipoSangre'].includes(field) ? 'uppercase' : 'none',
                   outline: 'none',
