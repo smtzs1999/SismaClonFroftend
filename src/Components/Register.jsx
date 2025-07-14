@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import { useNavigate } from 'react-router-dom';
+import heartImage from '../assets/fondo/fondo.png';
 
 const Register = () => {
-  const [nombreCompleto, setNombreCompleto] = useState('');
-  const [edad, setEdad] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [curp, setCurp] = useState('');
-  const [nss, setNss] = useState('');
-  const [tipoSangre, setTipoSangre] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    nombreCompleto: '',
+    edad: '',
+    telefono: '',
+    curp: '',
+    nss: '',
+    tipoSangre: '',
+    correo: '',
+    password: ''
+  });
 
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
-    users.push({ nombreCompleto, edad, telefono, curp, nss, tipoSangre, correo, password });
+    users.push(formData);
     localStorage.setItem('users', JSON.stringify(users));
 
     const fechaEmision = new Date().toLocaleDateString('es-MX');
@@ -26,58 +37,49 @@ const Register = () => {
     const rawQrText = `
 ===== GAFETE DIGITAL =====
 
-Nombre: ${nombreCompleto}
+Nombre: ${formData.nombreCompleto}
 --------------------------
-Edad: ${edad}
+Edad: ${formData.edad}
 --------------------------
-Teléfono: ${telefono}
+Teléfono: ${formData.telefono}
 --------------------------
-CURP: ${curp}
+CURP: ${formData.curp}
 --------------------------
-NSS: ${nss}
+NSS: ${formData.nss}
 --------------------------
-Tipo de Sangre: ${tipoSangre}
+Tipo de Sangre: ${formData.tipoSangre}
 --------------------------
-Correo: ${correo}
+Correo: ${formData.correo}
 --------------------------
 Emitido: ${fechaEmision}
 `.trim();
 
     const qr_datos = encodeURIComponent(rawQrText);
 
-    const templateParams = {
-      to_name: nombreCompleto,
-      nombre_completo: nombreCompleto,
-      name: nombreCompleto,
-      edad,
-      telefono,
-      curp,
-      nss,
-      tipo_sangre: tipoSangre,
-      correo,
-      fecha_emision: fechaEmision,
-      qr_datos
-    };
-
     emailjs.send(
       'service_hzfyjks',
       'template_pj40evm',
-      templateParams,
+      {
+        ...formData,
+        to_name: formData.nombreCompleto,
+        fecha_emision: fechaEmision,
+        qr_datos
+      },
       'F17ZBXqWR_0PuFbmR'
-    )
-    .then(() => {
+    ).then(() => {
       alert('✅ Registro exitoso y gafete enviado por correo.');
-      setNombreCompleto('');
-      setEdad('');
-      setTelefono('');
-      setCurp('');
-      setNss('');
-      setTipoSangre('');
-      setCorreo('');
-      setPassword('');
+      setFormData({
+        nombreCompleto: '',
+        edad: '',
+        telefono: '',
+        curp: '',
+        nss: '',
+        tipoSangre: '',
+        correo: '',
+        password: ''
+      });
       navigate('/login');
-    })
-    .catch((error) => {
+    }).catch((error) => {
       console.error('❌ Error enviando correo:', error);
       alert('Registro exitoso, pero no se pudo enviar el gafete.');
       navigate('/login');
@@ -86,41 +88,110 @@ Emitido: ${fechaEmision}
 
   return (
     <div style={{
-      display: 'flex',
-      justifyContent: 'center',
+      minHeight: '80vh',
+      padding: '20px 80px',
+      backgroundColor: '#f5faf7',
+      minWidth: '180vh',
+      flexDirection: 'column',
       alignItems: 'center',
-      minHeight: '100vh',
-      backgroundColor: '#f0f2f5',
+      justifyContent: 'flex-start'
     }}>
-      <div style={{
-        maxWidth: 420,
-        width: '100%',
-        padding: 24,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+      <h1 style={{
+        textAlign: 'center',
+        fontSize: '2.6rem',
+        color: '#fff',
+        letterSpacing: '0.2em',
+        backgroundColor: '#2F5233',
+        padding: '16px 40px',
+        borderRadius: '10px',
+        marginBottom: '30px',
+        fontWeight: 600
       }}>
-        <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Registro de Usuario</h2>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <input type="text" placeholder="Nombre completo" value={nombreCompleto} onChange={e => setNombreCompleto(e.target.value)} required style={{ padding: 10, fontSize: 16 }} />
-          <input type="number" placeholder="Edad" value={edad} onChange={e => setEdad(e.target.value)} required style={{ padding: 10, fontSize: 16 }} min="0" />
-          <input type="tel" placeholder="Teléfono" value={telefono} onChange={e => setTelefono(e.target.value)} style={{ padding: 10, fontSize: 16 }} />
-          <input type="text" placeholder="CURP" value={curp} onChange={e => setCurp(e.target.value)} style={{ padding: 10, fontSize: 16, textTransform: 'uppercase' }} />
-          <input type="text" placeholder="NSS" value={nss} onChange={e => setNss(e.target.value)} style={{ padding: 10, fontSize: 16 }} />
-          <input type="text" placeholder="Tipo de sangre" value={tipoSangre} onChange={e => setTipoSangre(e.target.value)} style={{ padding: 10, fontSize: 16, textTransform: 'uppercase' }} />
-          <input type="email" placeholder="Correo electrónico" value={correo} onChange={e => setCorreo(e.target.value)} required style={{ padding: 10, fontSize: 16 }} />
-          <input type="password" placeholder="Contraseña" value={password} onChange={e => setPassword(e.target.value)} required style={{ padding: 10, fontSize: 16 }} />
+        BIENVENIDOS
+      </h1>
+
+      <div style={{
+        maxWidth: '1400px',
+        width: '95%',
+        height: 'auto',
+        display: 'flex',
+        backgroundColor: '#d9dbd9ff',
+        borderRadius: '20px',
+        overflow: 'hidden',
+        boxShadow: '0 0 20px rgba(0, 0, 0, 0.21)',
+        flexDirection: 'row',
+        alignItems: 'stretch'
+      }}>
+        <form onSubmit={handleSubmit} style={{
+          flexBasis: '60%',
+          padding: '40px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: '16px'
+        }}>
+          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Registro de Usuario</h2>
+          <p style={{ textAlign: 'center', color: '#555' }}>Por favor llena los siguientes campos</p>
+
+          {['nombreCompleto', 'edad', 'telefono', 'curp', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
+            const placeholders = {
+              nombreCompleto: 'Nombre Completo',
+              edad: 'Edad',
+              telefono: 'Teléfono',
+              curp: 'CURP',
+              nss: 'Sistema Nacional de Seguridad',
+              tipoSangre: 'Tipo de Sangre',
+              correo: 'Correo Electrónico',
+              password: 'Contraseña'
+            };
+            return (
+              <input
+                key={field}
+                name={field}
+                type={field === 'correo' ? 'email' : field === 'edad' ? 'number' : field === 'password' ? 'password' : 'text'}
+                value={formData[field]}
+                onChange={handleChange}
+                placeholder={placeholders[field]}
+                required={['nombreCompleto', 'edad', 'correo', 'password'].includes(field)}
+                style={{
+                  padding: '14px',
+                  borderRadius: '10px',
+                  border: '1px solid #ccc',
+                  backgroundColor: 'white',
+                  fontSize: '1rem',
+                  textTransform: ['curp', 'tipoSangre'].includes(field) ? 'uppercase' : 'none',
+                  outline: 'none',
+                  transition: 'all 0.3s ease'
+                }}
+              />
+            );
+          })}
+
           <button type="submit" style={{
-            marginTop: 10,
-            padding: '12px 0',
-            fontSize: 18,
-            backgroundColor: '#27ae60',
+            backgroundColor: '#2ecc71',
             color: 'white',
+            padding: '14px',
             border: 'none',
-            borderRadius: 8,
-            cursor: 'pointer'
-          }}>Registrarme</button>
+            borderRadius: '10px',
+            fontSize: '1.1rem',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'background 0.3s ease'
+          }}>
+            Registrarme
+          </button>
         </form>
+        <div style={{
+          flexBasis: '40%',
+          backgroundImage: `url(${heartImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px'
+        }} />
       </div>
     </div>
   );
