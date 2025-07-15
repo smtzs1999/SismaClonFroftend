@@ -4,38 +4,43 @@ import icoInsta from '../assets/instagram.svg';
 import icoPhone from '../assets/phone.svg';
 import icoTwit from '../assets/twitter.svg'; 
 import imgDoc from '../img/d1.jpg'
-import '../Css/Styles.css';
-
 
 const Footer = () => {
   return (
-    <footer className='footer'>
-    <div className='footer-inner'>
-      <div className='footer-content'>
-
+    <footer style={{
+         background: '#fafafd',
+         padding: '48px 0',
+         boxSizing: 'border-box',
+         fontFamily: 'sans-serif',
+         borderTop: '3px solid #eee'
+    }}>
+    <div style={{
+       padding: '0 32px'
+    }}>
+        
+      <div style={{ display: 'flex', justifyContent: 'space-around', margin: '0 auto', }}>
         {/* Contact Info */}
-        <div className='footer-section'>
-          <h2>Contact Info</h2>
-          <p>
+        <div>
+          <h2 style={{ fontWeight: 'bold' }}>Contact Info</h2>
+
+          <p style={{ color: '#666', maxWidth: '350px', textAlign:'left', fontFamily: 'sans-serif',}}>
             Fusce at libero iaculis, venenatis augue quis, 
             pharetra lorem. Curabitur ut dolor eu elit 
             consequat ultricies.
           </p>
-          <div className='footer-contact'>
-            <div >
-              <img width="25" height="25" src={icoPhone} alt="phone"/>
-              010-070-0170
-            </div>
-            <div>
-              <img width="25" height="25" src={icoEmail} alt="phone"/>
-              info@company.com
-            </div>
+          <div style={{ margin: '10px 0', alignItems:'center', gap:'8px', display:'flex', fontFamily: 'sans-serif', }}>
+            <img width="25" height="25" src={icoPhone} alt="phone"/>
+            010-070-0170
+          </div>
+          <div style={{ margin: '10px 0', alignItems:'center', gap:'8px', display:'flex', fontFamily: 'sans-serif', }}>
+            <img width="25" height="25" src={icoEmail} alt="phone"/>
+            info@company.com
           </div>
         </div>
 
         {/* Latest News */}
-        <div className='footer-section' >
-          <h2>Latest News</h2>
+        <div >
+          <h2 style={{ fontWeight: 'bold' }}>Latest News</h2>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '45px', fontFamily: 'sans-serif',}}>
             <img width="45" height="45" src={imgDoc} alt="news" style={{ borderRadius: '55%', marginRight: '20px' }} />
             <div>
@@ -53,14 +58,14 @@ const Footer = () => {
         </div>
 
         {/* Opening Hours */}
-        <div className='footer-section'>
-          <h2>Opening Hours </h2>
-          <div className='fooer-hours'>
+        <div>
+          <h2 style={{ fontWeight: 'bold' }}>Opening Hours </h2>
+          <div style={{ color: '#666', marginBottom: '50px'}}>
             <div style={{display:'flex'}}>Monday - Friday <span style={{ float: 'right' }}> 06:00 AM - 10:00 PM</span></div>
             <div style={{display:'flex'}}>Saturday - <span style={{ float: 'right' }}> 09:00 AM - 08:00 PM</span></div>
             <div style={{display:'flex'}}>Sunday - <span style={{ float: 'right' }}> Closed</span></div>
           </div>
-          <div className='fooeter-icons'>
+          <div >
             <a href="https://www.facebook.com/share/19AT4aR5PP/">
               <img width="25" height="25" src={icoface} alt="phone" style={{marginRight:'20px'}}/>
             </a>
@@ -70,6 +75,7 @@ const Footer = () => {
         </div>
       </div>
       </div>
+      
     </footer>
   );
 };
