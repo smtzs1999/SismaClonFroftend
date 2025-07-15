@@ -1,8 +1,11 @@
+// AppNoticias.jsx
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import "slick-carousel/slick/slick.css";
 //import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import img1 from './assets/sistema/LasNews/img1.png';
 import img2 from './assets/sistema/LasNews/img2.png';
@@ -18,140 +21,148 @@ import doc4 from './assets/sistema/Doctor/doc4.png';
 import doc5 from './assets/sistema/Doctor/doc5.png';
 import doc6 from './assets/sistema/Doctor/doc6.png';
 
+/* ------------------------ DATA DUMMY ------------------------ */
 const noticias = [
   {
     id: 1,
-    titulo: "Urge vencer los miedos para ganarle la batalla al cáncer de próstata en México",
-    descripcion: "La importancia de derribar mitos y tabúes en torno al cáncer de próstata para fomentar la detección temprana y mejorar la calidad de vida de los pacientes.",
-    fecha: "24 de Enero del 2025",
-    autor: "• CEO / Clinica SF",
+    titulo: 'Urge vencer los miedos para ganarle la batalla al cáncer de próstata en México',
+    descripcion:
+      'La importancia de derribar mitos y tabúes en torno al cáncer de próstata.',
+    fecha: '24 de Enero del 2025',
+    autor: '• CEO / Clinica SF',
     imagen: img1,
-    contenido: "Doc. Juan Fundador y creador de la clinica SF",
+    contenido: 'Doc. Juan Fundador y creador de la clinica SF',
     fotoPerfil: doc4,
-    nombreExtra: "Doc. Juan"
+    nombreExtra: 'Doc. Juan'
   },
   {
     id: 2,
-    titulo: "Aumento de casos de Tos ferina en México",
-    descripcion: "Un análisis sobre las causas detrás del repunte de casos de tos ferina y las medidas preventivas recomendadas para proteger a la población vulnerable.",
-    fecha: "26 de Marzo del 2016",
-    autor: "• Director General",
+    titulo: 'Aumento de casos de Tos ferina en México',
+    descripcion:
+      'Un análisis sobre las causas detrás del repunte de casos de tos ferina.',
+    fecha: '26 de Marzo del 2016',
+    autor: '• Director General',
     imagen: img2,
-    contenido: "Doc. James Director General de la clinica SF",
+    contenido: 'Doc. James Director General de la clinica SF',
     fotoPerfil: doc2,
-    nombreExtra: "Doc. James"
+    nombreExtra: 'Doc. James'
   },
   {
     id: 3,
-    titulo: "SE PUBLICÓ EL PROGRAMA NACIONAL DE INFRAESTRUCTURA DE LA CALIDAD 2025",
-    descripcion: "Un nuevo plan estratégico que busca fortalecer los estándares y regulaciones para garantizar servicios y productos con altos niveles de calidad en todo el país.",
-    fecha: "25 de Febrero del 2025",
-    autor: "• Asistente Regional",
+    titulo: 'SE PUBLICÓ EL PROGRAMA NACIONAL DE INFRAESTRUCTURA DE LA CALIDAD 2025',
+    descripcion:
+      'Un nuevo plan estratégico que busca fortalecer los estándares y regulaciones para garantizar.',
+    fecha: '25 de Febrero del 2025',
+    autor: '• Asistente Regional',
     imagen: img3,
-    contenido: "Doc. Pedro Asistente Regional del consejo",
+    contenido: 'Doc. Pedro Asistente Regional del consejo',
     fotoPerfil: doc3,
-    nombreExtra: "Doc. Pedro"
+    nombreExtra: 'Doc. Pedro'
   },
   {
     id: 4,
-    titulo: "25% de las mujeres sufren afecciones oculares a causa del maquillaje o productos diseñados para la zona ocular",
-    descripcion: "Estudio reciente revela que una gran parte de las mujeres experimentan irritaciones y alergias por el uso inapropiado o excesivo de cosméticos para los ojos.",
-    fecha: "27 de Enero del 2025",
-    autor: "• Asistente Direccion",
+    titulo:
+      '25% de las mujeres sufren afecciones oculares a causa del maquillaje o productos diseñados para la zona ocular',
+    descripcion:
+      'Estudio reciente revela que una gran parte de las mujeres experimentan irritaciones.',
+    fecha: '27 de Enero del 2025',
+    autor: '• Asistente Dirección',
     imagen: img4,
-    contenido: "Doc. Teresa Asistente de la Direccion de Medicina",
+    contenido: 'Doc. Teresa Asistente de la Dirección de Medicina',
     fotoPerfil: doc1,
-    nombreExtra: "Doc. Teresa"
+    nombreExtra: 'Doc. Teresa'
   },
   {
     id: 5,
-    titulo: "Vacuna contra el Virus Sincicial Respiratorio en México",
-    descripcion: "El lanzamiento y distribución de la vacuna contra el VSR, un avance importante para prevenir infecciones respiratorias graves en bebés y adultos mayores.",
-    fecha: "27 de Febrero del 2024",
-    autor: "• Especialista Ocular",
+    titulo: 'Vacuna contra el Virus Sincicial Respiratorio en México',
+    descripcion:
+      'El lanzamiento y distribución de la vacuna contra el VSR, un avance importante.',
+    fecha: '27 de Febrero del 2024',
+    autor: '• Especialista Ocular',
     imagen: img5,
-    contenido: "Doc. Francisco Especialista ocular de la clinica SF",
+    contenido: 'Doc. Francisco Especialista ocular de la clinica SF',
     fotoPerfil: doc5,
-    nombreExtra: "Doc. Francisco"
+    nombreExtra: 'Doc. Francisco'
   },
   {
     id: 6,
-    titulo: "Alianza Contra la Muerte Súbita Cardíaca",
-    descripcion: "Una iniciativa conjunta entre instituciones médicas y gubernamentales para aumentar la prevención y respuesta ante episodios de muerte súbita cardíaca en la población.",
-    fecha: "1 de Marzo del 2025",
-    autor: "• Dentista",
+    titulo: 'Alianza Contra la Muerte Súbita Cardíaca',
+    descripcion:
+      'Una iniciativa conjunta entre instituciones médicas y gubernamentales para aumentar la prevención.',
+    fecha: '1 de Marzo del 2025',
+    autor: '• Dentista',
     imagen: img6,
-    contenido: "Doc. Juvencio Dentista de la clinica SF",
+    contenido: 'Doc. Juvencio Dentista de la clinica SF',
     fotoPerfil: doc6,
-    nombreExtra: "Doc. Juvencio"
+    nombreExtra: 'Doc. Juvencio'
   }
 ];
 
+/* ------------------------ CARRUSEL ------------------------ */
 function Carrusel() {
   const [indiceInicio, setIndiceInicio] = useState(0);
   const [numVisibles, setNumVisibles] = useState(3);
   const navegar = useNavigate();
 
+  /* -- Responsive: cuántas cards mostrar -- */
   useEffect(() => {
-    function actualizarVisibles() {
-      const ancho = window.innerWidth;
-      if (ancho < 576) setNumVisibles(1);
-      else if (ancho < 992) setNumVisibles(2);
+    const actualizarVisibles = () => {
+      const w = window.innerWidth;
+      if (w < 576) setNumVisibles(1);
+      else if (w < 992) setNumVisibles(2);
       else setNumVisibles(3);
-    }
-
+    };
     actualizarVisibles();
     window.addEventListener('resize', actualizarVisibles);
     return () => window.removeEventListener('resize', actualizarVisibles);
   }, []);
 
-  function siguiente() {
-    setIndiceInicio(prev => (prev >= noticias.length - numVisibles ? 0 : prev + 1));
-  }
-
-  function anterior() {
-    setIndiceInicio(prev => (prev <= 0 ? noticias.length - numVisibles : prev - 1));
-  }
+  /* -- Navegación automática / manual -- */
+  const siguiente = () =>
+    setIndiceInicio((prev) => (prev >= noticias.length - numVisibles ? 0 : prev + 1));
+  const anterior = () =>
+    setIndiceInicio((prev) => (prev <= 0 ? noticias.length - numVisibles : prev - 1));
 
   useEffect(() => {
-    const intervalo = setInterval(() => {
-      siguiente();
-    }, 3000);
-    return () => clearInterval(intervalo);
+    const id = setInterval(siguiente, 3000);
+    return () => clearInterval(id);
   }, [numVisibles]);
 
-  const visibles = [];
-  for (let i = 0; i < numVisibles; i++) {
-    visibles.push(noticias[(indiceInicio + i) % noticias.length]);
-  }
+  const visibles = Array.from({ length: numVisibles }, (_, i) =>
+    noticias[(indiceInicio + i) % noticias.length]
+  );
 
   return (
     <div className="container py-3">
+      {/* ---------- ESTILOS INLINE (puedes moverlos a un .css si prefieres) ---------- */}
       <style>{`
+        .news-card {
+          padding: 0;
+          text-align: left;            /* quita todo el padding de la card */   
+        }
+        .img-fija {
+          display: block;
+          width: 100%;           /* ocupa todo el ancho real */
+          height: 260px;         /* cambia la altura aquí si lo necesitas */
+          object-fit: cover;
+          object-position: center;
+          margin: 0;
+        }
         .texto-corto {
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
-          font-weight: 600;
-          font-size: 1rem;
+          font-weight: bold;
+          font-size: 1.2rem;
           color: #212529;
           font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
         }
         .card-descripcion {
           text-align: justify;
-          margin-top: 0.4rem;
-          font-size: 0.92rem;
+          margin-top: .4rem;
+          font-size: .92rem;
           color: #555;
-        }
-        .img-fija {
-          height: 200px;
-          width: 100%;
-          object-fit: cover;
-          object-position: center;
-          display: block;
-          border-top-left-radius: 0.5rem;
-          border-top-right-radius: 0.5rem;
         }
         .img-perfil {
           width: 44px;
@@ -159,7 +170,6 @@ function Carrusel() {
           border-radius: 50%;
           object-fit: cover;
           object-position: top;
-          display: block;
           border: 2px solid #e0e0e0;
         }
         .autor-detalle {
@@ -169,22 +179,24 @@ function Carrusel() {
         }
         .autor-nombre {
           font-weight: 600;
-          font-size: 0.88rem;
+          font-size: .88rem;
           color: #333;
         }
         .autor-rol {
-          font-size: 0.76rem;
+          font-size: .76rem;
           color: #888;
         }
         @media (max-width: 576px) {
           .img-fija { height: 160px; }
-          .texto-corto { font-size: 0.95rem; }
-          .card-descripcion { font-size: 0.85rem; }
+          .texto-corto { font-size: .95rem; }
+          .card-descripcion { font-size: .85rem; }
         }
       `}</style>
 
       <h2 className="text-center mb-5">Últimas Noticias</h2>
+
       <div className="position-relative">
+        {/* Flecha izquierda */}
         {numVisibles > 1 && (
           <button
             className="btn btn-white position-absolute top-50 translate-middle-y"
@@ -194,27 +206,27 @@ function Carrusel() {
             &#10094;
           </button>
         )}
-        <div className="d-flex flex-wrap justify-content-center gap-3 px-3">
-          {visibles.map(item => (
+
+        {/* CONTENEDOR DE CARDS */}
+        <div className="d-flex flex-wrap justify-content-center gap-3 px-0">
+          {visibles.map((item) => (
             <div
               key={item.id}
-              className="card shadow-sm"
+              className="card news-card shadow-sm"
               style={{
                 width:
-                  numVisibles === 1
-                    ? '100%'
-                    : numVisibles === 2
-                    ? '47%'
-                    : '30%',
+                  numVisibles === 1 ? '100%' : numVisibles === 2 ? '47%' : '30%',
                 cursor: 'pointer',
-                transition: 'transform 0.5s ease-in-out'
+                transition: 'transform .5s ease-in-out'
               }}
               onClick={() => navegar(`/noticias/details/${item.id}`)}
             >
               <img src={item.imagen} className="img-fija" alt={item.titulo} />
               <div className="card-body d-flex flex-column justify-content-between">
                 <div>
-                  <p className="text-muted small mb-2"><strong>{item.fecha}</strong></p>
+                  <p className="text-muted small mb-2">
+                    {item.fecha}
+                  </p>
                   <h5 className="card-title texto-corto">{item.titulo}</h5>
                   <p className="card-descripcion">{item.descripcion}</p>
                 </div>
@@ -229,6 +241,8 @@ function Carrusel() {
             </div>
           ))}
         </div>
+
+        {/* Flecha derecha */}
         {numVisibles > 1 && (
           <button
             className="btn btn-white position-absolute top-50 translate-middle-y"
@@ -243,9 +257,10 @@ function Carrusel() {
   );
 }
 
+/* ------------------------ VISTA DETALLE ------------------------ */
 function DetalleNoticia() {
   const { id } = useParams();
-  const noticia = noticias.find(n => n.id === parseInt(id));
+  const noticia = noticias.find((n) => n.id === Number(id));
 
   if (!noticia)
     return (
@@ -263,7 +278,7 @@ function DetalleNoticia() {
           background: #fff;
           border-radius: 10px;
           padding: 2rem;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0,0,0,.1);
         }
         .detalle-img {
           width: 100%;
@@ -278,24 +293,28 @@ function DetalleNoticia() {
           font-size: 1rem;
           color: #444;
         }
-        .btn-back {
-          margin-bottom: 1rem;
-        }
       `}</style>
 
       <div className="detalle-card text-center">
-        <Link to="/" className="btn btn-outline-success btn-back">← Atrás</Link>
+        <Link to="/" className="btn btn-outline-success mb-3">
+          ← Atrás
+        </Link>
         <h2 className="mb-3">{noticia.titulo}</h2>
         <p className="card-descripcion">{noticia.descripcion}</p>
-        <p><strong>{noticia.fecha}</strong></p>
+        <p>
+          <strong>{noticia.fecha}</strong>
+        </p>
         <p>{noticia.autor}</p>
         <img src={noticia.imagen} alt={noticia.titulo} className="detalle-img" />
-        <p><strong>{noticia.contenido}</strong></p>
+        <p>
+          <strong>{noticia.contenido}</strong>
+        </p>
       </div>
     </div>
   );
 }
 
+/* ------------------------ APP ROOT ------------------------ */
 function AppNoticias() {
   return (
     <Routes>

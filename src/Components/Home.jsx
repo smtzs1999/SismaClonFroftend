@@ -66,7 +66,7 @@ function Home({ onLogout }) {
         </Carousel>
         <div className="overlay">
           <h1>Sus Beneficios Para la Salud</h1>
-          <button className="read-button">Ver Más</button>
+          <button className="btn btn-primary active">Ver Más</button>
         </div>
       </main>
       <HealthCenter />
