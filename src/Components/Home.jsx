@@ -41,19 +41,6 @@ function Home({ onLogout }) {
           <Link to="/planes-salud">Planes de salud</Link>
           <Link to="/contacto">Contacto</Link>
         </nav>
-        <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: '#e74c3c',
-            color: 'white',
-            border: 'none',
-            borderRadius: 5,
-            padding: '8px 16px',
-            cursor: 'pointer'
-          }}
-        >
-          Cerrar sesión
-        </button>
       </header>
 
       <main className="hero-section">
@@ -71,8 +58,23 @@ function Home({ onLogout }) {
       </main>
       <HealthCenter />
       <OurDoctors />
-      <CardsApp/>
+      <div className="mt-5">
+        <CardsApp/>
+      </div>
       <ViewVista />
+      <button
+          onClick={handleLogout}
+          style={{
+            backgroundColor: '#0013a6ff',
+            color: 'white',
+            border: 'none',
+            borderRadius: 5,
+            padding: '8px 16px',
+            cursor: 'pointer'
+          }}
+        >
+          Cerrar sesión
+        </button>
     </div>
   );
 }
