@@ -15,11 +15,9 @@ const Footer = () => {
 
         {/* Contact Info */}
         <div className='footer-section'>
-          <h2>Contact Info</h2>
+          <h2>Contacto</h2>
           <p>
-            Fusce at libero iaculis, venenatis augue quis, 
-            pharetra lorem. Curabitur ut dolor eu elit 
-            consequat ultricies.
+            Para reservar una cita puede llamarnos o usar nuestro formulario en línea disponible en nuestro sitio web. También atendemos emergencias médicas en nuestro consultorio de urgencias 24/7.
           </p>
           <div className='footer-contact'>
             <div >
@@ -35,30 +33,30 @@ const Footer = () => {
 
         {/* Latest News */}
         <div className='footer-section' >
-          <h2>Latest News</h2>
+          <h2>Ultimas Noticias</h2>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '45px', fontFamily: 'sans-serif',}}>
             <img width="45" height="45" src={imgDoc} alt="news" style={{ borderRadius: '55%', marginRight: '20px' }} />
             <div>
-              <div style={{ fontWeight: 'bold' }}>Amazing Technology</div>
-              <div style={{ color: '#888', fontSize: '14px' }}>March 08, 2018</div>
+              <div style={{ fontWeight: 'bold' }}>Tecnologia hermosa</div>
+              <div style={{ color: '#888', fontSize: '14px' }}>Marzo 08, 2018</div>
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img width="45" height="45" src={imgDoc} alt="news" style={{ borderRadius: '55%', marginRight: '20px' }} />
             <div>
-              <div style={{ fontWeight: 'bold' }}>New Healing Process</div>
-              <div style={{ color: '#888', fontSize: '14px' }}>February 20, 2018</div>
+              <div style={{ fontWeight: 'bold' }}>Nuevo proceso de curación</div>
+              <div style={{ color: '#888', fontSize: '14px' }}>Febrero 20, 2018</div>
             </div>
           </div>
         </div>
 
         {/* Opening Hours */}
         <div className='footer-section'>
-          <h2>Opening Hours </h2>
+          <h2>Horario </h2>
           <div className='fooer-hours'>
-            <div style={{display:'flex'}}>Monday - Friday <span style={{ float: 'right' }}> 06:00 AM - 10:00 PM</span></div>
-            <div style={{display:'flex'}}>Saturday - <span style={{ float: 'right' }}> 09:00 AM - 08:00 PM</span></div>
-            <div style={{display:'flex'}}>Sunday - <span style={{ float: 'right' }}> Closed</span></div>
+            <div style={{display:'flex'}}>Lunes - Viernes <span style={{ float: 'right' }}> 06:00 AM - 10:00 PM</span></div>
+            <div style={{display:'flex'}}>Sabado - <span style={{ float: 'right' }}> 09:00 AM - 08:00 PM</span></div>
+            <div style={{display:'flex'}}>Domingo - <span style={{ float: 'right' }}> Cerrado</span></div>
           </div>
           <div className='fooeter-icons'>
             <a href="https://www.facebook.com/share/19AT4aR5PP/">

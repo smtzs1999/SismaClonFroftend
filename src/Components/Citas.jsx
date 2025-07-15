@@ -86,11 +86,11 @@ function ViewVista() {
                 <form onSubmit={handleSubmit}>
                   <div className="Formulario-item">
                     <div>
-                      <label>Name</label>
+                      <label>Nombre</label>
                       <input
                         type="text"
                         name="name"
-                        placeholder="Full Name"
+                        placeholder="Nombre completo"
                         value={form.name}
                         onChange={handleChange}
                         style={inputStyle}
@@ -102,7 +102,7 @@ function ViewVista() {
                       <input
                         type="email"
                         name="email"
-                        placeholder="Your Email"
+                        placeholder="Email"
                         value={form.email}
                         onChange={handleChange}
                         style={inputStyle}
@@ -112,7 +112,7 @@ function ViewVista() {
                   </div>
                   <div className="Formulario-item">
                     <div>
-                      <label>Select Department</label>
+                      <label>Selecciona Departamento</label>
                       <select
                         name="department"
                         value={form.department}
@@ -135,10 +135,10 @@ function ViewVista() {
                   </div>
                   <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
                     <div>
-                      <label style={{ fontWeight: 600}}>Phone Number</label>
+                      <label style={{ fontWeight: 600}}>Numero de Telefono</label>
                     <PhoneInput
                       country={'mx'}
-                      placeholder="Phone"
+                      placeholder="Telefono"
                       value={form.phone}
                       onChange={handlePhoneChange}
                       inputClass="mi-input-telefono" 
@@ -153,10 +153,10 @@ function ViewVista() {
                     </div>
                   </div >
                   <div style={{ marginBottom: 24 }}>
-                    <label style={{ fontWeight: 600 }}>Additional Message</label>
+                    <label style={{ fontWeight: 600 }}>Mensaje Adicional</label>
                     <textarea
                       name="message"
-                      placeholder="Message"
+                      placeholder="Mensaje adicional"
                       value={form.message}
                       onChange={handleChange}
                       style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
@@ -191,7 +191,7 @@ function ViewVista() {
                     limpiarFormulario();
                   }}
                 >
-                  Submit and Schedule
+                  Enviar
                 </button>
                 </form>
             </div>
