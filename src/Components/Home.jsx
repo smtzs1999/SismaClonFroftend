@@ -7,6 +7,7 @@ import { OurDoctors } from './OurDoctors';
 import { HealthCenter } from './welcome';
 import ViewVista from './Citas';
 import { Link, useNavigate } from 'react-router-dom';
+import Referencias from './Header';
 
 function Home({ onLogout }) {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function Home({ onLogout }) {
 
   return (
     <div className="app">
+      <Referencias />
       <header className="app-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <div className="logo">Centro de Salud</div>
         <nav className="nav">
