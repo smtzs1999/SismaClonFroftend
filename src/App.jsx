@@ -1,61 +1,43 @@
-import { useEffect, useState } from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import './App.css';
-import CardsApp from './Cards'
-import { OurDoctors } from './components/OurDoctors';
-import {HealthCenter} from './components/welcome';
-import ViewVista from './Components/Citas';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login';
+import Register from './components/Register';
+import AppNoticias from './Cards'; 
+import { useState } from 'react';
 
 function App() {
-  const images = [
-    '/src/assets/sistema/carrusel/foto1.jpg',
-    '/src/assets/sistema/carrusel/foto2.jpg',
-    '/src/assets/sistema/carrusel/foto3.jpg'
-  ];
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const [colors, setColors] = useState({
-    primary: '#7cc576',
-    button: '#8ac53f',
-    buttonText: '#fff',
-    text: '#000'
-  });
-                                                                                                                                                                                                                                                                              
+  const handleLogin = () => setIsAuthenticated(true);
+  const handleLogout = () => setIsAuthenticated(false);
 
   return (
-    <>
-    <div className="app">
-      <header className="app-header">
-        <div className="logo">Centro de Salud</div>
-        <nav className="nav">
-          <a href="#">Inicio</a>
-          <a href="#">Quienes Somos</a>
-          <a href="#">planes de salud</a>
-          <a href="#">Contacto</a>
-        </nav>
-        <button className="cta-button">Acceder a mi cuenta</button>
-      </header>
-
-      <main className="hero-section">
-        <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
-          {images.map((img, idx) => (
-            <div key={idx}>
-              <img src={img} alt={`slide-${idx}`} className="hero-image" />
-            </div>
-          ))}
-        </Carousel>
-        <div className="overlay">
-          <h1>Sus Beneficios Para la Salud</h1>
-          <button className="read-button">Ver Más</button>
-        </div>
-      </main>
-      <HealthCenter/>
-       <OurDoctors/>
-      <CardsApp/>
-      <ViewVista/>
-      
-    </div>    
-    </>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Home onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/noticias/*" element={<AppNoticias />} />
+      </Routes>
+    </Router>
   );
 }
 

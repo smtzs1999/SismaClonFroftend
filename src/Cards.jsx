@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  useParams,
-  Link
-} from 'react-router-dom';
+import { Routes, Route, useNavigate, useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import "slick-carousel/slick/slick.css";
 //import "slick-carousel/slick/slick-theme.css";
@@ -143,6 +136,7 @@ function Carrusel() {
           font-weight: 600;
           font-size: 1rem;
           color: #212529;
+          font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
         }
         .card-descripcion {
           text-align: justify;
@@ -215,7 +209,7 @@ function Carrusel() {
                 cursor: 'pointer',
                 transition: 'transform 0.5s ease-in-out'
               }}
-              onClick={() => navegar(`/details/${item.id}`)}
+              onClick={() => navegar(`/noticias/details/${item.id}`)}
             >
               <img src={item.imagen} className="img-fija" alt={item.titulo} />
               <div className="card-body d-flex flex-column justify-content-between">
@@ -304,12 +298,10 @@ function DetalleNoticia() {
 
 function AppNoticias() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Carrusel />} />
-        <Route path="/details/:id" element={<DetalleNoticia />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Carrusel />} />
+      <Route path="/details/:id" element={<DetalleNoticia />} />
+    </Routes>
   );
 }
 

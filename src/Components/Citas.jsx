@@ -4,7 +4,6 @@ import docImage from '../img/doc2.jpg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Footer from "./footer";
-import Referencias from "./Header";
 
 const departamentos = [
   "General Health",
@@ -80,7 +79,6 @@ function ViewVista() {
     
     return(
       <div >
-        <Referencias /> 
           <div className="Container-Principal">
             <img src={docImage} alt="Doctor"/>
             <div className="Formulario">  
