@@ -20,13 +20,10 @@ const Footer = () => {
         
       <div style={{ display: 'flex', justifyContent: 'space-around', margin: '0 auto', }}>
         {/* Contact Info */}
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>Contact Info</h2>
-
-          <p style={{ color: '#666', maxWidth: '350px', textAlign:'left', fontFamily: 'sans-serif',}}>
-            Fusce at libero iaculis, venenatis augue quis, 
-            pharetra lorem. Curabitur ut dolor eu elit 
-            consequat ultricies.
+        <div className='footer-section'>
+          <h2>Contacto</h2>
+          <p>
+            Para reservar una cita puede llamarnos o usar nuestro formulario en línea disponible en nuestro sitio web. También atendemos emergencias médicas en nuestro consultorio de urgencias 24/7.
           </p>
           <div style={{ margin: '10px 0', alignItems:'center', gap:'8px', display:'flex', fontFamily: 'sans-serif', }}>
             <img width="25" height="25" src={icoPhone} alt="phone"/>
@@ -39,31 +36,31 @@ const Footer = () => {
         </div>
 
         {/* Latest News */}
-        <div >
-          <h2 style={{ fontWeight: 'bold' }}>Latest News</h2>
+        <div className='footer-section' >
+          <h2>Ultimas Noticias</h2>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '45px', fontFamily: 'sans-serif',}}>
             <img width="45" height="45" src={imgDoc} alt="news" style={{ borderRadius: '55%', marginRight: '20px' }} />
             <div>
-              <div style={{ fontWeight: 'bold' }}>Amazing Technology</div>
-              <div style={{ color: '#888', fontSize: '14px' }}>March 08, 2018</div>
+              <div style={{ fontWeight: 'bold' }}>Tecnologia hermosa</div>
+              <div style={{ color: '#888', fontSize: '14px' }}>Marzo 08, 2018</div>
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img width="45" height="45" src={imgDoc} alt="news" style={{ borderRadius: '55%', marginRight: '20px' }} />
             <div>
-              <div style={{ fontWeight: 'bold' }}>New Healing Process</div>
-              <div style={{ color: '#888', fontSize: '14px' }}>February 20, 2018</div>
+              <div style={{ fontWeight: 'bold' }}>Nuevo proceso de curación</div>
+              <div style={{ color: '#888', fontSize: '14px' }}>Febrero 20, 2018</div>
             </div>
           </div>
         </div>
 
         {/* Opening Hours */}
-        <div>
-          <h2 style={{ fontWeight: 'bold' }}>Opening Hours </h2>
-          <div style={{ color: '#666', marginBottom: '50px'}}>
-            <div style={{display:'flex'}}>Monday - Friday <span style={{ float: 'right' }}> 06:00 AM - 10:00 PM</span></div>
-            <div style={{display:'flex'}}>Saturday - <span style={{ float: 'right' }}> 09:00 AM - 08:00 PM</span></div>
-            <div style={{display:'flex'}}>Sunday - <span style={{ float: 'right' }}> Closed</span></div>
+        <div className='footer-section'>
+          <h2>Horario </h2>
+          <div className='fooer-hours'>
+            <div style={{display:'flex'}}>Lunes - Viernes <span style={{ float: 'right' }}> 06:00 AM - 10:00 PM</span></div>
+            <div style={{display:'flex'}}>Sabado - <span style={{ float: 'right' }}> 09:00 AM - 08:00 PM</span></div>
+            <div style={{display:'flex'}}>Domingo - <span style={{ float: 'right' }}> Cerrado</span></div>
           </div>
           <div >
             <a href="https://www.facebook.com/share/19AT4aR5PP/">
