@@ -136,6 +136,7 @@ function Carrusel() {
           font-weight: 600;
           font-size: 1rem;
           color: #212529;
+          font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
         }
         .card-descripcion {
           text-align: justify;
