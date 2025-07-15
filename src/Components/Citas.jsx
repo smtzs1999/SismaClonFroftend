@@ -4,7 +4,7 @@ import docImage from '../img/doc2.jpg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Footer from "./footer";
-import Referencias from "./Header";
+import Referencias from "./Head";
 import { PopupButton } from "react-calendly";
 
 const departamentos = [
