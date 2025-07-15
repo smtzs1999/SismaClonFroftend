@@ -5,7 +5,6 @@ import icoEmail from '../img/email.png';
 import icoWhats from '../img/whatsapp.png';
 
 const Referencias = () => {
-  
     return(    
     <div className="topbar-container" style={{borderBottom:'3px solid #eee'}}>
       <div className="topbar-item">
