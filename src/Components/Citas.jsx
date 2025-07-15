@@ -78,7 +78,7 @@ function ViewVista() {
   };
 
     
-    return( //marginLeft ni margin
+    return(
       <div >
         <Referencias /> 
           <div className="Container-Principal">
