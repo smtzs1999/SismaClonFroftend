@@ -198,7 +198,9 @@ function ViewVista() {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
         </div>
+        <div id="contacto">
           <Footer/>
+        </div>
     </div>
 
   );
