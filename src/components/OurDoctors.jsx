@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Separador } from "./Separador";
+import "../Css/OurDoctors.css";
 
 import doctor1 from "../assets/sistema/doctores/doctor1.jpg";
 import doctor2 from "../assets/sistema/doctores/doctor2.jpg";
@@ -25,17 +26,14 @@ const doctorsData = [
 
 export const OurDoctors = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardsPerView, setCardsPerView] = useState(3); // número de cards visibles
-  const containerRef = useRef(null);
+  const [cardsPerView, setCardsPerView] = useState(3);
 
-  const allDoctors = [...doctorsData, ...doctorsData]; // para el loop infinito
-
-  // Función para actualizar cardsPerView según ancho de ventana
+  // Actualizar cuántas cards mostrar según ancho
   const updateCardsPerView = () => {
     const width = window.innerWidth;
-    if (width < 600) {
+    if (width < 576) {
       setCardsPerView(1);
-    } else if (width < 900) {
+    } else if (width < 992) {
       setCardsPerView(2);
     } else {
       setCardsPerView(3);
@@ -48,112 +46,109 @@ export const OurDoctors = () => {
     return () => window.removeEventListener("resize", updateCardsPerView);
   }, []);
 
+  // Avanzar automáticamente al siguiente card (uno por uno)
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => prev + 1);
-    }, 3000);
+      setCurrentIndex((prev) => {
+        // Nuevo índice
+        const next = prev + 1;
+        // Si el último índice que mostraría excede la cantidad total, reinicia
+        if (next + cardsPerView > doctorsData.length) {
+          return 0;
+        }
+        return next;
+      });
+    }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [cardsPerView]);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // Ancho de cada card depende del container y cardsPerView
-    const cardWidth = container.offsetWidth / cardsPerView;
-    container.style.transition = "transform 0.5s ease";
-    container.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
-
-    // Reseteamos el carrusel si se pasa del total (loop infinito)
-    if (currentIndex >= doctorsData.length) {
-      setTimeout(() => {
-        container.style.transition = "none";
-        container.style.transform = "translateX(0)";
-        setCurrentIndex(0);
-      }, 500);
-    }
-  }, [currentIndex, cardsPerView]);
+  // Obtener las cards que se van a mostrar (corte uno por uno)
+  const visibleDoctors = doctorsData.slice(
+    currentIndex,
+    currentIndex + cardsPerView
+  );
 
   return (
-    <div style={{ maxWidth: "960px", margin: "0 auto", padding: "0 10px" }}>
-      <Separador title="Our Doctors" />
+    <div
+      className="inter-medium"
+      style={{ maxWidth: "1140px", margin: "0 auto", padding: "0 10px",textAlign: "left" }}
+    >
+    <div style={{ marginLeft: "50px" }}>
+    <Separador title="Our Doctors" />
+    </div>
 
-      {/* Carrusel */}
       <div
-        className="carrusel-tipografia"
         style={{
-          overflow: "hidden",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "24px",
+          justifyContent: "center",
+          transition: "all 0.5s ease",
         }}
       >
-        <div
-          ref={containerRef}
-          style={{
-            display: "flex",
-          }}
-        >
-          {allDoctors.map((doctor, index) => (
+        {visibleDoctors.map((doctor) => (
+          <div
+            key={doctor.id}
+            style={{
+              flex: "0 0 auto",
+              width:
+                cardsPerView === 1
+                  ? "100%"
+                  : cardsPerView === 2
+                  ? "47%"
+                  : "28%",
+              boxSizing: "border-box",
+            }}
+          >
             <div
-              key={index}
               style={{
-                flex: `0 0 ${100 / cardsPerView}%`, // ancho responsivo
-                boxSizing: "border-box",
-                padding: "0 12px",
+                backgroundColor: "#f9f9f9",
+                borderRadius: "0",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                
               }}
             >
-              <div
+              <img
+                src={doctor.image}
+                alt={doctor.name}
                 style={{
-                  backgroundColor: "#f9f9f9",
-                  borderRadius: "0",
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-                  overflow: "hidden",
-                  display: "flex",
-                  flexDirection: "column",
+                  width: "100%",
+                  display: "block",
+                  
                 }}
-              >
-                <img
-                  src={doctor.image}
-                  alt={doctor.name}
+              />
+              <div style={{ padding: "16px", textAlign: "left", flex: 1 }}>
+                <h3 style={{ margin: "8px 0 4px", fontWeight: "bold" }}>
+                  {doctor.name}
+                </h3>
+                <p style={{ margin: "4px 0" }}>{doctor.area}</p>
+                <p style={{ margin: "30px 0 4px" }}>📞 {doctor.phone}</p>
+                <p
                   style={{
-                    width: "100%",
-                    display: "block",
+                    margin: "4px 0",
+                    display: "flex",
+                    alignItems: "center",
+                    wordBreak: "break-all",
                   }}
-                />
-                <div style={{ padding: "16px", textAlign: "left" }}>
-                  <h3 style={{ margin: "8px 0 4px", fontWeight: "bold" }}>
-                    {doctor.name}
-                  </h3>
-                  <p style={{ margin: "4px 0", fontWeight: "normal" }}>
-                    {doctor.area}
-                  </p>
-                  <p
+                >
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDV-6Oji13RF1SIO3MLEQa3-8x77r7T-rDSw&s"
+                    alt="email"
                     style={{
-                      margin: "30px 0 4px",
-                      fontWeight: "normal",
+                      width: "16px",
+                      height: "16px",
+                      marginRight: "6px",
                     }}
-                  >
-                    📞 {doctor.phone}
-                  </p>
-                  <p
-                    style={{
-                      margin: "4px 0",
-                      display: "flex",
-                      alignItems: "center",
-                      wordBreak: "break-all",
-                      fontWeight: "normal",
-                    }}
-                  >
-                    <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDV-6Oji13RF1SIO3MLEQa3-8x77r7T-rDSw&s"
-                      alt="email icon"
-                      style={{ width: "16px", height: "16px", marginRight: "6px" }}
-                    />
-                    {doctor.email}
-                  </p>
-                </div>
+                  />
+                  {doctor.email}
+                </p>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
