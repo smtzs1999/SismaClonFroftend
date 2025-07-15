@@ -7,7 +7,7 @@ import { OurDoctors } from './OurDoctors';
 import { HealthCenter } from './welcome';
 import ViewVista from './Citas';
 import { Link, useNavigate } from 'react-router-dom';
-import Referencias from './Header';
+import Referencias from './Head';
 
 function Home({ onLogout }) {
   const navigate = useNavigate();
