@@ -4,8 +4,6 @@ import docImage from '../img/doc2.jpg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Footer from "./footer";
-import Referencias from "./Header";
-import { PopupButton } from "react-calendly";
 
 const departamentos = [
   "General Health",
@@ -16,7 +14,7 @@ const departamentos = [
 ];
 
 function ViewVista() {
-  const [telefono, setTelefono] = useState("");
+  
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
@@ -26,6 +24,16 @@ function ViewVista() {
       phone: "",
       message: ""
   });
+
+  const limpiarFormulario = () => {
+    setForm({
+      name: "",
+      email: "",
+      department: "General Health",
+      phone: "",
+      message: ""
+    });
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,20 +77,20 @@ function ViewVista() {
   };
 
     
-    return(
+    return( //marginLeft ni margin
       <div >
           <div className="Container-Principal">
             <img src={docImage} alt="Doctor"/>
             <div className="Formulario">  
               <h1>Make an appointment</h1>    
                 <form onSubmit={handleSubmit}>
-                  <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
+                  <div className="Formulario-item">
                     <div>
                       <label>Nombre</label>
                       <input
                         type="text"
                         name="name"
-                        placeholder="Nombre completo"
+                        placeholder="nombre"
                         value={form.name}
                         onChange={handleChange}
                         style={inputStyle}
@@ -90,11 +98,11 @@ function ViewVista() {
                       />
                     </div>
                     <div>
-                      <label style={{ fontWeight: 600 }}>Email</label>
+                      <label>Email</label>
                       <input
                         type="email"
                         name="email"
-                        placeholder="Email"
+                        placeholder="correo electronico"
                         value={form.email}
                         onChange={handleChange}
                         style={inputStyle}
@@ -104,12 +112,20 @@ function ViewVista() {
                   </div>
                   <div className="Formulario-item">
                     <div>
-                      <label>Selecciona Departamento</label>
+                      <label>Selecciona el Departamento1</label>
                       <select
                         name="department"
                         value={form.department}
                         onChange={handleChange}
-                        style={inputStyle}
+                        style={{
+                          ...inputStyle,
+                          padding: "8px 15px",
+                          fontSize: 16,
+                          background: "#fff",
+                          color: "black", 
+                          width: '120%',
+                        }}
+
                         required
                       >
                         {departamentos.map((dep) => (
@@ -118,35 +134,26 @@ function ViewVista() {
                       </select>
                     </div>
                   </div>
-                  <div style={{ display: "flex", gap: 16, marginBottom: 18 }}>
+                  <div style={{marginBottom: 18 }}>
                     <div>
-                      <label style={{ fontWeight: 600}}>Numero de Telefono</label>
+                      <label style={{ fontWeight: 600}}>Numero telefonico2</label>
                     <PhoneInput
                       country={'mx'}
-                      placeholder="Telefono"
+                      placeholder="telefono"
                       value={form.phone}
                       onChange={handlePhoneChange}
                       inputClass="mi-input-telefono"
-                      inputStyle={{ 
-                      width: '70%',
-                      padding: '10px',
-                      borderRadius: '1px',
-                      border: '1px solid #ccc'
-                    }}
-                    containerStyle={{
-                      marginTop: '15px'
-                    }}
+                      containerClass="mi-contenedor-telefono"
                       required
                     />
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     </div>
-                  </div>
-                  
+                  </div >
                   <div style={{ marginBottom: 24 }}>
-                    <label style={{ fontWeight: 600 }}>Mensaje Adicional</label>
+                    <label style={{ fontWeight: 600 }}>Mensaje adicional</label>
                     <textarea
                       name="message"
-                      placeholder="Mensaje adicional"
+                      placeholder="Mensaje"
                       value={form.message}
                       onChange={handleChange}
                       style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
@@ -177,7 +184,6 @@ function ViewVista() {
                     } else {
                       alert("Por favor llena todos los campos requeridos antes de agendar.");
                     }
-                    // 🧼 Limpiar después de abrir Calendly
                     limpiarFormulario();
                   }}
                 >
@@ -186,25 +192,23 @@ function ViewVista() {
                 </form>
             </div>
           </div>
-        <div style={{ width: "100%", height: "400px" }}>
-        <iframe
-          title="Ubicación en Google Maps"
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10829.496609864684!2d-98.67107105000001!3d20.670868199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2smx!4v1752025683683!5m2!1ses!2smx"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-        </div>
-          <Footer/>
+      <div className="mapa-responsive">
+      <iframe
+        title="Ubicación en Google Maps"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10829.496609864684!2d-98.67107105000001!3d20.670868199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1ses!2smx!4v1752025683683!5m2!1ses!2smx"
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
+      </div>
+        <Footer/>
     </div>
 
   );
 }
 
 const inputStyle = {
+
   width: "100%",
   padding: "5px ",
   marginTop: 6,
