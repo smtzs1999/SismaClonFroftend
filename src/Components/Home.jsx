@@ -36,27 +36,14 @@ function Home({ onLogout }) {
       <header className="app-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
         <div className="logo">Centro de Salud</div>
         <nav className="nav">
-          <Link to="/">Inicio</Link>
-          <Link to="/quienes-somos">Quienes Somos</Link>
-          <Link to="/planes-salud">Planes de salud</Link>
-          <Link to="/contacto">Contacto</Link>
+          <a href="#inicio">Inicio</a>
+          <a href="#quienes-somos">Quienes Somos</a>
+          <a href="#planes-salud">Planes de salud</a>
+          <a href="#contacto">Contacto</a>
         </nav>
-        <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: '#e74c3c',
-            color: 'white',
-            border: 'none',
-            borderRadius: 5,
-            padding: '8px 16px',
-            cursor: 'pointer'
-          }}
-        >
-          Cerrar sesión
-        </button>
       </header>
 
-      <main className="hero-section">
+      <main className="hero-section" id="inicio">
         <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
           {images.map((img, idx) => (
             <div key={idx}>
@@ -69,10 +56,41 @@ function Home({ onLogout }) {
           <button className="btn btn-primary active">Ver Más</button>
         </div>
       </main>
+<<<<<<< HEAD
       <HealthCenter />
       <OurDoctors />
-      <CardsApp/>
+      <div className="mt-5">
+        <CardsApp/>
+      </div>
       <ViewVista />
+      <button
+          onClick={handleLogout}
+          style={{
+            backgroundColor: '#0013a6ff',
+            color: 'white',
+            border: 'none',
+            borderRadius: 5,
+            padding: '8px 16px',
+            cursor: 'pointer'
+          }}
+        >
+          Cerrar sesión
+        </button>
+=======
+
+      <div id="quienes-somos">
+        <HealthCenter />
+      </div>
+
+      <div id="planes-salud">
+        <OurDoctors />
+      </div>
+
+      
+        <CardsApp />
+        <ViewVista />
+      
+>>>>>>> r/belinda
     </div>
   );
 }

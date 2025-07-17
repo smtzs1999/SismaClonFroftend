@@ -4,6 +4,11 @@ import docImage from '../img/doc2.jpg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Footer from "./footer";
+<<<<<<< HEAD
+=======
+import Referencias from "./Head";
+import { PopupButton } from "react-calendly";
+>>>>>>> b6830a6a928229c495ee96c02a2367ee86db8430
 
 const departamentos = [
   "General Health",
