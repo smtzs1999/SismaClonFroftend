@@ -156,3 +156,30 @@ body {
   color: #888;
 }
 
+/* Tamaño base para Desktop */
+html {
+  font-size: 16px;
+}
+
+/* Tablet (ancho menor o igual a 1024px) */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* Teléfonos grandes (ancho menor o igual a 768px) */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Teléfonos pequeños (ancho menor o igual a 480px) */
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+
