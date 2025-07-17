@@ -181,5 +181,27 @@ html {
     font-size: 13px;
   }
 }
+.mobile-menu {
+  width: 300px;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre enlaces */
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #000000;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.hamburger{
+  background-color: #dedede1c;
+  color: #000000;
+}
+
 
 

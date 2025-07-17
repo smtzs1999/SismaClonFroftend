@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '../App.css';
@@ -6,11 +6,13 @@ import CardsApp from '../Cards';
 import { OurDoctors } from './OurDoctors';
 import { HealthCenter } from './welcome';
 import ViewVista from './Citas';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Referencias from './Head';
 
 function Home({ onLogout }) {
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   const images = [
     '/src/assets/sistema/carrusel/foto1.jpg',
@@ -18,12 +20,17 @@ function Home({ onLogout }) {
     '/src/assets/sistema/carrusel/foto3.jpg'
   ];
 
-  const [colors, setColors] = useState({
-    primary: '#7cc576',
-    button: '#8ac53f',
-    buttonText: '#fff',
-    text: '#000'
-  });
+  // Detectar si el ancho de la ventana es de un móvil
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 500);
+    };
+
+    handleResize(); // Ejecutar al cargar
+    window.addEventListener('resize', handleResize); // Escuchar cambios
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   function handleLogout() {
     onLogout();
@@ -33,15 +40,40 @@ function Home({ onLogout }) {
   return (
     <div className="app">
       <Referencias />
-      <header className="app-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+
+      <header className="app-header">
         <div className="logo">Centro de Salud</div>
-        <nav className="nav">
-          <a href="#inicio">Inicio</a>
-          <a href="#quienes-somos">Quienes Somos</a>
-          <a href="#planes-salud">Planes de salud</a>
-          <a href="#contacto">Contacto</a>
-        </nav>
+
+        {/* Solo mostrar hamburguesa si es móvil */}
+        {isMobileView && (
+          <button className="hamburger" onClick={() => setMobileMenuOpen(true)}>
+            ☰
+          </button>
+        )}
+
+        {/* Menú normal si NO es móvil */}
+        {!isMobileView && (
+          <nav className="nav desktop-nav">
+            <a href="#inicio">Inicio</a>
+            <a href="#quienes-somos">Quienes Somos</a>
+            <a href="#planes-salud">Planes de salud</a>
+            <a href="#contacto">Contacto</a>
+          </nav>
+        )}
       </header>
+
+      {/* Modal solo si está en móvil y se abre el menú */}
+      {isMobileView && isMobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
+          <div className="mobile-menu" onClick={e => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setMobileMenuOpen(false)}>×</button>
+            <a href="#inicio" onClick={() => setMobileMenuOpen(false)}>Inicio</a>
+            <a href="#quienes-somos" onClick={() => setMobileMenuOpen(false)}>Quienes Somos</a>
+            <a href="#planes-salud" onClick={() => setMobileMenuOpen(false)}>Planes de salud</a>
+            <a href="#contacto" onClick={() => setMobileMenuOpen(false)}>Contacto</a>
+          </div>
+        </div>
+      )}
 
       <main className="hero-section" id="inicio">
         <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
@@ -56,25 +88,28 @@ function Home({ onLogout }) {
           <button className="btn btn-primary active">Ver Más</button>
         </div>
       </main>
+
       <HealthCenter />
       <OurDoctors />
       <div className="mt-5">
-        <CardsApp/>
+        <CardsApp />
       </div>
       <ViewVista />
+
       <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: '#0013a6ff',
-            color: 'white',
-            border: 'none',
-            borderRadius: 5,
-            padding: '8px 16px',
-            cursor: 'pointer'
-          }}
-        >
-          Cerrar sesión
-        </button>
+        onClick={handleLogout}
+        style={{
+          backgroundColor: '#f3f3f3ff',
+          color: 'black',
+          border: 'none',
+          borderRadius: 5,
+          padding: '8px 16px',
+          cursor: 'pointer',
+          margin: '20px'
+        }}
+      >
+        Cerrar sesión
+      </button>
     </div>
   );
 }
