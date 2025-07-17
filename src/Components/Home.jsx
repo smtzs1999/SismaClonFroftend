@@ -56,7 +56,6 @@ function Home({ onLogout }) {
           <button className="btn btn-primary active">Ver Más</button>
         </div>
       </main>
-<<<<<<< HEAD
       <HealthCenter />
       <OurDoctors />
       <div className="mt-5">
@@ -76,21 +75,6 @@ function Home({ onLogout }) {
         >
           Cerrar sesión
         </button>
-=======
-
-      <div id="quienes-somos">
-        <HealthCenter />
-      </div>
-
-      <div id="planes-salud">
-        <OurDoctors />
-      </div>
-
-      
-        <CardsApp />
-        <ViewVista />
-      
->>>>>>> r/belinda
     </div>
   );
 }
