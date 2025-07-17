@@ -123,7 +123,7 @@ function ViewVista() {
                           fontSize: 16,
                           background: "#fff",
                           color: "black", 
-                          width: '120%',
+                          width: '115%',
                         }}
 
                         required
@@ -156,7 +156,7 @@ function ViewVista() {
                       placeholder="Mensaje"
                       value={form.message}
                       onChange={handleChange}
-                      style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
+                      style={{ ...inputStyle, minHeight: 80, resize: "none" }}
                     />
                   </div>
                   <button
