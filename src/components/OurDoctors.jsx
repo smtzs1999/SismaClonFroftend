@@ -58,7 +58,7 @@ export const OurDoctors = () => {
         }
         return next;
       });
-    }, 4000);
+    }, 8000);
     return () => clearInterval(interval);
   }, [cardsPerView]);
 
