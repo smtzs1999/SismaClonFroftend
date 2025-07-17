@@ -1,10 +1,19 @@
-
-.mi-input-telefono {
-  color: black !important;
-  background: #fff !important;
+.mi-contenedor-telefono {
+  width: 95% !important; /* igual que tu select */
 }
 
-/* ==== TOPBAR GENERAL ==== */
+.mi-input-telefono {
+  width: 100% !important;
+  padding: 8px 15px !important;
+  margin-left: 25px !important;
+  gap: 10px !important;
+  font-size: 16px !important;
+  background-color: white !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 6px !important;
+  color: black !important;
+}
+/* ==== TOPBAR GENERAL ====  */
 
 .topbar-container {
   display: flex;
@@ -14,9 +23,12 @@
   padding: 12px 24px;
   background-color: #f5f5f5;
   font-size: 14px;
-  font-family: sans-serif;
+  font-family:"Inter", sans-serif;
+  font-optical-sizing: auto;
   color: #333;
   gap: 12px;
+
+  
 }
 
 .topbar-item {
@@ -58,8 +70,8 @@
 }
 
 .Container-Principal img {
-  width: 500px;
-  border-radius: 12px;
+  width: 450px;
+  border-radius: 10px;
 }
 
 .Formulario {
@@ -76,6 +88,7 @@
   font-weight: 700;
   font-size: 36px;
   margin-bottom: 30px;
+  
 }
 
 .Formulario-item {
@@ -125,8 +138,11 @@
   background: #fafafd;
   padding: 48px 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'Inter,sans-serif';
   border-top: 3px solid #eee;
+  
+
+  
 }
 
 .footer-inner {
@@ -157,12 +173,14 @@
   color: #666;
   max-width: 350px;
   text-align: left;
+  font-family: 'Inter,sans-serif';
 }
 
 .footer-contact,
 .footer-hours {
   color: #666;
   font-size: 14px;
+  font-family: 'Inter,sans-serif';
 }
 
 .footer-contact div,
