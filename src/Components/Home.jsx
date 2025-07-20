@@ -9,7 +9,7 @@ import ViewVista from './Citas';
 import { useNavigate } from 'react-router-dom';
 import Referencias from './Head';
 
-function Home({ onLogout }) {
+function Home({ onLogout }) { // ✅ Recibe la prop onLogout
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -20,38 +20,36 @@ function Home({ onLogout }) {
     '/src/assets/sistema/carrusel/foto3.jpg'
   ];
 
-  // Detectar si el ancho de la ventana es de un móvil
   useEffect(() => {
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 500);
     };
 
-    handleResize(); // Ejecutar al cargar
-    window.addEventListener('resize', handleResize); // Escuchar cambios
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   function handleLogout() {
-    onLogout();
-    navigate('/login');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authTokenExpiration');
+
+    if (onLogout) onLogout(); // ✅ Llama al logout del padre
+
+    navigate('/login'); // ✅ Redirige a login
   }
 
   return (
     <div className="app">
       <Referencias />
-
       <header className="app-header">
         <div className="logo">Centro de Salud</div>
-
-        {/* Solo mostrar hamburguesa si es móvil */}
         {isMobileView && (
           <button className="hamburger" onClick={() => setMobileMenuOpen(true)}>
             ☰
           </button>
         )}
-
-        {/* Menú normal si NO es móvil */}
         {!isMobileView && (
           <nav className="nav desktop-nav">
             <a href="#inicio">Inicio</a>
@@ -61,8 +59,6 @@ function Home({ onLogout }) {
           </nav>
         )}
       </header>
-
-      {/* Modal solo si está en móvil y se abre el menú */}
       {isMobileView && isMobileMenuOpen && (
         <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
           <div className="mobile-menu" onClick={e => e.stopPropagation()}>
@@ -74,7 +70,6 @@ function Home({ onLogout }) {
           </div>
         </div>
       )}
-
       <main className="hero-section" id="inicio">
         <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
           {images.map((img, idx) => (
@@ -88,14 +83,12 @@ function Home({ onLogout }) {
           <button className="btn btn-primary active">Ver Más</button>
         </div>
       </main>
-
       <HealthCenter />
       <OurDoctors />
       <div className="mt-5">
         <CardsApp />
       </div>
       <ViewVista />
-
       <button
         onClick={handleLogout}
         style={{

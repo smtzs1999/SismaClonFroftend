@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ForgotPassword from './ForgotPassword'; // Asegúrate que la ruta es correcta
 import fondoLogin from '../assets/fondo/fondo.png';
+
+const TOKEN_KEY = 'authToken';
+const TOKEN_EXPIRATION_KEY = 'authTokenExpiration';
+
+function createToken() {
+  return Math.random().toString(36).substring(2);
+}
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showForgot, setShowForgot] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const expiration = localStorage.getItem(TOKEN_EXPIRATION_KEY);
+    if (token && expiration) {
+      const now = new Date().getTime();
+      if (now < Number(expiration)) {
+        onLogin();
+        navigate('/');
+      } else {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(TOKEN_EXPIRATION_KEY);
+      }
+    }
+  }, [navigate, onLogin]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,6 +38,13 @@ const Login = ({ onLogin }) => {
 
     if (userFound) {
       alert(`Inicio de sesión exitoso. Bienvenido, ${email}`);
+
+      const token = createToken();
+      const expirationTime = new Date().getTime() + 60 * 1000; // 1 minuto
+
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(TOKEN_EXPIRATION_KEY, expirationTime.toString());
+
       onLogin();
       navigate('/');
     } else {
@@ -145,6 +176,20 @@ const Login = ({ onLogin }) => {
                 >
                   Entrar
                 </button>
+                <div
+                  style={{
+                    marginTop: '1rem',
+                    textAlign: 'center',
+                    fontSize: '0.9rem',
+                    cursor: 'pointer',
+                    color: '#ff0000ff',
+                    fontWeight: 'bold',
+                    userSelect: 'none',
+                  }}
+                  onClick={() => setShowForgot(true)}
+                >
+                  ¿Olvidaste tu contraseña?
+                </div>
                 <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>
                   ¿No tienes cuenta?{' '}
                   <Link to="/register" style={{ color: '#45B36B', fontWeight: 'bold' }}>
@@ -166,6 +211,12 @@ const Login = ({ onLogin }) => {
           </div>
         </div>
       </div>
+
+      {showForgot && (
+        <ForgotPassword
+          onClose={() => setShowForgot(false)}
+        />
+      )}
     </>
   );
 };
