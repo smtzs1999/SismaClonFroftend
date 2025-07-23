@@ -28,7 +28,7 @@ const ForgotPassword = ({ onClose }) => {
     setSending(true);
     setMessage("");
 
-    // crea un token
+    // token
     const resetToken = uuidv4();
     localStorage.setItem(`resetToken_${userFound.correo}`, resetToken);
 

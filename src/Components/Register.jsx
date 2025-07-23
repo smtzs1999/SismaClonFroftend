@@ -5,7 +5,8 @@ import heartImage from '../assets/fondo/fondo.png';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    nombreCompleto: '',
+    nombre: '',
+    direccion: '',
     edad: '',
     telefono: '',
     curp: '',
@@ -43,17 +44,15 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Guardar en localStorage
     const users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(formData);
     localStorage.setItem('users', JSON.stringify(users));
 
     const fechaEmision = new Date().toLocaleDateString('es-MX');
-
     const rawQrText = `
 ===== GAFETE DIGITAL =====
 
-Nombre: ${formData.nombreCompleto}
+Nombre: ${formData.nombre}
 --------------------------
 Edad: ${formData.edad}
 --------------------------
@@ -67,43 +66,70 @@ Tipo de Sangre: ${formData.tipoSangre}
 --------------------------
 Correo: ${formData.correo}
 --------------------------
+Dirección: ${formData.direccion}
+--------------------------
 Emitido: ${fechaEmision}
 `.trim();
 
     const qr_datos = encodeURIComponent(rawQrText);
 
-    emailjs.send(
-      'service_hzfyjks',
-      'template_pj40evm',
-      {
-        ...formData,
-        to_name: formData.nombreCompleto,
-        fecha_emision: fechaEmision,
-        qr_datos,
-        foto: formData.fotoPerfil // foto base64
-      },
-      'F17ZBXqWR_0PuFbmR'
-    )
-    .then(() => {
-      alert('✅ Registro exitoso y gafete enviado por correo.');
-      setFormData({
-        nombreCompleto: '',
-        edad: '',
-        telefono: '',
-        curp: '',
-        nss: '',
-        tipoSangre: '',
-        correo: '',
-        password: '',
-        fotoPerfil: ''
-      });
-      navigate('/login');
+    fetch('http://localhost:3001/api/guardar-imagen', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imagen: formData.fotoPerfil,
+        correo: formData.correo
+      })
     })
-    .catch((error) => {
-      console.error('❌ Error enviando correo:', error);
-      alert('Registro exitoso, pero no se pudo enviar el gafete.');
-      navigate('/login');
-    });
+      .then(res => res.json())
+      .then(data => {
+        console.log('📦 Imagen guardada en MongoDB:', data);
+
+        emailjs.send(
+          'service_hzfyjks',
+          'template_pj40evm',
+          {
+            to_name: formData.nombre,
+            nombre: formData.nombre,
+            direccion: formData.direccion,
+            edad: formData.edad,
+            telefono: formData.telefono,
+            curp: formData.curp,
+            nss: formData.nss,
+            tipo_sangre: formData.tipoSangre,
+            correo: formData.correo,
+            fecha_emision: fechaEmision,
+            qr_datos,
+            foto: formData.fotoPerfil
+          },
+          'F17ZBXqWR_0PuFbmR'
+        )
+          .then(() => {
+            alert('✅ Registro exitoso y gafete enviado por correo.');
+            setFormData({
+              nombre: '',
+              direccion: '',
+              edad: '',
+              telefono: '',
+              curp: '',
+              nss: '',
+              tipoSangre: '',
+              correo: '',
+              password: '',
+              fotoPerfil: ''
+            });
+            navigate('/login');
+          })
+          .catch((error) => {
+            console.error('❌ Error enviando correo:', error);
+            alert('Registro exitoso, pero no se pudo enviar el gafete.');
+            navigate('/login');
+          });
+      })
+      .catch(err => {
+        console.error('❌ Error al guardar imagen:', err);
+        alert('Error al guardar la imagen. Intenta nuevamente.');
+      });
   };
 
   return (
@@ -133,7 +159,6 @@ Emitido: ${fechaEmision}
       <div style={{
         maxWidth: '1400px',
         width: '95%',
-        height: 'auto',
         display: 'flex',
         backgroundColor: '#d9dbd9ff',
         borderRadius: '20px',
@@ -153,9 +178,10 @@ Emitido: ${fechaEmision}
           <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Registro de Usuario</h2>
           <p style={{ textAlign: 'center', color: '#555' }}>Por favor llena los siguientes campos</p>
 
-          {['nombreCompleto', 'edad', 'telefono', 'curp', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
+          {['nombre', 'direccion', 'edad', 'telefono', 'curp', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
             const placeholders = {
-              nombreCompleto: 'Nombre Completo',
+              nombre: 'Nombre Completo',
+              direccion: 'Dirección',
               edad: 'Edad',
               telefono: 'Teléfono',
               curp: 'CURP',
@@ -172,7 +198,7 @@ Emitido: ${fechaEmision}
                 value={formData[field]}
                 onChange={handleChange}
                 placeholder={placeholders[field]}
-                required={['nombreCompleto', 'edad', 'correo', 'password'].includes(field)}
+                required={['nombre', 'edad', 'correo', 'password', 'direccion'].includes(field)}
                 style={{
                   padding: '14px',
                   borderRadius: '10px',
