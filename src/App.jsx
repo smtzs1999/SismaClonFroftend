@@ -3,7 +3,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import AppNoticias from './Cards';
-import ResetPassword from './components/ResetPassword';  // <-- Aquí
+import ResetPassword from './components/ResetPassword'; 
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
   }, []);
 
   const handleLogin = () => {
-    const token = 'tu_token_generado'; // En una app real, lo obtienes del backend
+    const token = 'token_generado';
     const expirationTime = new Date().getTime() + 60 * 1000; // 1 minuto de duración
 
     localStorage.setItem('token', token);

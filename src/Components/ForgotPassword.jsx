@@ -8,7 +8,7 @@ const ForgotPassword = ({ onClose }) => {
   const [message, setMessage] = useState("");
 
   const handleSendEmail = async () => {
-    if (sending) return; // evita clicks múltiples
+    if (sending) return;
 
     if (!email || !email.includes("@")) {
       setMessage("Ingresa un correo válido.");
@@ -28,12 +28,11 @@ const ForgotPassword = ({ onClose }) => {
     setSending(true);
     setMessage("");
 
-    // Crear token único
+    // crea un token
     const resetToken = uuidv4();
     localStorage.setItem(`resetToken_${userFound.correo}`, resetToken);
 
 
-    // URL base para reset, usa variable de entorno o fallback
     const baseUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
     const resetLink = `${baseUrl}/reset-password?token=${resetToken}&email=${encodeURIComponent(
       userFound.correo

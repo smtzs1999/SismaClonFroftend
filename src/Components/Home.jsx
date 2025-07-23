@@ -9,7 +9,7 @@ import ViewVista from './Citas';
 import { useNavigate } from 'react-router-dom';
 import Referencias from './Head';
 
-function Home({ onLogout }) { // ✅ Recibe la prop onLogout
+function Home({ onLogout }) { 
   const navigate = useNavigate();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -35,9 +35,9 @@ function Home({ onLogout }) { // ✅ Recibe la prop onLogout
     localStorage.removeItem('authToken');
     localStorage.removeItem('authTokenExpiration');
 
-    if (onLogout) onLogout(); // ✅ Llama al logout del padre
+    if (onLogout) onLogout(); // logout padre
 
-    navigate('/login'); // ✅ Redirige a login
+    navigate('/login');
   }
 
   return (
@@ -101,7 +101,7 @@ function Home({ onLogout }) { // ✅ Recibe la prop onLogout
           margin: '20px'
         }}
       >
-        Cerrar sesión
+        Cerrar sesiónn
       </button>
     </div>
   );

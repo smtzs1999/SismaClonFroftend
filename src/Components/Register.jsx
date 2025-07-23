@@ -12,7 +12,8 @@ const Register = () => {
     nss: '',
     tipoSangre: '',
     correo: '',
-    password: ''
+    password: '',
+    fotoPerfil: ''
   });
 
   const navigate = useNavigate();
@@ -25,9 +26,24 @@ const Register = () => {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({
+        ...prev,
+        fotoPerfil: reader.result
+      }));
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Guardar en localStorage
     const users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(formData);
     localStorage.setItem('users', JSON.stringify(users));
@@ -63,10 +79,12 @@ Emitido: ${fechaEmision}
         ...formData,
         to_name: formData.nombreCompleto,
         fecha_emision: fechaEmision,
-        qr_datos
+        qr_datos,
+        foto: formData.fotoPerfil // foto base64
       },
       'F17ZBXqWR_0PuFbmR'
-    ).then(() => {
+    )
+    .then(() => {
       alert('✅ Registro exitoso y gafete enviado por correo.');
       setFormData({
         nombreCompleto: '',
@@ -76,10 +94,12 @@ Emitido: ${fechaEmision}
         nss: '',
         tipoSangre: '',
         correo: '',
-        password: ''
+        password: '',
+        fotoPerfil: ''
       });
       navigate('/login');
-    }).catch((error) => {
+    })
+    .catch((error) => {
       console.error('❌ Error enviando correo:', error);
       alert('Registro exitoso, pero no se pudo enviar el gafete.');
       navigate('/login');
@@ -168,6 +188,20 @@ Emitido: ${fechaEmision}
             );
           })}
 
+          <label style={{ fontWeight: 'bold' }}>Foto de Perfil</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{
+              padding: '10px',
+              border: '1px solid #ccc',
+              borderRadius: '10px',
+              backgroundColor: 'white',
+              fontSize: '1rem'
+            }}
+          />
+
           <button type="submit" style={{
             backgroundColor: '#2ecc71',
             color: 'white',
@@ -182,6 +216,7 @@ Emitido: ${fechaEmision}
             Registrarme
           </button>
         </form>
+
         <div style={{
           flexBasis: '40%',
           backgroundImage: `url(${heartImage})`,
