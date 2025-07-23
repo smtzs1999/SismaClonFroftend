@@ -1,23 +1,28 @@
+// server.js
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
 const app = express();
 
+// Middlewares
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
+// Conexión MongoDB
 mongoose.connect('mongodb://localhost:27017/usuariosDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('✅ Conectado a MongoDB'))
   .catch(err => console.error('❌ Error al conectar a MongoDB:', err));
 
+// Modelo
 const ImagenSchema = new mongoose.Schema({
   imagenBase64: String
 });
 const Imagen = mongoose.model('Imagen', ImagenSchema);
 
+// Ruta para guardar la imagen
 app.post('/api/guardar-imagen', async (req, res) => {
   try {
     const { imagen } = req.body;
@@ -35,6 +40,7 @@ app.post('/api/guardar-imagen', async (req, res) => {
   }
 });
 
+// Nueva ruta para obtener imagen por ID
 app.get('/api/imagen/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -50,6 +56,7 @@ app.get('/api/imagen/:id', async (req, res) => {
   }
 });
 
+// Iniciar servidor
 app.listen(3001, () => {
   console.log('🚀 Servidor backend en http://localhost:3001');
 });
