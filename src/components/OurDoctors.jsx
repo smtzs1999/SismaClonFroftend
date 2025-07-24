@@ -69,13 +69,8 @@ export const OurDoctors = () => {
   );
 
   return (
-    <div
-      className="inter-medium"
-      style={{ maxWidth: "1140px", margin: "0 auto", padding: "0 10px",textAlign: "left" }}
-    >
-    <div style={{ marginLeft: "50px" }}>
-    <Separador title="Our Doctors" />
-    </div>
+    <div style={{ maxWidth: "960px", margin: "0 auto", padding: "0 10px" }}>
+      <Separador title="Our Doctors" />
 
       <div
         style={{

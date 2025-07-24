@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import "slick-carousel/slick/slick.css";
-//import "slick-carousel/slick/slick-theme.css";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -49,7 +47,7 @@ const noticias = [
   },
   {
     id: 3,
-    titulo: 'SE PUBLICÓ EL PROGRAMA NACIONAL DE INFRAESTRUCTURA DE LA CALIDAD 2025',
+    titulo: 'Se publico el programa nacional de infraestructura de la calidad',
     descripcion:
       'Un nuevo plan estratégico que busca fortalecer los estándares y regulaciones para garantizar.',
     fecha: '25 de Febrero del 2025',
@@ -104,7 +102,6 @@ function Carrusel() {
   const [numVisibles, setNumVisibles] = useState(3);
   const navegar = useNavigate();
 
-  /* -- Responsive: cuántas cards mostrar -- */
   useEffect(() => {
     const actualizarVisibles = () => {
       const w = window.innerWidth;
@@ -117,7 +114,6 @@ function Carrusel() {
     return () => window.removeEventListener('resize', actualizarVisibles);
   }, []);
 
-  /* -- Navegación automática / manual -- */
   const siguiente = () =>
     setIndiceInicio((prev) => (prev >= noticias.length - numVisibles ? 0 : prev + 1));
   const anterior = () =>
@@ -134,16 +130,21 @@ function Carrusel() {
 
   return (
     <div className="container py-3">
-      {/* ---------- ESTILOS INLINE (puedes moverlos a un .css si prefieres) ---------- */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+          font-family: 'Inter', sans-serif;
+        }
+
         .news-card {
           padding: 0;
-          text-align: left;            /* quita todo el padding de la card */   
+          text-align: left;
         }
         .img-fija {
           display: block;
-          width: 100%;           /* ocupa todo el ancho real */
-          height: 260px;         /* cambia la altura aquí si lo necesitas */
+          width: 100%;
+          height: 260px;
           object-fit: cover;
           object-position: center;
           margin: 0;
@@ -153,10 +154,9 @@ function Carrusel() {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
-          font-weight: bold;
+          font-weight: 600;
           font-size: 1.2rem;
           color: #212529;
-          font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
         }
         .card-descripcion {
           text-align: justify;
@@ -193,10 +193,11 @@ function Carrusel() {
         }
       `}</style>
 
-      <h2 className="text-center mb-5">Últimas Noticias</h2>
+      <div className="w-100">
+        <h2 className="text-center mb-5"><strong>Latest News</strong></h2>
+      </div>
 
       <div className="position-relative">
-        {/* Flecha izquierda */}
         {numVisibles > 1 && (
           <button
             className="btn btn-white position-absolute top-50 translate-middle-y"
@@ -206,8 +207,6 @@ function Carrusel() {
             &#10094;
           </button>
         )}
-
-        {/* CONTENEDOR DE CARDS */}
         <div className="d-flex flex-wrap justify-content-center gap-3 px-0">
           {visibles.map((item) => (
             <div
@@ -242,7 +241,6 @@ function Carrusel() {
           ))}
         </div>
 
-        {/* Flecha derecha */}
         {numVisibles > 1 && (
           <button
             className="btn btn-white position-absolute top-50 translate-middle-y"
@@ -272,6 +270,12 @@ function DetalleNoticia() {
   return (
     <div className="container py-5 d-flex justify-content-center align-items-center">
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+          font-family: 'Inter', sans-serif;
+        }
+
         .detalle-card {
           max-width: 700px;
           width: 100%;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import '../App.css';
@@ -6,11 +6,13 @@ import CardsApp from '../Cards';
 import { OurDoctors } from './OurDoctors';
 import { HealthCenter } from './welcome';
 import ViewVista from './Citas';
-import { Link, useNavigate } from 'react-router-dom';
-import Referencias from './Header';
+import { useNavigate } from 'react-router-dom';
+import Referencias from './Head';
 
-function Home({ onLogout }) {
+function Home({ onLogout }) { 
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   const images = [
     '/src/assets/sistema/carrusel/foto1.jpg',
@@ -18,45 +20,57 @@ function Home({ onLogout }) {
     '/src/assets/sistema/carrusel/foto3.jpg'
   ];
 
-  const [colors, setColors] = useState({
-    primary: '#7cc576',
-    button: '#8ac53f',
-    buttonText: '#fff',
-    text: '#000'
-  });
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 500);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   function handleLogout() {
-    onLogout();
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authTokenExpiration');
+
+    if (onLogout) onLogout(); // logout padre
+
     navigate('/login');
   }
 
   return (
     <div className="app">
       <Referencias />
-      <header className="app-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <header className="app-header">
         <div className="logo">Centro de Salud</div>
-        <nav className="nav">
-          <Link to="/">Inicio</Link>
-          <Link to="/quienes-somos">Quienes Somos</Link>
-          <Link to="/planes-salud">Planes de salud</Link>
-          <Link to="/contacto">Contacto</Link>
-        </nav>
-        <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: '#e74c3c',
-            color: 'white',
-            border: 'none',
-            borderRadius: 5,
-            padding: '8px 16px',
-            cursor: 'pointer'
-          }}
-        >
-          Cerrar sesión
-        </button>
+        {isMobileView && (
+          <button className="hamburger" onClick={() => setMobileMenuOpen(true)}>
+            ☰
+          </button>
+        )}
+        {!isMobileView && (
+          <nav className="nav desktop-nav">
+            <a href="#inicio">Inicio</a>
+            <a href="#quienes-somos">Quienes Somos</a>
+            <a href="#planes-salud">Planes de salud</a>
+            <a href="#contacto">Contacto</a>
+          </nav>
+        )}
       </header>
-
-      <main className="hero-section">
+      {isMobileView && isMobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
+          <div className="mobile-menu" onClick={e => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setMobileMenuOpen(false)}>×</button>
+            <a href="#inicio" onClick={() => setMobileMenuOpen(false)}>Inicio</a>
+            <a href="#quienes-somos" onClick={() => setMobileMenuOpen(false)}>Quienes Somos</a>
+            <a href="#planes-salud" onClick={() => setMobileMenuOpen(false)}>Planes de salud</a>
+            <a href="#contacto" onClick={() => setMobileMenuOpen(false)}>Contacto</a>
+          </div>
+        </div>
+      )}
+      <main className="hero-section" id="inicio">
         <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
           {images.map((img, idx) => (
             <div key={idx}>
@@ -71,8 +85,24 @@ function Home({ onLogout }) {
       </main>
       <HealthCenter />
       <OurDoctors />
-      <CardsApp/>
+      <div className="mt-5">
+        <CardsApp />
+      </div>
       <ViewVista />
+      <button
+        onClick={handleLogout}
+        style={{
+          backgroundColor: '#f3f3f3ff',
+          color: 'black',
+          border: 'none',
+          borderRadius: 5,
+          padding: '8px 16px',
+          cursor: 'pointer',
+          margin: '20px'
+        }}
+      >
+        Cerrar sesiónn
+      </button>
     </div>
   );
 }
