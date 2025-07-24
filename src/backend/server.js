@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
 // Conexión MongoDB
-mongoose.connect('mongodb://localhost:27017/usuariosDB', {
+mongoose.connect('mongodb+srv://admin:Admin.12345678@backendlanding.fot6l7f.mongodb.net/usuariosDB?retryWrites=true&w=majority',{
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('✅ Conectado a MongoDB'))
