@@ -12,9 +12,8 @@ const Register = () => {
     nss: '',
     tipoSangre: '',
     correo: '',
-    contraseña: '',
-    confirmarcontraseña: '',
-    fotoPerfil: ''
+    password: '',
+    fotoPerfil: '',
   });
 
   const navigate = useNavigate();
@@ -66,9 +65,8 @@ Tipo de Sangre: ${formData.tipoSangre}
 --------------------------
 Correo: ${formData.correo}
 --------------------------
-Contraseña: ${formData.contraseña}
+Contraseña: ${formData.password}
 --------------------------
-Confirmar contraseña: ${confirmarContraseña}
 `.trim();
 
     const qr_datos = encodeURIComponent(rawQrText);
@@ -105,17 +103,16 @@ Confirmar contraseña: ${confirmarContraseña}
         )
           .then(() => {
             alert('✅ Registro exitoso y gafete enviado por correo.');
-            setFormData({
+            setFormData({ 
               nombre: '',
-              direccion: '',
               edad: '',
               curp: '',
               telefono: '',
               nss: '',
               tipoSangre: '',
               correo: '',
-              confirmarcontraseña: '',
-              fotoPerfil: ''
+              password: '',
+              fotoPerfil: '',
             });
             navigate('/login');
           })
@@ -178,7 +175,7 @@ Confirmar contraseña: ${confirmarContraseña}
           <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Registro</h2>
           <p style={{ textAlign: 'center', color: '#555' }}>Por favor ingrese sus datos</p>
 
-          {['nombre','edad', 'curp', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
+          {['nombre', 'edad', 'curp', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
             const placeholders = {
               nombre: 'Nombre Completo',
               edad: 'Edad',
@@ -188,7 +185,6 @@ Confirmar contraseña: ${confirmarContraseña}
               tipoSangre: 'Tipo de Sangre',
               correo: 'Correo Electrónico',
               password: 'Contraseña',
-              confirmarContraseña: 'contraseña',
             };
             return (
               <input
@@ -216,10 +212,7 @@ Confirmar contraseña: ${confirmarContraseña}
             );
           })}
 
-          
-
-          
-          <label style={{ fontWeight: 'bold'}}>Foto de Perfil</label>
+          <label style={{ fontWeight: 'bold' }}>Foto de Perfil</label>
           <input
             type="file"
             accept="image/*"
@@ -228,13 +221,12 @@ Confirmar contraseña: ${confirmarContraseña}
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '10px',
-              width:'250px',
-              height:'50px',
+              width: '250px',
+              height: '50px',
               backgroundColor: 'white',
               fontSize: '1rem'
             }}
           />
-
 
           <button type="submit" style={{
             backgroundColor: '#5858ebff',

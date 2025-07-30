@@ -113,7 +113,6 @@ const ForgotPassword = ({ onClose }) => {
             border: "1px solid #ccc",
             backgroundColor: "white",
             color: "black"
-        
           }}
         />
         <button

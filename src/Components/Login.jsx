@@ -118,8 +118,8 @@ const Login = ({ onLogin }) => {
 
               <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
                   ¿Eres nuevo usuario?{' '}
-                  <Link to="/register" style={{ color: '#45B36B', fontWeight: 'bold' }}>
-                    Registrarse
+                  <Link to="/register" style={{ color: '#000000ff', fontWeight: 'bold' }}>
+                    <strong>Registrarse</strong>
                   </Link>
                 </div>
 

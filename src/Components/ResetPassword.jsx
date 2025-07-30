@@ -22,6 +22,10 @@ const ResetPassword = () => {
     if (storedToken !== token) {
       setMessage('Token inválido o expirado.');
     }
+
+    //token oculto
+    window.history.replaceState({}, document.title, 'reset/-password');
+
   }, [email, token]);
 
   const handleSubmit = (e) => {
@@ -112,6 +116,7 @@ const styles = {
     color: '#333',
   },
   input: {
+    color: 'black',
     padding: '10px',
     fontSize: '16px',
     borderRadius: '5px',
