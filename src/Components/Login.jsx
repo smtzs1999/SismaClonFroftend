@@ -91,7 +91,7 @@ const Login = ({ onLogin }) => {
               display: 'flex',
               width: '400px',
               height: '400px',
-              backgroundColor: 'rgba(153, 217, 233, 0.58)',
+              backgroundColor: 'rgba(10, 211, 77, 0.48)',
               borderRadius: '2rem',
               overflow: 'hidden',
               boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
@@ -118,8 +118,9 @@ const Login = ({ onLogin }) => {
 
               <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
                   ¿Eres nuevo usuario?{' '}
-                  <Link to="/register" style={{ color: '#000000ff', fontWeight: 'bold' }}>
                     <strong>Registrarse</strong>
+                  <Link to="/register" style={{ color: '#e5e4ecff', fontWeight: 'bold' }}>
+                    Registrarse
                   </Link>
                 </div>
 
