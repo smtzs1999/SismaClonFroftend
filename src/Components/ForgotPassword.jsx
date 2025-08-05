@@ -121,7 +121,7 @@ const ForgotPassword = ({ onClose }) => {
           style={{
             width: "80%",
             padding: "10px",
-            backgroundColor: sending ? "#002904ff" : "#69a86dff",
+            backgroundColor: sending ? "#002904ff" : "#1dd22aff",
             color: "white",
             border: "none",
             borderRadius: "8px",

@@ -142,10 +142,9 @@ Contraseña: ${formData.password}
     }}>
       <h1 style={{
         textAlign: 'center',
-        fontSize: '2.7rem',
+        fontSize: '3.0rem',
         color: '#fff',
         letterSpacing: '0.2em',
-        backgroundColor: '#9ddef6ff',
         padding: '10px 20px',
         borderRadius: '20px',
         marginBottom: '30px',
@@ -172,8 +171,8 @@ Contraseña: ${formData.password}
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '16px'
         }}>
-          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Registro</h2>
-          <p style={{ textAlign: 'center', color: '#555' }}>Por favor ingrese sus datos</p>
+          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold', color: 'white'}}>Registro</h2>
+          <p style={{ textAlign: 'center', color: 'white', fontSize: '1.2rem'}}>Por favor ingrese sus datos</p>
 
           {['nombre', 'edad', 'curp', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
             const placeholders = {
@@ -212,7 +211,7 @@ Contraseña: ${formData.password}
             );
           })}
 
-          <label style={{ fontWeight: 'bold' }}>Foto de Perfil</label>
+          <label style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white' }}>Foto de Perfil</label>
           <input
             type="file"
             accept="image/*"
@@ -229,8 +228,9 @@ Contraseña: ${formData.password}
           />
 
           <button type="submit" style={{
-            backgroundColor: '#5858ebff',
-            color: 'white',
+            backgroundColor: '#ffffffff',
+            color: 'black',
+            boxShadow: '10px 4px 4px green',
             padding: '14px',
             border: 'none',
             borderRadius: '10px',

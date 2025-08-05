@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ForgotPassword from './ForgotPassword'; // Asegúrate que la ruta es correcta
+import ForgotPassword from './ForgotPassword';
 import fondoLogin from '../assets/fondo/doctorsito.jpeg';
 
 
@@ -117,10 +117,10 @@ const Login = ({ onLogin }) => {
               </h2>
 
               <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                  ¿Eres nuevo usuario?{' '}
-                    <strong>Registrarse</strong>
+                  <strong>¿Eres nuevo usuario?{' '}</strong>
+                  
                   <Link to="/register" style={{ color: '#e5e4ecff', fontWeight: 'bold' }}>
-                    Registrarse
+                    Registro
                   </Link>
                 </div>
 
@@ -158,13 +158,13 @@ const Login = ({ onLogin }) => {
                   style={{
                     width: '100%',
                     padding: '0.75rem',
-                    backgroundColor: '#276df0ff',
-                    color: 'white',
+                    backgroundColor: '#ffffffff',
+                    color: 'black',
                     border: 'none',
                     borderRadius: '1rem',
                     fontWeight: 'bold',
                     fontSize: '1rem',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
                   Ingresar
@@ -173,7 +173,7 @@ const Login = ({ onLogin }) => {
                   style={{
                     marginTop: '1rem',
                     float: 'right',       
-                    fontSize: '0.75rem',
+                    fontSize: '0.99rem',
                     cursor: 'pointer',
                     color: '#ff0000ff',
                     fontWeight: 'bold',
