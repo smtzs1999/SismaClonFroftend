@@ -8,6 +8,7 @@ import { HealthCenter } from './welcome';
 import ViewVista from './Citas';
 import { useNavigate } from 'react-router-dom';
 import Referencias from './Head';
+import Preguntas from './Preguntas';
 
 function Home({ onLogout }) { 
   const navigate = useNavigate();
@@ -88,7 +89,10 @@ function Home({ onLogout }) {
       <div className="mt-5">
         <CardsApp />
       </div>
+      
       <ViewVista />
+      
+      
       <button
         onClick={handleLogout}
         style={{
