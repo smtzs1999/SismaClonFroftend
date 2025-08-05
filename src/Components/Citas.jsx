@@ -37,7 +37,7 @@ function ViewVista() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Actualizar el estado general del formulario
+    // Actualizar el estado general
     setForm({
       ...form,
       [name]: value,
