@@ -161,7 +161,7 @@ Confirmar contraseña: ${confirmarContraseña}
         maxWidth: '600px',
         width: '45%',
         display: 'flex',
-        backgroundColor: '#9ddef6ff',
+        backgroundColor: 'rgba(10, 211, 77, 0.48)',
         borderRadius: '5px',
         overflow: 'hidden',
         boxShadow: '0 0 20px rgba(0, 0, 0, 0.21)',
