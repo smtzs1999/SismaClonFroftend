@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { v4 as uuidv4 } from "uuid";
+import Swal from 'sweetalert2';
+
 
 const ForgotPassword = ({ onClose }) => {
   const [email, setEmail] = useState("");
@@ -8,67 +10,91 @@ const ForgotPassword = ({ onClose }) => {
   const [message, setMessage] = useState("");
 
   const handleSendEmail = async () => {
-    if (sending) return;
+  if (sending) return;
 
-    if (!email || !email.includes("@")) {
-      setMessage("Ingresa un correo válido.");
-      return;
-    }
+  if (!email || !email.includes("@")) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Correo inválido',
+      timer: 2000,
+      text: 'Ingresa un correo electrónico válido',
+      confirmButtonColor: '#f59e0b'
+    });
+    return;
+  }
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const userFound = users.find(
-      (user) => user?.correo?.toLowerCase() === email.toLowerCase()
-    );
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const userFound = users.find(
+    (user) => user?.correo?.toLowerCase() === email.toLowerCase()
+  );
 
-    if (!userFound) {
-      setMessage("El correo no existe en la base de datos.");
-      return;
-    }
+  if (!userFound) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Correo no encontrado',
+      timer: 2000,
+      text: 'El correo no existe en la base de datos',
+      confirmButtonColor: '#ef4444'
+    });
+    return;
+  }
 
-    setSending(true);
-    setMessage("");
+  setSending(true);
 
-    // token
-    const resetToken = uuidv4();
-    localStorage.setItem(`resetToken_${userFound.correo}`, resetToken);
+  const resetToken = uuidv4();
+  localStorage.setItem(`resetToken_${userFound.correo}`, resetToken);
 
+  const baseUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
+  const resetLink = `${baseUrl}/reset-password?token=${resetToken}&email=${encodeURIComponent(
+    userFound.correo
+  )}`;
 
-    const baseUrl = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
-    const resetLink = `${baseUrl}/reset-password?token=${resetToken}&email=${encodeURIComponent(
-      userFound.correo
-    )}`;
-
-    console.log("Token generado:", resetToken);
-    console.log("Link enviado:", resetLink);
-
-
-
-    const templateParams = {
-      to_name: userFound.usuario || "Usuario",
-      to_email: userFound.correo,
-      reset_link: resetLink,
-    };
-
-    try {
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-      if (!serviceId || !templateId || !publicKey) {
-        setMessage("Faltan variables de entorno para el envío de correo.");
-        setSending(false);
-        return;
-      }
-
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
-      setMessage("Correo enviado exitosamente. Revisa tu bandeja.");
-    } catch (error) {
-      console.error("Error al enviar correo:", error);
-      setMessage("Hubo un error al enviar el correo.");
-    } finally {
-      setSending(false);
-    }
+  const templateParams = {
+    to_name: userFound.usuario || "Usuario",
+    to_email: userFound.correo,
+    reset_link: resetLink,
   };
+
+  try {
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Configuración incompleta',
+        timer: 2000,
+        text: 'Faltan variables de entorno para el envío de correo',
+        confirmButtonColor: '#ef4444'
+      });
+      setSending(false);
+      return;
+    }
+
+    await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Correo enviado',
+      timer: 2000,
+      text: 'Revisa tu bandeja de entrada o correo no deseado',
+      confirmButtonColor: '#10b981'
+    });
+  } catch (error) {
+    console.error("Error al enviar correo:", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al enviar',
+      timer: 2000,
+      text: 'Hubo un error al enviar el correo. Intenta nuevamente.',
+      confirmButtonColor: '#ef4444'
+    });
+  } finally {
+    setSending(false);
+  }
+};
+
 
   return (
     <div
@@ -83,7 +109,7 @@ const ForgotPassword = ({ onClose }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 9999, 
+        zIndex: 999, 
       }}
     >
       <div

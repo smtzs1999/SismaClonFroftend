@@ -8,6 +8,7 @@ const Register = () => {
     nombre: '',
     edad: '',
     curp: '',
+    direccion: '',
     telefono: '',
     nss: '',
     tipoSangre: '',
@@ -57,6 +58,8 @@ Edad: ${formData.edad}
 --------------------------
 CURP: ${formData.curp}
 --------------------------
+DIRECCION: ${formData.direccion}
+--------------------------
 Teléfono: ${formData.telefono}
 --------------------------
 NSS: ${formData.nss}
@@ -91,6 +94,7 @@ Contraseña: ${formData.password}
             nombre: formData.nombre,
             edad: formData.edad,
             curp: formData.curp,
+            direccion: formData.direccion,
             telefono: formData.telefono,
             nss: formData.nss,
             tipo_sangre: formData.tipoSangre,
@@ -107,6 +111,7 @@ Contraseña: ${formData.password}
               nombre: '',
               edad: '',
               curp: '',
+              direccion: '',
               telefono: '',
               nss: '',
               tipoSangre: '',
@@ -174,11 +179,12 @@ Contraseña: ${formData.password}
           <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold', color: 'white'}}>Registro</h2>
           <p style={{ textAlign: 'center', color: 'white', fontSize: '1.2rem'}}>Por favor ingrese sus datos</p>
 
-          {['nombre', 'edad', 'curp', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
+          {['nombre', 'edad', 'curp', 'direccion', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
             const placeholders = {
               nombre: 'Nombre Completo',
               edad: 'Edad',
               curp: 'CURP',
+              direccion: 'Direccion',
               telefono: 'Teléfono',
               nss: 'Sistema Nacional de Seguridad',
               tipoSangre: 'Tipo de Sangre',
