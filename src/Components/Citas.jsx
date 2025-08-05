@@ -173,19 +173,40 @@ function ViewVista() {
                     textAlign: "center",
                     display: "block"
                   }}
-                  onClick={() => {
+                  onClick={async () => {
                     if (form.name && form.email && form.department && form.phone && form.message) {
                       const baseUrl = "https://calendly.com/20191222-uthh/make-an-appointment";
-
-                      // Construir la URL con los datos del formulario
+                      
                       const urlConDatos = `${baseUrl}?name=${encodeURIComponent(form.name)}&email=${encodeURIComponent(form.email)}&a1=${encodeURIComponent(form.department)}&a2=${encodeURIComponent(form.phone)}&a3=${encodeURIComponent(form.message)}`;
 
                       window.open(urlConDatos, "_blank");
+                      try {
+                          const response = await fetch("http://localhost:3001/send-email", {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(form),
+                          });
+
+                          const result = await response.json();
+
+                          if (response.ok) {
+                            alert("Correo personalizado enviado con éxito.");
+                          } else {
+                            alert("Error al enviar el correo: " + result.message);
+                          }
+                        } catch (error) {
+                          console.error("Error al conectar con el servidor:", error);
+                          alert("No se pudo enviar el correo.");
+                        }
+                        limpiarFormulario();
                     } else {
                       alert("Por favor llena todos los campos requeridos antes de agendar.");
                     }
-                    limpiarFormulario();
+                    
                   }}
+                
                 >
                   Enviar
                 </button>
