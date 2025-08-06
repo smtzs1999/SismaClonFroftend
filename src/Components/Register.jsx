@@ -23,9 +23,27 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
+
+    if (name === 'edad') {
+      newValue = value.replace(/\D/g, '').slice(0, 2);
+    }
+
+    if (name === 'curp') {
+      newValue = value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 18);
+    }
+
+    if (name === 'telefono') {
+      newValue = value.replace(/\D/g, '').slice(0, 10);
+    }
+
+    if (name === 'correo') {
+      newValue = value.toLowerCase();
+    }
+
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: newValue
     }));
   };
 
@@ -45,6 +63,30 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const { nombre, edad, curp, telefono, correo } = formData;
+
+    const edadNum = parseInt(edad, 10);
+    if (isNaN(edadNum) || edadNum < 1 || edadNum > 99) {
+      Swal.fire('Edad inválida', 'Debe ser un número entre 1 y 99', 'error');
+      return;
+    }
+
+    if (curp.length !== 18) {
+      Swal.fire('CURP inválida', 'Debe contener exactamente 18 caracteres', 'error');
+      return;
+    }
+
+    if (!/^\d{10}$/.test(telefono)) {
+      Swal.fire('Teléfono inválido', 'Debe contener exactamente 10 dígitos', 'error');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+      Swal.fire('Correo inválido', 'Ingrese un correo válido', 'error');
+      return;
+    }
+
     setGuardando(true);
 
     Swal.fire({
@@ -218,7 +260,12 @@ Contraseña: ${formData.password}
                 onChange={handleChange}
                 placeholder={placeholders[field]}
                 required={['nombre', 'edad', 'correo', 'password'].includes(field)}
-                maxLength={field === 'direccion' ? 250 : undefined}
+                maxLength={
+                  field === 'curp' ? 18 :
+                  field === 'telefono' ? 10 :
+                  field === 'edad' ? 2 :
+                  field === 'direccion' ? 250 : undefined
+                }
                 style={{
                   padding: '6px',
                   borderRadius: '10px',
@@ -236,10 +283,10 @@ Contraseña: ${formData.password}
             );
           })}
 
-          {/* Campo tipoSangre como select */}
           <label style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white' }}>Tipo de Sangre:</label>
           <select
-          class="form-select form-select-sm" aria-label="Small select example"
+            className="form-select form-select-sm"
+            aria-label="Small select example"
             name="tipoSangre"
             value={formData.tipoSangre}
             onChange={handleChange}
