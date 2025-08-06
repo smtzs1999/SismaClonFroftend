@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ForgotPassword from './ForgotPassword'; // Asegúrate que la ruta es correcta
-import fondoLogin from '../assets/fondo/fondo.png';
+import ForgotPassword from './ForgotPassword';
+import fondoLogin from '../assets/fondo/doctorsito.jpeg';
+
 
 const TOKEN_KEY = 'authToken';
 const TOKEN_EXPIRATION_KEY = 'authTokenExpiration';
@@ -56,18 +57,13 @@ const Login = ({ onLogin }) => {
     <>
       <div
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          backgroundImage: `url(${fondoLogin})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          zIndex: -1,
+         backgroundImage:`url('/src/assets/fondo/doctorsito.jpeg')`,
+         backgroundSize: 'cover',
+         backgroundPosition:'center',
+         height: '100vh',
+         width: '100%'
         }}
-      ></div>
+      >
 
       <div
         style={{
@@ -79,17 +75,7 @@ const Login = ({ onLogin }) => {
           zIndex: 1,
         }}
       >
-        <div
-          style={{
-            color: 'black',
-            padding: '1.5rem',
-            textAlign: 'center',
-            fontSize: '2.5rem',
-            fontWeight: 'bold',
-          }}
-        >
-          BIENVENIDOS
-        </div>
+      
 
         <div
           style={{
@@ -103,10 +89,9 @@ const Login = ({ onLogin }) => {
           <div
             style={{
               display: 'flex',
-              width: '90%',
-              maxWidth: '900px',
-              height: '500px',
-              backgroundColor: 'rgba(248, 248, 248, 0.85)',
+              width: '400px',
+              height: '400px',
+              backgroundColor: 'rgba(10, 211, 77, 0.48)',
               borderRadius: '2rem',
               overflow: 'hidden',
               boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
@@ -122,17 +107,25 @@ const Login = ({ onLogin }) => {
                 alignItems: 'center',
               }}
             >
-              <img
+              {/* <img
                 src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 alt="User Icon"
                 style={{ width: '80px', marginBottom: '1.5rem' }}
-              />
-              <h2 style={{ fontSize: '1.8rem', marginBottom: '1.5rem', fontWeight: 'bold' }}>
-                Iniciar Sesión
+              /> */}
+              <h2 style={{ fontSize: '1.8rem', marginBottom: '0.2rem', fontWeight: 'bold',letterSpacing: '0.5rem', }}>
+                BIENVENIDO
               </h2>
 
-              <form onSubmit={handleSubmit} style={{ width: '80%' }}>
-                <label style={{ fontWeight: '600' }}>Correo electrónico</label>
+              <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                  <strong>¿Eres nuevo usuario?{' '}</strong>
+                  
+                  <Link to="/register" style={{ color: '#e5e4ecff', fontWeight: 'bold' }}>
+                    Registro
+                  </Link>
+                </div>
+
+              <form onSubmit={handleSubmit} style={{ width: '90%', textAlign:'center' }}>
+                <label style={{ fontWeight: '600' }}>Email</label>
                 <input
                   type="email"
                   value={email}
@@ -146,7 +139,7 @@ const Login = ({ onLogin }) => {
                     borderRadius: '1rem',
                   }}
                 />
-                <label style={{ fontWeight: '600' }}>Contraseña</label>
+                <label style={{ fontWeight: '600' }}>password</label>
                 <input
                   type="password"
                   value={password}
@@ -165,41 +158,37 @@ const Login = ({ onLogin }) => {
                   style={{
                     width: '100%',
                     padding: '0.75rem',
-                    backgroundColor: '#45B36B',
-                    color: 'white',
+                    backgroundColor: '#ffffffff',
+                    color: 'black',
                     border: 'none',
                     borderRadius: '1rem',
                     fontWeight: 'bold',
                     fontSize: '1rem',
-                    cursor: 'pointer',
+                    cursor: 'pointer'
                   }}
                 >
-                  Entrar
+                  Ingresar
                 </button>
                 <div
                   style={{
                     marginTop: '1rem',
-                    textAlign: 'center',
-                    fontSize: '0.9rem',
+                    float: 'right',       
+                    fontSize: '0.99rem',
                     cursor: 'pointer',
                     color: '#ff0000ff',
                     fontWeight: 'bold',
                     userSelect: 'none',
                   }}
-                  onClick={() => setShowForgot(true)}
-                >
-                  ¿Olvidaste tu contraseña?
-                </div>
-                <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>
-                  ¿No tienes cuenta?{' '}
-                  <Link to="/register" style={{ color: '#45B36B', fontWeight: 'bold' }}>
-                    Registrarse
-                  </Link>
-                </div>
+                onClick={() => setShowForgot(true)}
+                  >
+                ¿Olvidaste tu contraseña?
+              </div>
+
+                
               </form>
             </div>
 
-            <div
+            {/* <div
               style={{
                 flex: 1,
                 backgroundImage:
@@ -207,9 +196,10 @@ const Login = ({ onLogin }) => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
-            />
+            /> */}
           </div>
         </div>
+      </div>
       </div>
 
       {showForgot && (

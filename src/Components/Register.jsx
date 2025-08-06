@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import { useNavigate } from 'react-router-dom';
-import heartImage from '../assets/fondo/fondo.png';
+import heartImage from '../assets/fondo/img.jpeg';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    nombreCompleto: '',
+    nombre: '',
     edad: '',
-    telefono: '',
     curp: '',
+    telefono: '',
     nss: '',
     tipoSangre: '',
     correo: '',
     password: '',
-    fotoPerfil: ''
+    fotoPerfil: '',
   });
 
   const navigate = useNavigate();
@@ -43,23 +43,21 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Guardar en localStorage
     const users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(formData);
     localStorage.setItem('users', JSON.stringify(users));
 
     const fechaEmision = new Date().toLocaleDateString('es-MX');
-
     const rawQrText = `
 ===== GAFETE DIGITAL =====
 
-Nombre: ${formData.nombreCompleto}
+Nombre: ${formData.nombre}
 --------------------------
 Edad: ${formData.edad}
 --------------------------
-Teléfono: ${formData.telefono}
---------------------------
 CURP: ${formData.curp}
+--------------------------
+Teléfono: ${formData.telefono}
 --------------------------
 NSS: ${formData.nss}
 --------------------------
@@ -67,50 +65,76 @@ Tipo de Sangre: ${formData.tipoSangre}
 --------------------------
 Correo: ${formData.correo}
 --------------------------
-Emitido: ${fechaEmision}
+Contraseña: ${formData.password}
+--------------------------
 `.trim();
 
     const qr_datos = encodeURIComponent(rawQrText);
 
-    emailjs.send(
-      'service_hzfyjks',
-      'template_pj40evm',
-      {
-        ...formData,
-        to_name: formData.nombreCompleto,
-        fecha_emision: fechaEmision,
-        qr_datos,
-        foto: formData.fotoPerfil // foto base64
-      },
-      'F17ZBXqWR_0PuFbmR'
-    )
-    .then(() => {
-      alert('✅ Registro exitoso y gafete enviado por correo.');
-      setFormData({
-        nombreCompleto: '',
-        edad: '',
-        telefono: '',
-        curp: '',
-        nss: '',
-        tipoSangre: '',
-        correo: '',
-        password: '',
-        fotoPerfil: ''
-      });
-      navigate('/login');
+    fetch('http://localhost:3001/api/guardar-imagen', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imagen: formData.fotoPerfil,
+        correo: formData.correo
+      })
     })
-    .catch((error) => {
-      console.error('❌ Error enviando correo:', error);
-      alert('Registro exitoso, pero no se pudo enviar el gafete.');
-      navigate('/login');
-    });
+      .then(res => res.json())
+      .then(data => {
+        console.log('📦 Imagen guardada en MongoDB:', data);
+
+        emailjs.send(
+          'service_hzfyjks',
+          'template_pj40evm',
+          {
+            to_name: formData.nombre,
+            nombre: formData.nombre,
+            edad: formData.edad,
+            curp: formData.curp,
+            telefono: formData.telefono,
+            nss: formData.nss,
+            tipo_sangre: formData.tipoSangre,
+            correo: formData.correo,
+            fecha_emision: fechaEmision,
+            qr_datos,
+            foto: formData.fotoPerfil
+          },
+          'F17ZBXqWR_0PuFbmR'
+        )
+          .then(() => {
+            alert('✅ Registro exitoso y gafete enviado por correo.');
+            setFormData({ 
+              nombre: '',
+              edad: '',
+              curp: '',
+              telefono: '',
+              nss: '',
+              tipoSangre: '',
+              correo: '',
+              password: '',
+              fotoPerfil: '',
+            });
+            navigate('/login');
+          })
+          .catch((error) => {
+            console.error('❌ Error enviando correo:', error);
+            alert('Registro exitoso, pero no se pudo enviar el gafete.');
+            navigate('/login');
+          });
+      })
+      .catch(err => {
+        console.error('❌ Error al guardar imagen:', err);
+        alert('Error al guardar la imagen. Intenta nuevamente.');
+      });
   };
 
   return (
     <div style={{
-      minHeight: '80vh',
+      minHeight: '100vh',
       padding: '20px 80px',
-      backgroundColor: '#f5faf7',
+      backgroundImage: `url(${heartImage})`,
+      backgroundSize: 'cover',
+      display: 'flex',
       minWidth: '180vh',
       flexDirection: 'column',
       alignItems: 'center',
@@ -118,25 +142,23 @@ Emitido: ${fechaEmision}
     }}>
       <h1 style={{
         textAlign: 'center',
-        fontSize: '2.6rem',
+        fontSize: '3.0rem',
         color: '#fff',
         letterSpacing: '0.2em',
-        backgroundColor: '#2F5233',
-        padding: '16px 40px',
-        borderRadius: '10px',
+        padding: '10px 20px',
+        borderRadius: '20px',
         marginBottom: '30px',
-        fontWeight: 600
+        fontWeight: 500
       }}>
         BIENVENIDOS
       </h1>
 
       <div style={{
-        maxWidth: '1400px',
-        width: '95%',
-        height: 'auto',
+        maxWidth: '600px',
+        width: '45%',
         display: 'flex',
-        backgroundColor: '#d9dbd9ff',
-        borderRadius: '20px',
+        backgroundColor: 'rgba(10, 211, 77, 0.48)',
+        borderRadius: '5px',
         overflow: 'hidden',
         boxShadow: '0 0 20px rgba(0, 0, 0, 0.21)',
         flexDirection: 'row',
@@ -145,24 +167,23 @@ Emitido: ${fechaEmision}
         <form onSubmit={handleSubmit} style={{
           flexBasis: '60%',
           padding: '40px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '16px'
         }}>
-          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold' }}>Registro de Usuario</h2>
-          <p style={{ textAlign: 'center', color: '#555' }}>Por favor llena los siguientes campos</p>
+          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold', color: 'white'}}>Registro</h2>
+          <p style={{ textAlign: 'center', color: 'white', fontSize: '1.2rem'}}>Por favor ingrese sus datos</p>
 
-          {['nombreCompleto', 'edad', 'telefono', 'curp', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
+          {['nombre', 'edad', 'curp', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
             const placeholders = {
-              nombreCompleto: 'Nombre Completo',
+              nombre: 'Nombre Completo',
               edad: 'Edad',
-              telefono: 'Teléfono',
               curp: 'CURP',
+              telefono: 'Teléfono',
               nss: 'Sistema Nacional de Seguridad',
               tipoSangre: 'Tipo de Sangre',
               correo: 'Correo Electrónico',
-              password: 'Contraseña'
+              password: 'Contraseña',
             };
             return (
               <input
@@ -172,12 +193,14 @@ Emitido: ${fechaEmision}
                 value={formData[field]}
                 onChange={handleChange}
                 placeholder={placeholders[field]}
-                required={['nombreCompleto', 'edad', 'correo', 'password'].includes(field)}
+                required={['nombre', 'edad', 'correo', 'password'].includes(field)}
                 style={{
-                  padding: '14px',
+                  padding: '6px',
                   borderRadius: '10px',
                   border: '1px solid #ccc',
                   backgroundColor: 'white',
+                  width: '250px',
+                  height: '50px',
                   color: 'black',
                   fontSize: '1rem',
                   textTransform: ['curp', 'tipoSangre'].includes(field) ? 'uppercase' : 'none',
@@ -188,7 +211,7 @@ Emitido: ${fechaEmision}
             );
           })}
 
-          <label style={{ fontWeight: 'bold' }}>Foto de Perfil</label>
+          <label style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white' }}>Foto de Perfil</label>
           <input
             type="file"
             accept="image/*"
@@ -197,14 +220,17 @@ Emitido: ${fechaEmision}
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '10px',
+              width: '250px',
+              height: '50px',
               backgroundColor: 'white',
               fontSize: '1rem'
             }}
           />
 
           <button type="submit" style={{
-            backgroundColor: '#2ecc71',
-            color: 'white',
+            backgroundColor: '#ffffffff',
+            color: 'black',
+            boxShadow: '10px 4px 4px green',
             padding: '14px',
             border: 'none',
             borderRadius: '10px',
@@ -219,7 +245,6 @@ Emitido: ${fechaEmision}
 
         <div style={{
           flexBasis: '40%',
-          backgroundImage: `url(${heartImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

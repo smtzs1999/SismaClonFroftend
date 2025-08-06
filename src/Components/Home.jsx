@@ -52,12 +52,27 @@ function Home({ onLogout }) {
           </button>
         )}
         {!isMobileView && (
-          <nav className="nav desktop-nav">
-            <a href="#inicio">Inicio</a>
-            <a href="#quienes-somos">Quienes Somos</a>
-            <a href="#planes-salud">Planes de salud</a>
-            <a href="#contacto">Contacto</a>
-          </nav>
+          <div className="nav-container" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <nav className="nav desktop-nav">
+              <a href="#inicio">Inicio</a>
+              <a href="#quienes-somos">Quienes Somos</a>
+              <a href="#planes-salud">Planes de salud</a>
+              <a href="#contacto">Contacto</a>
+            </nav>
+            <button
+              onClick={handleLogout}
+              style={{
+                backgroundColor: '#f80000ff',
+                color: 'white',
+                border: 'none',
+                borderRadius: 5,
+                padding: '8px 16px',
+                cursor: 'pointer'
+              }}
+            >
+              Cerrar sesión
+            </button>
+          </div>
         )}
       </header>
       {isMobileView && isMobileMenuOpen && (
@@ -107,6 +122,9 @@ function Home({ onLogout }) {
       >
         Cerrar sesiónn
       </button>
+
+
+      
     </div>
   );
 }

@@ -28,7 +28,7 @@ const ForgotPassword = ({ onClose }) => {
     setSending(true);
     setMessage("");
 
-    // crea un token
+    // token
     const resetToken = uuidv4();
     localStorage.setItem(`resetToken_${userFound.correo}`, resetToken);
 
@@ -83,7 +83,7 @@ const ForgotPassword = ({ onClose }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 9999,
+        zIndex: 9999, 
       }}
     >
       <div
@@ -96,7 +96,7 @@ const ForgotPassword = ({ onClose }) => {
         }}
       >
         <h2>Recuperar Contraseña</h2>
-        <label htmlFor="email">Correo Electrónico:</label>
+        <label htmlFor="email">Ingresa tu Correo Electrónico:</label>
         <input
           id="email"
           type="email"
@@ -105,21 +105,23 @@ const ForgotPassword = ({ onClose }) => {
           onChange={(e) => setEmail(e.target.value)}
           disabled={sending}
           style={{
-            width: "100%",
+            width: "80%",
             padding: "8px",
             marginTop: "8px",
             marginBottom: "16px",
             borderRadius: "6px",
             border: "1px solid #ccc",
+            backgroundColor: "white",
+            color: "black"
           }}
         />
         <button
           onClick={handleSendEmail}
           disabled={sending}
           style={{
-            width: "100%",
+            width: "80%",
             padding: "10px",
-            backgroundColor: sending ? "#a0d5a5" : "#45B36B",
+            backgroundColor: sending ? "#002904ff" : "#1dd22aff",
             color: "white",
             border: "none",
             borderRadius: "8px",
