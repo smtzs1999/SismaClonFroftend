@@ -68,7 +68,6 @@ Correo: ${formData.correo}
 --------------------------
 Contraseña: ${formData.contraseña}
 --------------------------
-Confirmar contraseña: ${confirmarContraseña}
 `.trim();
 
     const qr_datos = encodeURIComponent(rawQrText);
@@ -188,7 +187,6 @@ Confirmar contraseña: ${confirmarContraseña}
               tipoSangre: 'Tipo de Sangre',
               correo: 'Correo Electrónico',
               password: 'Contraseña',
-              confirmarContraseña: 'contraseña',
             };
             return (
               <input
