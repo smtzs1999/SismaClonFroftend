@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import heartImage from '../assets/fondo/img.jpeg';
 
 const Register = () => {
@@ -17,6 +18,7 @@ const Register = () => {
     fotoPerfil: '',
   });
 
+  const [guardando, setGuardando] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -43,6 +45,13 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setGuardando(true);
+
+    Swal.fire({
+      title: 'Guardando datos...',
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading(),
+    });
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(formData);
@@ -94,7 +103,7 @@ Contraseña: ${formData.password}
             nombre: formData.nombre,
             edad: formData.edad,
             curp: formData.curp,
-            direccion: formData.direccion,
+            direccion: formData.direccion.slice(0, 250),
             telefono: formData.telefono,
             nss: formData.nss,
             tipo_sangre: formData.tipoSangre,
@@ -106,30 +115,40 @@ Contraseña: ${formData.password}
           'F17ZBXqWR_0PuFbmR'
         )
           .then(() => {
-            alert('✅ Registro exitoso y gafete enviado por correo.');
-            setFormData({ 
-              nombre: '',
-              edad: '',
-              curp: '',
-              direccion: '',
-              telefono: '',
-              nss: '',
-              tipoSangre: '',
-              correo: '',
-              password: '',
-              fotoPerfil: '',
+            Swal.fire({
+              title: '✅ Registro exitoso',
+              text: 'El gafete ha sido enviado por correo.',
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              setFormData({
+                nombre: '',
+                edad: '',
+                curp: '',
+                direccion: '',
+                telefono: '',
+                nss: '',
+                tipoSangre: '',
+                correo: '',
+                password: '',
+                fotoPerfil: '',
+              });
+              setGuardando(false);
+              navigate('/login');
             });
-            navigate('/login');
           })
           .catch((error) => {
             console.error('❌ Error enviando correo:', error);
-            alert('Registro exitoso, pero no se pudo enviar el gafete.');
+            Swal.fire('Error', 'No se pudo enviar el gafete por correo.', 'error');
+            setGuardando(false);
             navigate('/login');
           });
       })
       .catch(err => {
         console.error('❌ Error al guardar imagen:', err);
-        alert('Error al guardar la imagen. Intenta nuevamente.');
+        Swal.fire('Error', 'No se pudo guardar la imagen.', 'error');
+        setGuardando(false);
       });
   };
 
@@ -176,10 +195,10 @@ Contraseña: ${formData.password}
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '16px'
         }}>
-          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold', color: 'white'}}>Registro</h2>
-          <p style={{ textAlign: 'center', color: 'white', fontSize: '1.2rem'}}>Por favor ingrese sus datos</p>
+          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold', color: 'white' }}>Registro</h2>
+          <p style={{ textAlign: 'center', color: 'white', fontSize: '1.2rem' }}>Por favor ingrese sus datos</p>
 
-          {['nombre', 'edad', 'curp', 'direccion', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
+          {['nombre', 'edad', 'curp', 'direccion', 'telefono', 'nss', 'correo', 'password'].map((field) => {
             const placeholders = {
               nombre: 'Nombre Completo',
               edad: 'Edad',
@@ -187,7 +206,6 @@ Contraseña: ${formData.password}
               direccion: 'Direccion',
               telefono: 'Teléfono',
               nss: 'Sistema Nacional de Seguridad',
-              tipoSangre: 'Tipo de Sangre',
               correo: 'Correo Electrónico',
               password: 'Contraseña',
             };
@@ -200,6 +218,7 @@ Contraseña: ${formData.password}
                 onChange={handleChange}
                 placeholder={placeholders[field]}
                 required={['nombre', 'edad', 'correo', 'password'].includes(field)}
+                maxLength={field === 'direccion' ? 250 : undefined}
                 style={{
                   padding: '6px',
                   borderRadius: '10px',
@@ -209,13 +228,47 @@ Contraseña: ${formData.password}
                   height: '50px',
                   color: 'black',
                   fontSize: '1rem',
-                  textTransform: ['curp', 'tipoSangre'].includes(field) ? 'uppercase' : 'none',
                   outline: 'none',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  textTransform: field === 'curp' ? 'uppercase' : 'none',
                 }}
               />
             );
           })}
+
+          {/* Campo tipoSangre como select */}
+          <label style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white' }}>Tipo de Sangre:</label>
+          <select
+          class="form-select form-select-sm" aria-label="Small select example"
+            name="tipoSangre"
+            value={formData.tipoSangre}
+            onChange={handleChange}
+            required
+            style={{
+              padding: '6px',
+              borderRadius: '10px',
+              border: '1px solid #ccc',
+              backgroundColor: 'white',
+              width: '250px',
+              height: '40px',
+              color: 'black',
+              fontSize: '1rem',
+              outline: 'none',
+              transition: 'all 0.3s ease',
+              textTransform: 'uppercase',
+              cursor: 'pointer'
+            }}
+          >
+            <option value="" disabled>Seleccione tipo de sangre</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
 
           <label style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white' }}>Foto de Perfil</label>
           <input
@@ -233,19 +286,23 @@ Contraseña: ${formData.password}
             }}
           />
 
-          <button type="submit" style={{
-            backgroundColor: '#ffffffff',
-            color: 'black',
-            boxShadow: '10px 4px 4px green',
-            padding: '14px',
-            border: 'none',
-            borderRadius: '10px',
-            fontSize: '1.1rem',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'background 0.3s ease'
-          }}>
-            Registrarme
+          <button
+            type="submit"
+            disabled={guardando}
+            style={{
+              backgroundColor: guardando ? '#ccc' : '#ffffff',
+              color: 'black',
+              boxShadow: '10px 4px 4px green',
+              padding: '14px',
+              border: 'none',
+              borderRadius: '10px',
+              fontSize: '1.1rem',
+              fontWeight: 'bold',
+              cursor: guardando ? 'not-allowed' : 'pointer',
+              transition: 'background 0.3s ease'
+            }}
+          >
+            {guardando ? 'Guardando...' : 'Registrarme'}
           </button>
         </form>
 
