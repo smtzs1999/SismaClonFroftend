@@ -241,45 +241,59 @@ Contraseña: ${formData.password}
           <p style={{ textAlign: 'center', color: 'white', fontSize: '1.2rem' }}>Por favor ingrese sus datos</p>
 
           {['nombre', 'edad', 'curp', 'direccion', 'telefono', 'nss', 'correo', 'password'].map((field) => {
+            const labels = {
+              nombre: 'Nombre:',
+              edad: 'Edad:',
+              curp: 'CURP:',
+              direccion: 'Dirección:',
+              telefono: 'Teléfono:',
+              nss: 'NSS:',
+              correo: 'Correo:',
+              password: 'Contraseña:'
+            };
+
             const placeholders = {
               nombre: 'Nombre Completo',
               edad: 'Edad',
               curp: 'CURP',
-              direccion: 'Direccion',
+              direccion: 'Dirección',
               telefono: 'Teléfono',
               nss: 'Sistema Nacional de Seguridad',
               correo: 'Correo Electrónico',
               password: 'Contraseña',
             };
+
             return (
-              <input
-                key={field}
-                name={field}
-                type={field === 'correo' ? 'email' : field === 'edad' ? 'number' : field === 'password' ? 'password' : 'text'}
-                value={formData[field]}
-                onChange={handleChange}
-                placeholder={placeholders[field]}
-                required={['nombre', 'edad', 'correo', 'password'].includes(field)}
-                maxLength={
-                  field === 'curp' ? 18 :
-                  field === 'telefono' ? 10 :
-                  field === 'edad' ? 2 :
-                  field === 'direccion' ? 250 : undefined
-                }
-                style={{
-                  padding: '6px',
-                  borderRadius: '10px',
-                  border: '1px solid #ccc',
-                  backgroundColor: 'white',
-                  width: '250px',
-                  height: '50px',
-                  color: 'black',
-                  fontSize: '1rem',
-                  outline: 'none',
-                  transition: 'all 0.3s ease',
-                  textTransform: field === 'curp' ? 'uppercase' : 'none',
-                }}
-              />
+              <div key={field} style={{ display: 'flex', flexDirection: 'column' }}>
+                <label style={{ fontWeight: 'bold', color: 'white', marginBottom: '4px' }}>{labels[field]}</label>
+                <input
+                  name={field}
+                  type={field === 'correo' ? 'email' : field === 'edad' ? 'number' : field === 'password' ? 'password' : 'text'}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  placeholder={placeholders[field]}
+                  required={['nombre', 'edad', 'correo', 'password'].includes(field)}
+                  maxLength={
+                    field === 'curp' ? 18 :
+                      field === 'telefono' ? 10 :
+                        field === 'edad' ? 2 :
+                          field === 'direccion' ? 250 : undefined
+                  }
+                  style={{
+                    padding: '6px',
+                    borderRadius: '10px',
+                    border: '1px solid #ccc',
+                    backgroundColor: 'white',
+                    width: '250px',
+                    height: '50px',
+                    color: 'black',
+                    fontSize: '1rem',
+                    outline: 'none',
+                    transition: 'all 0.3s ease',
+                    textTransform: field === 'curp' ? 'uppercase' : 'none',
+                  }}
+                />
+              </div>
             );
           })}
 
