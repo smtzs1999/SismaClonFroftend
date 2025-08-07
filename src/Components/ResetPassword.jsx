@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ResetPassword = () => {
   const location = useLocation();
@@ -10,37 +11,56 @@ const ResetPassword = () => {
 
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (!email || !token) {
-      setMessage('Token o correo electrónico faltante.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Token o correo electrónico faltante.',
+        icon: 'error'
+      });
       return;
     }
 
     const storedToken = localStorage.getItem(`resetToken_${email}`);
     if (storedToken !== token) {
-      setMessage('Token inválido o expirado.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Token inválido o expirado.',
+        icon: 'error'
+      });
     }
 
-    //token oculto
     window.history.replaceState({}, document.title, 'reset/-password');
-
   }, [email, token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!newPassword || !confirmPassword) {
-      setMessage('Por favor completa ambos campos.');
+      Swal.fire({
+        title: 'Campos vacíos',
+        text: 'Por favor completa ambos campos.',
+        icon: 'warning'
+      });
       return;
     }
+
     if (newPassword !== confirmPassword) {
-      setMessage('Las contraseñas no coinciden.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Las contraseñas no coinciden.',
+        icon: 'error'
+      });
       return;
     }
+
     if (newPassword.length < 6) {
-      setMessage('La contraseña debe tener al menos 6 caracteres.');
+      Swal.fire({
+        title: 'Contraseña muy corta',
+        text: 'Debe tener al menos 6 caracteres.',
+        icon: 'warning'
+      });
       return;
     }
 
@@ -51,7 +71,11 @@ const ResetPassword = () => {
     );
 
     if (userIndex === -1) {
-      setMessage('Usuario no encontrado.');
+      Swal.fire({
+        title: 'Error',
+        text: 'Usuario no encontrado.',
+        icon: 'error'
+      });
       return;
     }
 
@@ -59,17 +83,24 @@ const ResetPassword = () => {
     localStorage.setItem('users', JSON.stringify(users));
     localStorage.removeItem(`resetToken_${email}`);
 
-    setMessage('Contraseña actualizada con éxito. Redirigiendo al login...');
+    Swal.fire({
+      title: 'Contraseña actualizada',
+      text: 'Redirigiendo al login...',
+      icon: 'success',
+      timer: 2500,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+
     setTimeout(() => {
       navigate('/login');
-    }, 3000);
+    }, 2500);
   };
 
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
         <h2 style={styles.title}>Restablecer Contraseña</h2>
-        {message && <p style={styles.message}>{message}</p>}
         <input
           type="password"
           placeholder="Nueva Contraseña"
@@ -132,11 +163,6 @@ const styles = {
     border: 'none',
     cursor: 'pointer',
   },
-  message: {
-    textAlign: 'center',
-    color: '#e53935',
-  },
 };
 
 export default ResetPassword;
-  

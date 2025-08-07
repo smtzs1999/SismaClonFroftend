@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ForgotPassword from './ForgotPassword';
 import fondoLogin from '../assets/fondo/doctorsito.jpeg';
+import Swal from 'sweetalert2';
 
 
 const TOKEN_KEY = 'authToken';
@@ -38,7 +39,15 @@ const Login = ({ onLogin }) => {
     const userFound = users.find(user => user.correo === email && user.password === password);
 
     if (userFound) {
-      alert(`Inicio de sesión exitoso. Bienvenido, ${email}`);
+      Swal.fire({
+        title: `¡Inicio de sesión exitoso.🧑‍⚕️!`,
+        text: `Bienvenido: ${email}`,
+        icon: 'success',
+        timer: 2000, 
+        confirmButtonColor: '#10b981',
+        confirmButtonText: 'Continuar',
+        backdrop: `rgba(0, 0, 0, 0.4)`
+      });
 
       const token = createToken();
       const expirationTime = new Date().getTime() + 60 * 1000; // 1 minuto
@@ -49,7 +58,15 @@ const Login = ({ onLogin }) => {
       onLogin();
       navigate('/');
     } else {
-      alert('Usuario o contraseña incorrectos');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...😱',
+        timer: 2000, 
+        text: 'Usuario o contraseña incorrectos',
+        confirmButtonColor: '#ef4444',
+        backdrop: `rgba(0, 0, 0, 0.4)`
+      });
+
     }
   };
 
@@ -57,138 +74,138 @@ const Login = ({ onLogin }) => {
     <>
       <div
         style={{
-         backgroundImage:`url('/src/assets/fondo/doctorsito.jpeg')`,
-         backgroundSize: 'cover',
-         backgroundPosition:'center',
-         height: '100vh',
-         width: '100%'
+          backgroundImage: `url('/src/assets/fondo/doctorsito.jpeg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '100vh',
+          width: '100%'
         }}
       >
-
-      <div
-        style={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          fontFamily: "'Segoe UI', sans-serif",
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-      
 
         <div
           style={{
-            flex: 1,
+            minHeight: '100vh',
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '2rem',
+            flexDirection: 'column',
+            fontFamily: "'Segoe UI', sans-serif",
+            position: 'relative',
+            zIndex: 1,
           }}
         >
+
+
           <div
             style={{
+              flex: 1,
               display: 'flex',
-              width: '400px',
-              height: '400px',
-              backgroundColor: 'rgba(10, 211, 77, 0.48)',
-              borderRadius: '2rem',
-              overflow: 'hidden',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '2rem',
             }}
           >
             <div
               style={{
-                flex: 1,
-                padding: '2rem',
                 display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
+                width: '400px',
+                height: '400px',
+                backgroundColor: 'rgba(10, 211, 77, 0.48)',
+                borderRadius: '2rem',
+                overflow: 'hidden',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
               }}
             >
-              {/* <img
+              <div
+                style={{
+                  flex: 1,
+                  padding: '2rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {/* <img
                 src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 alt="User Icon"
                 style={{ width: '80px', marginBottom: '1.5rem' }}
               /> */}
-              <h2 style={{ fontSize: '1.8rem', marginBottom: '0.2rem', fontWeight: 'bold',letterSpacing: '0.5rem', }}>
-                BIENVENIDO
-              </h2>
+                <h2 style={{ fontSize: '1.8rem', marginBottom: '0.2rem', fontWeight: 'bold', letterSpacing: '0.5rem', }}>
+                  BIENVENIDO
+                </h2>
 
-              <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
                   <strong>¿Eres nuevo usuario?{' '}</strong>
-                  
+
                   <Link to="/register" style={{ color: '#e5e4ecff', fontWeight: 'bold' }}>
                     Registro
                   </Link>
                 </div>
 
-              <form onSubmit={handleSubmit} style={{ width: '90%', textAlign:'center' }}>
-                <label style={{ fontWeight: '600' }}>Email</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    marginBottom: '1rem',
-                    border: '1px solid #ccc',
-                    borderRadius: '1rem',
-                  }}
-                />
-                <label style={{ fontWeight: '600' }}>password</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    marginBottom: '1.5rem',
-                    border: '1px solid #ccc',
-                    borderRadius: '1rem',
-                  }}
-                />
-                <button
-                  type="submit"
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem',
-                    backgroundColor: '#ffffffff',
-                    color: 'black',
-                    border: 'none',
-                    borderRadius: '1rem',
-                    fontWeight: 'bold',
-                    fontSize: '1rem',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Ingresar
-                </button>
-                <div
-                  style={{
-                    marginTop: '1rem',
-                    float: 'right',       
-                    fontSize: '0.99rem',
-                    cursor: 'pointer',
-                    color: '#ff0000ff',
-                    fontWeight: 'bold',
-                    userSelect: 'none',
-                  }}
-                onClick={() => setShowForgot(true)}
+                <form onSubmit={handleSubmit} style={{ width: '90%', textAlign: 'center' }}>
+                  <label style={{ fontWeight: '600' }}>Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      marginBottom: '1rem',
+                      border: '1px solid #ccc',
+                      borderRadius: '1rem',
+                    }}
+                  />
+                  <label style={{ fontWeight: '600' }}>password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      marginBottom: '1.5rem',
+                      border: '1px solid #ccc',
+                      borderRadius: '1rem',
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      backgroundColor: '#ffffffff',
+                      color: 'black',
+                      border: 'none',
+                      borderRadius: '1rem',
+                      fontWeight: 'bold',
+                      fontSize: '1rem',
+                      cursor: 'pointer'
+                    }}
                   >
-                ¿Olvidaste tu contraseña?
+                    Ingresar
+                  </button>
+                  <div
+                    style={{
+                      marginTop: '1rem',
+                      float: 'right',
+                      fontSize: '0.99rem',
+                      cursor: 'pointer',
+                      color: '#ff0000ff',
+                      fontWeight: 'bold',
+                      userSelect: 'none',
+                    }}
+                    onClick={() => setShowForgot(true)}
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </div>
+
+
+                </form>
               </div>
 
-                
-              </form>
-            </div>
-
-            {/* <div
+              {/* <div
               style={{
                 flex: 1,
                 backgroundImage:
@@ -197,9 +214,9 @@ const Login = ({ onLogin }) => {
                 backgroundPosition: 'center',
               }}
             /> */}
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       {showForgot && (

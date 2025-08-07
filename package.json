@@ -27,8 +27,10 @@
     "react-phone-input-2": "^2.15.1",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.6.3",
+    "react-toastify": "^11.0.5",
     "sequelize": "^6.37.7",
     "slick-carousel": "^1.8.1",
+    "sweetalert2": "^11.22.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

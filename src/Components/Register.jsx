@@ -8,6 +8,7 @@ const Register = () => {
     nombre: '',
     edad: '',
     curp: '',
+    direccion: '',
     telefono: '',
     nss: '',
     tipoSangre: '',
@@ -57,6 +58,8 @@ Edad: ${formData.edad}
 --------------------------
 CURP: ${formData.curp}
 --------------------------
+DIRECCION: ${formData.direccion}
+--------------------------
 Teléfono: ${formData.telefono}
 --------------------------
 NSS: ${formData.nss}
@@ -91,6 +94,7 @@ Contraseña: ${formData.password}
             nombre: formData.nombre,
             edad: formData.edad,
             curp: formData.curp,
+            direccion: formData.direccion.slice(0, 5),
             telefono: formData.telefono,
             nss: formData.nss,
             tipo_sangre: formData.tipoSangre,
@@ -107,6 +111,7 @@ Contraseña: ${formData.password}
               nombre: '',
               edad: '',
               curp: '',
+              direccion: '',
               telefono: '',
               nss: '',
               tipoSangre: '',
@@ -131,54 +136,56 @@ Contraseña: ${formData.password}
   return (
     <div style={{
       minHeight: '100vh',
-      padding: '20px 80px',
-      backgroundImage: `url(${heartImage})`,
-      backgroundSize: 'cover',
-      display: 'flex',
-      minWidth: '180vh',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start'
+    padding: '20px',
+    backgroundImage: `url(${heartImage})`,
+    backgroundSize: 'cover',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     }}>
       <h1 style={{
         textAlign: 'center',
-        fontSize: '3.0rem',
-        color: '#fff',
-        letterSpacing: '0.2em',
-        padding: '10px 20px',
-        borderRadius: '20px',
-        marginBottom: '30px',
-        fontWeight: 500
+      fontSize: '2.5rem',
+      color: '#fff',
+      letterSpacing: '0.2em',
+      padding: '10px 20px',
+      borderRadius: '20px',
+      marginBottom: '30px',
+      fontWeight: 500
       }}>
         BIENVENIDOS
       </h1>
 
       <div style={{
-        maxWidth: '600px',
-        width: '45%',
-        display: 'flex',
-        backgroundColor: 'rgba(10, 211, 77, 0.48)',
-        borderRadius: '5px',
-        overflow: 'hidden',
-        boxShadow: '0 0 20px rgba(0, 0, 0, 0.21)',
-        flexDirection: 'row',
-        alignItems: 'stretch'
+        width: '100%',
+      maxWidth: '1000px',
+      backgroundColor: 'rgba(10, 211, 77, 0.48)',
+      borderRadius: '8px',
+      overflow: 'hidden',
+      boxShadow: '0 0 20px rgba(0, 0, 0, 0.21)',
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: '0',
       }}>
         <form onSubmit={handleSubmit} style={{
-          flexBasis: '60%',
-          padding: '40px',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '16px'
+          flex: '1 1 600px',
+        padding: '30px',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gap: '16px',
         }}>
-          <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold', color: 'white'}}>Registro</h2>
-          <p style={{ textAlign: 'center', color: 'white', fontSize: '1.2rem'}}>Por favor ingrese sus datos</p>
+          <h2 style={{  textAlign: 'center', fontSize: '1.8rem', fontWeight: 'bold', color: 'white', gridColumn: '1 / -1' }}>Registro</h2>
+          <p style={{  textAlign: 'center', color: 'white', fontSize: '1.2rem', gridColumn: '1 / -1' }}>Por favor ingrese sus datos</p>
 
-          {['nombre', 'edad', 'curp', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
+          {['nombre', 'edad', 'curp', 'direccion', 'telefono', 'nss', 'tipoSangre', 'correo', 'password'].map((field) => {
             const placeholders = {
               nombre: 'Nombre Completo',
               edad: 'Edad',
               curp: 'CURP',
+              direccion: 'Direccion',
               telefono: 'Teléfono',
               nss: 'Sistema Nacional de Seguridad',
               tipoSangre: 'Tipo de Sangre',
@@ -193,65 +200,58 @@ Contraseña: ${formData.password}
                 value={formData[field]}
                 onChange={handleChange}
                 placeholder={placeholders[field]}
-                required={['nombre', 'edad', 'correo', 'password'].includes(field)}
+                required={['nombre', 'edad', 'correo', 'password', 'telefono', 'curp', 'direccion', 'tipoSangre', 'nss'].includes(field)}
                 style={{
-                  padding: '6px',
-                  borderRadius: '10px',
-                  border: '1px solid #ccc',
-                  backgroundColor: 'white',
-                  width: '250px',
-                  height: '50px',
-                  color: 'black',
-                  fontSize: '1rem',
-                  textTransform: ['curp', 'tipoSangre'].includes(field) ? 'uppercase' : 'none',
-                  outline: 'none',
-                  transition: 'all 0.3s ease'
+                  padding: '10px',
+                borderRadius: '8px',
+                border: '1px solid #ccc',
+                backgroundColor: 'white',
+                width: '100%',
+                color: 'black',
+                fontSize: '1rem',
+                textTransform: ['curp', 'tipoSangre'].includes(field) ? 'uppercase' : 'none',
                 }}
               />
             );
           })}
 
-          <label style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white' }}>Foto de Perfil</label>
+          <label style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white', gridColumn: '1 / -1'  }}>Foto de Perfil</label>
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
             style={{
-              padding: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '10px',
-              width: '250px',
-              height: '50px',
-              backgroundColor: 'white',
-              fontSize: '1rem'
+               padding: '10px',
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            width: '100%',
+            backgroundColor: 'white',
+            fontSize: '1rem'
             }}
           />
 
           <button type="submit" style={{
-            backgroundColor: '#ffffffff',
-            color: 'black',
-            boxShadow: '10px 4px 4px green',
-            padding: '14px',
-            border: 'none',
-            borderRadius: '10px',
-            fontSize: '1.1rem',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'background 0.3s ease'
+             backgroundColor: '#fff',
+          color: 'black',
+          boxShadow: '4px 4px 10px green',
+          padding: '14px',
+          border: 'none',
+          borderRadius: '8px',
+          fontSize: '1.1rem',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          gridColumn: '1 / -1',
+          marginTop: '10px',
           }}>
             Registrarme
           </button>
         </form>
 
         <div style={{
-          flexBasis: '40%',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '20px'
+          flex: '1 1 300px',
+        display: 'none', // oculto por ahora
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         }} />
       </div>
     </div>
