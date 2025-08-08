@@ -27,8 +27,10 @@ const Register = () => {
     let newValue = value;
 
     if (name === 'nombre') {
-      newValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-    }
+    newValue = value
+      .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '') 
+      .replace(/\s{2,}/g, ' ');
+  }
     if (name === 'edad') {
       newValue = value.replace(/\D/g, '').slice(0, 2);
     }
@@ -39,7 +41,7 @@ const Register = () => {
       newValue = value.replace(/\D/g, '').slice(0, 10);
     }
     if (name === 'correo') {
-      newValue = value.toLowerCase();
+      newValue = value.toLowerCase().replace(/\s/g, '');
     }
     if (name === 'nss') {
       newValue = value.replace(/\D/g, '').slice(0, 11);
@@ -97,13 +99,13 @@ const Register = () => {
     }
 
     setGuardando(true);
+
     Swal.fire({
       title: 'Guardando datos...',
       allowOutsideClick: false,
       didOpen: () => Swal.showLoading(),
     });
 
-    // Guardar en localStorage
     const users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(formData);
     localStorage.setItem('users', JSON.stringify(users));
@@ -134,7 +136,6 @@ Contraseña: ${formData.password}
 
     const qr_datos = encodeURIComponent(rawQrText);
 
-    // Guardar imagen en backend
     fetch('http://localhost:3001/api/guardar-imagen', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -145,7 +146,6 @@ Contraseña: ${formData.password}
     })
       .then(res => res.json())
       .then(() => {
-        // Enviar correo con EmailJS
         emailjs.send(
           'service_hzfyjks',
           'template_pj40evm',
