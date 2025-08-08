@@ -1,13 +1,17 @@
 
 .container {
-  min-height: 100vh;
-  padding: 20px;
-  background-size: cover;
   display: flex;
+  min-height: 100vh;    
+  
+  background-image: url('/src/assets/fondo/img.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-image: url('/src/assets/fondo/img.jpeg');
+  max-width: none !important;
   
 }
 
@@ -24,7 +28,7 @@
 
 .form-wrapper {
   max-width: 1000px;
-  width: 45%;
+  width: 50%;
   display: flex;
   background-color: rgba(10, 211, 77, 0.48);
   border-radius: 5px;
@@ -63,6 +67,7 @@ label {
   font-weight: bold;
   color: white;
   width: 100;
+  margin-bottom: 2px;
 }
 
 input[type="text"],
@@ -72,6 +77,7 @@ input[type="password"],
 select,
 input[type="file"] {
   padding: 6px;
+  
   border-radius: 10px;
   border: 1px solid #ccc;
   background-color: white;
@@ -102,7 +108,7 @@ select {
   background-color: white;
   color: black;
   box-shadow: 10px 4px 4px green;
-  padding: 14px;
+  padding: 8px;
   border: none;
   border-radius: 10px;
   font-size: 1.1rem;
