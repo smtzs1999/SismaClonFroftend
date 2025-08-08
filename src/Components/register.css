@@ -1,0 +1,183 @@
+
+.container {
+  min-height: 100vh;
+  padding: 20px;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url('/src/assets/fondo/img.jpeg');
+  
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #fff;
+  letter-spacing: 0.2em;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.form-wrapper {
+  max-width: 1000px;
+  width: 45%;
+  display: flex;
+  background-color: rgba(10, 211, 77, 0.48);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.21);
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.form {
+  flex-basis: 60%;
+  padding: 40px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+  min-width: 100%;
+}
+
+.form h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  grid-column: 1 / -1; 
+}
+
+.form p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: white;
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  width: 100;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select,
+input[type="file"] {
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: white;
+  width: 250px;
+  height: 50px;
+  color: black;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+input[type="file"] {
+  padding: 10px;
+}
+
+input#curp {
+  text-transform: uppercase;
+}
+
+select {
+  height: 40px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.button-submit {
+  background-color: white;
+  color: black;
+  box-shadow: 10px 4px 4px green;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  grid-column: 1 / -1;
+}
+
+.button-submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.image-wrapper {
+  flex-basis: 40%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .form-wrapper {
+    width: 90% !important;       
+    flex-direction: column;       
+  }
+
+  .form {
+    flex-basis: auto;             
+    grid-template-columns: 1fr;  
+    padding: 20px;                
+  }
+
+  .image-wrapper {
+    flex-basis: auto;
+    height: 200px;                
+    margin-top: 20px;            
+  }
+
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  input[type="file"] {
+    width: 100%;                  
+    height: 40px;                 
+    font-size: 0.9rem;            
+  }
+
+  
+  .button-submit {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8rem;            
+  }
+
+  .form h2 {
+    font-size: 1.4rem;            
+  }
+
+  .form p {
+    font-size: 1rem;              
+  }
+}
