@@ -75,6 +75,11 @@ const Register = () => {
     const { nombre, edad, curp, telefono, correo } = formData;
 
     const edadNum = parseInt(edad, 10);
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre) || nombre.trim().length < 2) {
+     Swal.fire('Nombre inválido', 'El nombre solo debe contener letras y tener al menos 2 caracteres', 'error');
+     return;
+    }
+
     if (isNaN(edadNum) || edadNum < 1 || edadNum > 99) {
       Swal.fire('Edad inválida', 'Debe ser un número entre 1 y 99', 'error');
       return;
@@ -89,11 +94,16 @@ const Register = () => {
       Swal.fire('Teléfono inválido', 'Debe contener exactamente 10 dígitos', 'error');
       return;
     }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
       Swal.fire('Correo inválido', 'Ingrese un correo válido', 'error');
       return;
     }
+
+    if (!/^\d{11}$/.test(nss)) {
+      Swal.fire('nss inválido', 'Debe contener exactamente 11 dígitos', 'error');
+      return;
+    }
+
     setGuardando(true);
 
     
@@ -206,7 +216,7 @@ Contraseña: ${formData.password}
     <div style={{
       minHeight: '100vh',
       padding: '20px',
-      backgroundImage: `url(${heartImage})`,
+      backgroundImage: url(${heartImage}),
       backgroundSize: 'cover',
       display: 'flex',
       flexDirection: 'column',
