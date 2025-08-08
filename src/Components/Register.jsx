@@ -23,9 +23,35 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
+
+    if (name === 'nombre') {
+      newValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    }
+
+    if (name === 'edad') {
+      newValue = value.replace(/\D/g, '').slice(0, 2);
+    }
+
+    if (name === 'curp') {
+      newValue = value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 18);
+    }
+
+    if (name === 'telefono') {
+      newValue = value.replace(/\D/g, '').slice(0, 10);
+    }
+
+    if (name === 'correo') {
+      newValue = value.toLowerCase();
+    }
+
+     if (name === 'nss') {
+      newValue = value.replace(/\D/g, '').slice(0, 11);
+    }
+
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: newValue
     }));
   };
 
@@ -45,8 +71,42 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const { nombre, edad, curp, telefono, correo } = formData;
+
+    const edadNum = parseInt(edad, 10);
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre) || nombre.trim().length < 2) {
+     Swal.fire('Nombre inválido', 'El nombre solo debe contener letras y tener al menos 2 caracteres', 'error');
+     return;
+    }
+
+    if (isNaN(edadNum) || edadNum < 1 || edadNum > 99) {
+      Swal.fire('Edad inválida', 'Debe ser un número entre 1 y 99', 'error');
+      return;
+    }
+
+    if (curp.length !== 18) {
+      Swal.fire('CURP inválida', 'Debe contener exactamente 18 caracteres', 'error');
+      return;
+    }
+
+    if (!/^\d{10}$/.test(telefono)) {
+      Swal.fire('Teléfono inválido', 'Debe contener exactamente 10 dígitos', 'error');
+      return;
+    }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+      Swal.fire('Correo inválido', 'Ingrese un correo válido', 'error');
+      return;
+    }
+
+    if (!/^\d{11}$/.test(nss)) {
+      Swal.fire('nss inválido', 'Debe contener exactamente 11 dígitos', 'error');
+      return;
+    }
+
     setGuardando(true);
 
+    
     Swal.fire({
       title: 'Guardando datos...',
       allowOutsideClick: false,
@@ -155,18 +215,17 @@ Contraseña: ${formData.password}
   return (
     <div style={{
       minHeight: '100vh',
-      padding: '20px 80px',
+      padding: '20px',
       backgroundImage: `url(${heartImage})`,
       backgroundSize: 'cover',
       display: 'flex',
-      minWidth: '180vh',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start'
     }}>
       <h1 style={{
         textAlign: 'center',
-        fontSize: '3.0rem',
+        fontSize: '2.5rem',
         color: '#fff',
         letterSpacing: '0.2em',
         padding: '10px 20px',
@@ -178,7 +237,7 @@ Contraseña: ${formData.password}
       </h1>
 
       <div style={{
-        maxWidth: '600px',
+        maxWidth: '1000px',
         width: '45%',
         display: 'flex',
         backgroundColor: 'rgba(10, 211, 77, 0.48)',
@@ -210,7 +269,10 @@ Contraseña: ${formData.password}
               password: 'Contraseña',
             };
             return (
+              <>
+              <label htmlFor={field}>{placeholders[field]}</label>
               <input
+                id={field}
                 key={field}
                 name={field}
                 type={field === 'correo' ? 'email' : field === 'edad' ? 'number' : field === 'password' ? 'password' : 'text'}
@@ -233,6 +295,9 @@ Contraseña: ${formData.password}
                   textTransform: field === 'curp' ? 'uppercase' : 'none',
                 }}
               />
+              
+              </>
+
             );
           })}
 
