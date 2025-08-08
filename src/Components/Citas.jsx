@@ -4,6 +4,7 @@ import docImage from '../img/doc2.jpg';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Footer from "./footer";
+import Preguntas from "./Preguntas";
 
 const departamentos = [
   "General Health",
@@ -83,6 +84,7 @@ function ViewVista() {
             <img src={docImage} alt="Doctor"/>
             <div className="Formulario">  
               <h1>Make an appointment</h1>    
+              
                 <form onSubmit={handleSubmit}>
                   <div className="Formulario-item">
                     <div>
@@ -211,8 +213,10 @@ function ViewVista() {
                   Enviar
                 </button>
                 </form>
+                
             </div>
           </div>
+          <Preguntas/>
       <div className="mapa-responsive">
       <iframe
         title="Ubicación en Google Maps"
