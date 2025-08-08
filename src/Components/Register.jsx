@@ -216,7 +216,7 @@ Contraseña: ${formData.password}
     <div style={{
       minHeight: '100vh',
       padding: '20px',
-      backgroundImage: url(${heartImage}),
+      backgroundImage: `url(${heartImage})`,
       backgroundSize: 'cover',
       display: 'flex',
       flexDirection: 'column',
