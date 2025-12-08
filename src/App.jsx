@@ -1,35 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login';
+import Register from './components/Register';
+import AppNoticias from './Cards';
+import ResetPassword from './components/ResetPassword'; 
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const expiration = localStorage.getItem('expiration');
+    const now = new Date().getTime();
+
+    if (token && expiration && now < parseInt(expiration)) {
+      setIsAuthenticated(true);
+    } else {
+      localStorage.removeItem('token');
+      localStorage.removeItem('expiration');
+      setIsAuthenticated(false);
+      
+    }
+  }, []);
+
+  const handleLogin = () => {
+    const token = 'token_generado';
+    const expirationTime = new Date().getTime() + 60 * 1000; // 1 minuto de duración
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationTime);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    setIsAuthenticated(false);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Home onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/noticias/*" element={<AppNoticias />} />
+        
+        {/* Aquí agregas la ruta para reset password */}
+        <Route path="/reset-password" element={<ResetPassword />} />
+        
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

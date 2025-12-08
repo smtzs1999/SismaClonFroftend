@@ -1,8 +1,123 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f5f5f5;
+  overflow-x: hidden;
+}
+
+.app-header {
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #7cc576;
+}
+
+.nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+}
+
+.cta-button {
+  background-color: #8ac53f;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hero-section {
+  position: relative;
+}
+
+.hero-image {
+  width: 100%;
+  height: 85vh;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
+  color: white;
+
+}
+
+.overlay h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.read-button {
+  background-color: #8ac53f;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  color: white;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-image {
+    height: 70vh;
+  }
+
+  .overlay h1 {
+    font-size: 2.5rem;
+  }
+
+  .app-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .nav a {
+    font-size: 1.2rem;
+  }
+
+  button {
+    margin-top: 1rem;
+  }
+}
+
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .logo {
@@ -40,3 +155,53 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Tamaño base para Desktop */
+html {
+  font-size: 16px;
+}
+
+/* Tablet (ancho menor o igual a 1024px) */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* Teléfonos grandes (ancho menor o igual a 768px) */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Teléfonos pequeños (ancho menor o igual a 480px) */
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+.mobile-menu {
+  width: 300px;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre enlaces */
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #000000;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.hamburger{
+  background-color: #dedede00;
+  color: #000000;
+}
+
+
+
