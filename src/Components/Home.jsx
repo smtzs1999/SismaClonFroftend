@@ -9,6 +9,7 @@ import ViewVista from './Citas';
 import { useNavigate } from 'react-router-dom';
 import Referencias from './Head';
 import Preguntas from './Preguntas';
+import Chat from '../Components/Chat'
 
 function Home({ onLogout }) { 
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function Home({ onLogout }) {
     localStorage.removeItem('authToken');
     localStorage.removeItem('authTokenExpiration');
 
-    if (onLogout) onLogout(); // logout padre
+    if (onLogout) onLogout();
 
     navigate('/login');
   }
@@ -45,7 +46,7 @@ function Home({ onLogout }) {
     <div className="app">
       <Referencias />
       <header className="app-header">
-        <div className="logo">Centro de Salud</div>
+        <div className="logo">Ordy Centro de Salud</div>
         {isMobileView && (
           <button className="hamburger" onClick={() => setMobileMenuOpen(true)}>
             ☰
@@ -75,6 +76,7 @@ function Home({ onLogout }) {
           </div>
         )}
       </header>
+
       {isMobileView && isMobileMenuOpen && (
         <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
           <div className="mobile-menu" onClick={e => e.stopPropagation()}>
@@ -86,6 +88,7 @@ function Home({ onLogout }) {
           </div>
         </div>
       )}
+
       <main className="hero-section" id="inicio">
         <Carousel autoPlay infiniteLoop showThumbs={false} showStatus={false}>
           {images.map((img, idx) => (
@@ -99,14 +102,15 @@ function Home({ onLogout }) {
           <button className="btn btn-primary active">Ver Más</button>
         </div>
       </main>
+
       <HealthCenter />
       <OurDoctors />
+
       <div className="mt-5">
         <CardsApp />
       </div>
       
       <ViewVista />
-      
       
       <button
         onClick={handleLogout}
@@ -123,8 +127,11 @@ function Home({ onLogout }) {
         Cerrar sesiónn
       </button>
 
+      {/* 🟦 AQUI APARECE TU CHAT */}
+      <div style={{ marginTop: "50px", marginBottom: "40px" }}>
+        <Chat />
+      </div>
 
-      
     </div>
   );
 }

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import ForgotPassword from './ForgotPassword';
-import fondoLogin from '../assets/fondo/doctorsito.jpeg';
 import Swal from 'sweetalert2';
-
+import bcrypt from 'bcryptjs';
 
 const TOKEN_KEY = 'authToken';
 const TOKEN_EXPIRATION_KEY = 'authTokenExpiration';
@@ -22,7 +21,7 @@ const Login = ({ onLogin }) => {
     const token = localStorage.getItem(TOKEN_KEY);
     const expiration = localStorage.getItem(TOKEN_EXPIRATION_KEY);
     if (token && expiration) {
-      const now = new Date().getTime();
+      const now = Date.now();
       if (now < Number(expiration)) {
         onLogin();
         navigate('/');
@@ -33,24 +32,40 @@ const Login = ({ onLogin }) => {
     }
   }, [navigate, onLogin]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userFound = users.find(user => user.correo === email && user.password === password);
 
-    if (userFound) {
+    const normalizedEmail = email.toLowerCase().trim();
+
+    const users = JSON.parse(localStorage.getItem('userAuths')) || [];
+    const userFound = users.find(user => user.correo.toLowerCase() === normalizedEmail);
+
+    if (!userFound) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...😱',
+        timer: 2000,
+        text: 'Usuario o contraseña incorrectos',
+        confirmButtonColor: '#ef4444',
+        backdrop: `rgba(0, 0, 0, 0.4)`
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, userFound.password);
+
+    if (isMatch) {
       Swal.fire({
         title: `¡Inicio de sesión exitoso.🧑‍⚕️!`,
-        text: `Bienvenido: ${email}`,
+        text: `Bienvenido: ${normalizedEmail}`,
         icon: 'success',
-        timer: 2000, 
+        timer: 2000,
         confirmButtonColor: '#10b981',
         confirmButtonText: 'Continuar',
         backdrop: `rgba(0, 0, 0, 0.4)`
       });
 
       const token = createToken();
-      const expirationTime = new Date().getTime() + 60 * 1000; // 1 minuto
+      const expirationTime = Date.now() + 60 * 1000; // 1 minuto
 
       localStorage.setItem(TOKEN_KEY, token);
       localStorage.setItem(TOKEN_EXPIRATION_KEY, expirationTime.toString());
@@ -61,12 +76,11 @@ const Login = ({ onLogin }) => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...😱',
-        timer: 2000, 
+        timer: 2000,
         text: 'Usuario o contraseña incorrectos',
         confirmButtonColor: '#ef4444',
         backdrop: `rgba(0, 0, 0, 0.4)`
       });
-
     }
   };
 
@@ -81,7 +95,6 @@ const Login = ({ onLogin }) => {
           width: '100%'
         }}
       >
-
         <div
           style={{
             minHeight: '100vh',
@@ -92,8 +105,6 @@ const Login = ({ onLogin }) => {
             zIndex: 1,
           }}
         >
-
-
           <div
             style={{
               flex: 1,
@@ -124,18 +135,12 @@ const Login = ({ onLogin }) => {
                   alignItems: 'center',
                 }}
               >
-                {/* <img
-                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                alt="User Icon"
-                style={{ width: '80px', marginBottom: '1.5rem' }}
-              /> */}
-                <h2 style={{ fontSize: '1.8rem', marginBottom: '0.2rem', fontWeight: 'bold', letterSpacing: '0.5rem', }}>
+                <h2 style={{ fontSize: '1.8rem', marginBottom: '0.2rem', fontWeight: 'bold', letterSpacing: '0.5rem' }}>
                   BIENVENIDO
                 </h2>
 
                 <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
                   <strong>¿Eres nuevo usuario?{' '}</strong>
-
                   <Link to="/register" style={{ color: '#e5e4ecff', fontWeight: 'bold' }}>
                     Registro
                   </Link>
@@ -156,7 +161,7 @@ const Login = ({ onLogin }) => {
                       borderRadius: '1rem',
                     }}
                   />
-                  <label style={{ fontWeight: '600' }}>password</label>
+                  <label style={{ fontWeight: '600' }}>Contraseña</label>
                   <input
                     type="password"
                     value={password}
@@ -200,20 +205,8 @@ const Login = ({ onLogin }) => {
                   >
                     ¿Olvidaste tu contraseña?
                   </div>
-
-
                 </form>
               </div>
-
-              {/* <div
-              style={{
-                flex: 1,
-                backgroundImage:
-                  'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSYWeuUBT2VZFnnxF8hhGLpj5bHVv-3S11Fw&s")',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            /> */}
             </div>
           </div>
         </div>

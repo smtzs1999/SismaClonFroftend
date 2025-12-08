@@ -20,6 +20,7 @@ function App() {
       localStorage.removeItem('token');
       localStorage.removeItem('expiration');
       setIsAuthenticated(false);
+      
     }
   }, []);
 

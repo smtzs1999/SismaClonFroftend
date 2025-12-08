@@ -1,62 +1,57 @@
-// server.js
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Conexión MongoDB
-mongoose.connect('mongodb+srv://admin:Admin.12345678@backendlanding.fot6l7f.mongodb.net/usuariosDB?retryWrites=true&w=majority',{
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('✅ Conectado a MongoDB'))
+mongoose.connect('mongodb+srv://admin:Admin.12345678@backendlanding.fot6l7f.mongodb.net/usuariosDB?retryWrites=true&w=majority')
+  .then(() => console.log('✅ Conectado a MongoDB'))
   .catch(err => console.error('❌ Error al conectar a MongoDB:', err));
 
-// Modelo
-const ImagenSchema = new mongoose.Schema({
-  imagenBase64: String
+const UsuarioSchema = new mongoose.Schema({
+  nombre: String,
+  edad: Number,
+  curp: String,
+  direccion: String,
+  telefono: String,
+  nss: String,
+  tipoSangre: String,
+  imagenBase64: String, // Aquí guardas la imagen en base64
 });
-const Imagen = mongoose.model('Imagen', ImagenSchema);
 
-// Ruta para guardar la imagen
-app.post('/api/guardar-imagen', async (req, res) => {
+const Usuario = mongoose.model('Usuario', UsuarioSchema);
+
+app.post('/api/guardar-usuario', async (req, res) => {
   try {
-    const { imagen } = req.body;
+    const { nombre, edad, curp, direccion, telefono, nss, tipoSangre, imagen } = req.body;
 
-    if (!imagen) {
-      return res.status(400).json({ error: 'Imagen no proporcionada' });
+    if (!nombre || !edad || !curp || !direccion || !telefono || !nss || !tipoSangre || !imagen) {
+      return res.status(400).json({ error: 'Faltan datos obligatorios' });
     }
 
-    const nuevaImagen = new Imagen({ imagenBase64: imagen });
-    await nuevaImagen.save();
+    const nuevoUsuario = new Usuario({
+      nombre,
+      edad,
+      curp,
+      direccion,
+      telefono,
+      nss,
+      tipoSangre,
+      imagenBase64: imagen,
+    });
 
-    res.status(200).json({ mensaje: 'Imagen guardada correctamente', id: nuevaImagen._id });
+    await nuevoUsuario.save();
+
+    res.status(200).json({ mensaje: 'Usuario guardado correctamente', id: nuevoUsuario._id });
   } catch (err) {
-    res.status(500).json({ error: 'Error al guardar la imagen' });
+    console.error('Error guardando usuario:', err);
+    res.status(500).json({ error: 'Error al guardar el usuario' });
   }
 });
 
-// Nueva ruta para obtener imagen por ID
-app.get('/api/imagen/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const imagen = await Imagen.findById(id);
-
-    if (!imagen) {
-      return res.status(404).json({ error: 'Imagen no encontrada' });
-    }
-
-    res.status(200).json(imagen);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener la imagen' });
-  }
-});
-
-// Iniciar servidor
 app.listen(3001, () => {
   console.log('🚀 Servidor backend en http://localhost:3001');
 });

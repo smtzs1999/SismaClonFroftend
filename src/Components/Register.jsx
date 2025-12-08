@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import bcrypt from 'bcryptjs';
 import emailjs from 'emailjs-com';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -27,10 +28,10 @@ const Register = () => {
     let newValue = value;
 
     if (name === 'nombre') {
-    newValue = value
-      .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '') 
-      .replace(/\s{2,}/g, ' ');
-  }
+      newValue = value
+        .replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')
+        .replace(/\s{2,}/g, ' ');
+    }
     if (name === 'edad') {
       newValue = value.replace(/\D/g, '').slice(0, 2);
     }
@@ -67,12 +68,13 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { nombre, edad, curp, telefono, correo, nss } = formData;
-
+    const { nombre, edad, curp, telefono, correo, nss, password, direccion, tipoSangre, fotoPerfil } = formData;
     const edadNum = parseInt(edad, 10);
+
+    // Validaciones
     if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre) || nombre.trim().length < 2) {
       Swal.fire('Nombre inválido', 'El nombre solo debe contener letras y tener al menos 2 caracteres', 'error');
       return;
@@ -106,101 +108,115 @@ const Register = () => {
       didOpen: () => Swal.showLoading(),
     });
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    users.push(formData);
-    localStorage.setItem('users', JSON.stringify(users));
+    try {
+      // Encriptar la contraseña con bcryptjs (sal 10)
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
 
-    const fechaEmision = new Date().toLocaleDateString('es-MX');
-    const rawQrText = `
+      // Guardar SOLO correo y password hasheada en localStorage dentro de 'userAuths'
+      const userAuths = JSON.parse(localStorage.getItem('userAuths')) || [];
+      const existingAuth = userAuths.find(u => u.correo === correo);
+      if (existingAuth) {
+        Swal.fire('Error', 'El correo ya está registrado', 'error');
+        setGuardando(false);
+        return;
+      }
+      userAuths.push({ correo, password: hashedPassword });
+      localStorage.setItem('userAuths', JSON.stringify(userAuths));
+
+      // Enviar datos completos al backend (Mongo)
+      await fetch('http://localhost:3001/api/guardar-usuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre,
+          edad: edadNum,
+          curp,
+          direccion,
+          telefono,
+          nss,
+          tipoSangre,
+          password: hashedPassword,
+          correo,
+          imagen: fotoPerfil
+        })
+      });
+
+      // Preparar datos para correo
+      const fechaEmision = new Date().toLocaleDateString('es-MX');
+      const rawQrText = `
 ===== GAFETE DIGITAL =====
 
-Nombre: ${formData.nombre}
+Nombre: ${nombre}
 --------------------------
-Edad: ${formData.edad}
+Edad: ${edad}
 --------------------------
-CURP: ${formData.curp}
+CURP: ${curp}
 --------------------------
-DIRECCION: ${formData.direccion}
+DIRECCION: ${direccion}
 --------------------------
-Teléfono: ${formData.telefono}
+Teléfono: ${telefono}
 --------------------------
-NSS: ${formData.nss}
+NSS: ${nss}
 --------------------------
-Tipo de Sangre: ${formData.tipoSangre}
+Tipo de Sangre: ${tipoSangre}
 --------------------------
-Correo: ${formData.correo}
+Correo: ${correo}
 --------------------------
-Contraseña: ${formData.password}
+Contraseña: (guardada de forma segura)
 --------------------------
 `.trim();
 
-    const qr_datos = encodeURIComponent(rawQrText);
+      const qr_datos = encodeURIComponent(rawQrText);
 
-    fetch('http://localhost:3001/api/guardar-imagen', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        imagen: formData.fotoPerfil,
-        correo: formData.correo
-      })
-    })
-      .then(res => res.json())
-      .then(() => {
-        emailjs.send(
-          'service_hzfyjks',
-          'template_pj40evm',
-          {
-            to_name: formData.nombre,
-            nombre: formData.nombre,
-            edad: formData.edad,
-            curp: formData.curp,
-            direccion: formData.direccion.slice(0, 250),
-            telefono: formData.telefono,
-            nss: formData.nss,
-            tipo_sangre: formData.tipoSangre,
-            correo: formData.correo,
-            fecha_emision: fechaEmision,
-            qr_datos,
-            foto: formData.fotoPerfil
-          },
-          'F17ZBXqWR_0PuFbmR'
-        )
-          .then(() => {
-            Swal.fire({
-              title: '✅ Registro exitoso',
-              text: 'El gafete ha sido enviado por correo.',
-              icon: 'success',
-              timer: 2000,
-              showConfirmButton: false,
-            }).then(() => {
-              setFormData({
-                nombre: '',
-                edad: '',
-                curp: '',
-                direccion: '',
-                telefono: '',
-                nss: '',
-                tipoSangre: '',
-                correo: '',
-                password: '',
-                fotoPerfil: '',
-              });
-              setGuardando(false);
-              navigate('/login');
-            });
-          })
-          .catch((error) => {
-            console.error('❌ Error enviando correo:', error);
-            Swal.fire('Error', 'No se pudo enviar el gafete por correo.', 'error');
-            setGuardando(false);
-            navigate('/login');
-          });
-      })
-      .catch(err => {
-        console.error('❌ Error al guardar imagen:', err);
-        Swal.fire('Error', 'No se pudo guardar la imagen.', 'error');
+      await emailjs.send(
+        'service_klp2hub',
+        'template_hxj913u',
+        {
+          to_name: nombre,
+          nombre,
+          edad,
+          curp,
+          direccion: direccion.slice(0, 250),
+          telefono,
+          nss,
+          tipo_sangre: tipoSangre,
+          correo,
+          fecha_emision: fechaEmision,
+          qr_datos,
+          foto: fotoPerfil
+        },
+        'gBps1K1Bw-P0lI3dY'
+      );
+
+      Swal.fire({
+        title: '✅ Registro exitoso',
+        text: 'El gafete ha sido enviado por correo.',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+      }).then(() => {
+        setFormData({
+          nombre: '',
+          edad: '',
+          curp: '',
+          direccion: '',
+          telefono: '',
+          nss: '',
+          tipoSangre: '',
+          correo: '',
+          password: '',
+          fotoPerfil: '',
+        });
         setGuardando(false);
+        navigate('/login');
       });
+
+    } catch (error) {
+      console.error('❌ Error al guardar o enviar:', error);
+      Swal.fire('Error', 'Hubo un problema al registrar el usuario.', 'error');
+      setGuardando(false);
+    }
   };
 
   return (

@@ -19,7 +19,6 @@ import doc4 from './assets/sistema/Doctor/doc4.png';
 import doc5 from './assets/sistema/Doctor/doc5.png';
 import doc6 from './assets/sistema/Doctor/doc6.png';
 
-/* ------------------------ DATA DUMMY ------------------------ */
 const noticias = [
   {
     id: 1,
